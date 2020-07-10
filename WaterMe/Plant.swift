@@ -27,7 +27,11 @@ struct Plant: Identifiable, Codable {
     var name = ""
     var imageName: String = Plant.defaultImageNames.randomElement()!
     
-    var datesWatered = [Date]()
+    var datesWatered = [Date]() {
+        didSet {
+            datesWatered.sort()
+        }
+    }
     
     var dateLastWatered: Date {
         return datesWatered.last ?? Date()
@@ -37,5 +41,17 @@ struct Plant: Identifiable, Codable {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd"
         return formatter.string(from: dateLastWatered)
+    }
+    
+    
+    mutating func changeDateLastWatered(to newDate: Date) {
+        self.datesWatered = datesWatered.filter({ $0 < newDate })
+        addNewDateLastWatered(to: newDate)
+    }
+    
+    mutating func addNewDateLastWatered(to newDate: Date) {
+        if (!datesWatered.contains(newDate)) {
+            datesWatered.append(newDate)
+        }
     }
 }
