@@ -40,7 +40,12 @@ struct RowOfPlantCellViews: View {
     @ObservedObject var garden: Garden
     var rowIndex: Int
     let numberOfPlantsPerRow: Int
-    let numberOfRowsTotal: Int
+    var numberOfRowsTotal: Int {
+        get{
+            let x: Double = Double(garden.numberOfPlants) / Double(self.numberOfPlantsPerRow)
+            return Int(x.rounded(.up))
+        }
+    }
     
     var plants: [Plant] {
         plantsFor(row: rowIndex)
@@ -72,7 +77,7 @@ struct RowOfPlantCellViews: View {
         
         if rowIndex < numberOfRowsTotal-1 {
             plantsForRow = Array(garden.plants[start..<start + numberOfPlantsPerRow])
-        } else {
+        } else if start <= garden.plants.count {
             plantsForRow = Array(garden.plants[start..<garden.plants.count])
         }
         
@@ -88,8 +93,10 @@ struct ContentView: View {
     
     let numberOfPlantsPerRow: Int = 3
     private var numberOfRows: Int {
-        let x: Double = Double(garden.numberOfPlants) / Double(self.numberOfPlantsPerRow)
-        return Int(x.rounded(.up))
+        get{
+            let x: Double = Double(garden.numberOfPlants) / Double(self.numberOfPlantsPerRow)
+            return Int(x.rounded(.up))
+        }
     }
 
     var body: some View {
@@ -97,7 +104,7 @@ struct ContentView: View {
             ZStack {
                 List {
                     ForEach(0..<self.numberOfRows, id: \.self) { rowIndex in
-                        RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow, numberOfRowsTotal: self.numberOfRows)
+                        RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow)
                             .listRowInsets(EdgeInsets())
                             .padding(.bottom, 2)
                     }
@@ -120,6 +127,7 @@ struct ContentView: View {
             MakeNewPlantView(garden: self.garden)
         }
         .onAppear {
+            print("There are \(self.garden.plants.count) plants in `garden`.")
             UITableView.appearance().separatorStyle = .none
         }
     }

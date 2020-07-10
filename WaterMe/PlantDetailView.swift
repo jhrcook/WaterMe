@@ -18,11 +18,10 @@ struct SmallFloatingTextButtonStyle: ButtonStyle {
             .background(Color.black.opacity(0.2))
             .cornerRadius(10)
             .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 3)
+            .opacity(configuration.isPressed ? 0.5 : 1.0)
+            .animation(Animation.easeInOut(duration: 0.1))
     }
 }
-
-
-
 
 struct PlantDetailView: View {
     
@@ -33,8 +32,14 @@ struct PlantDetailView: View {
     
     @State private var plantName: String
     @State private var dateLastWatered: Date
+    private var formattedDateLastWatered: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM dd"
+        return formatter.string(from: dateLastWatered)
+    }
     @State private var showDatePicker = false
     @State private var showMoreOptionsActionSheet = false
+    @State private var confirmDeletion = false
     
     init(garden: Garden, plant: Plant) {
         self.garden = garden
@@ -45,64 +50,58 @@ struct PlantDetailView: View {
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 0) {
                 Image(plant.imageName)
                     .resizable()
                     .frame(height: 400)
-                    .edgesIgnoringSafeArea(.all)
                     .scaledToFit()
-                
-                TextField("", text: $plantName)
-                    .font(.largeTitle)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(nil)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 5)
-                
-                Button(action: {
-                    withAnimation(Animation.easeInOut) {
-                        self.showDatePicker.toggle()
-                    }
-                }) {
-                    Text("Last watered on \(plant.formattedDateLastWatered)")
-                        .font(.title)
+                    .padding(0.0)
+                    
+                VStack {
+                    
+                    TextField("", text: $plantName)
+                        .font(.largeTitle)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(nil)
                         .multilineTextAlignment(.center)
-                        .padding()
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                if showDatePicker {
-                    DatePicker(selection: $dateLastWatered, displayedComponents: .date) {
-                        Text("Change the last date of watering.")
-                    }.labelsHidden()
-                }
-                
-                
-                Button(action: {
-                    self.dateLastWatered = Date()
-                }) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .foregroundColor(Color.blue)
-                            .frame(width: 220, height: 70)
-                            .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 3)
-                        
-                        HStack {
-                            Image(systemName: "cloud.drizzle")
-                            Text("Water me")
+                        .padding(5)
+                    
+                    Button(action: {
+                        withAnimation(Animation.easeInOut) {
+                            self.showDatePicker.toggle()
                         }
-                        .font(.largeTitle)
-                        .foregroundColor(Color.white)
+                    }) {
+                        Text("Last watered on \(formattedDateLastWatered)")
+                            .font(.title)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.center)
+                            .padding(5)
                     }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Spacer(minLength: 5.0)
+                    
+                    if showDatePicker {
+                        DatePicker(selection: $dateLastWatered, in: ...Date(), displayedComponents: .date) {
+                            Text("Change the last date of watering.")
+                        }
+                        .labelsHidden()
+                    }
+                    
+                    Spacer()
+                    
+                    WaterMeButton(action: { self.dateLastWatered = Date() })
+                    
+                    Spacer()
                 }
-                
-                Spacer(minLength: 30)
+                .background(
+                    Rectangle()
+                        .edgesIgnoringSafeArea(.all)
+                        .foregroundColor(Color(.systemBackground))
+                        .shadow(color: Color.black.opacity(0.9), radius: 50, x: 0, y: 10)
+                )
             }
-            
-            
-            
             
             VStack {
                 HStack {
@@ -113,7 +112,8 @@ struct PlantDetailView: View {
                         Text("Save").font(.headline)
                     }
                     .buttonStyle(SmallFloatingTextButtonStyle())
-                    .padding(10)
+                    .padding(EdgeInsets(top: showDatePicker ? 13 : 10, leading: 10, bottom: 10, trailing: 10))
+                    .animation(Animation.easeInOut)
                     
                     Spacer()
                     
@@ -123,18 +123,24 @@ struct PlantDetailView: View {
                         Image(systemName: "ellipsis").font(.title)
                     }
                     .buttonStyle(SmallFloatingTextButtonStyle())
-                    .padding(10)
+                    .padding(EdgeInsets(top: showDatePicker ? 13 : 10, leading: 10, bottom: 10, trailing: 10))
+                    .animation(Animation.easeInOut)
                 }
                 Spacer()
             }
         }
         .actionSheet(isPresented: $showMoreOptionsActionSheet) {
             ActionSheet(title: Text("More options"), buttons: [
-                ActionSheet.Button.default(Text("Change image"), action: {}),
-                ActionSheet.Button.destructive(Text("Delete"), action: {})
+                .default(Text("Change image"), action: {}),
+                .destructive(Text("Delete"), action: { self.confirmDeletion.toggle() }),
+                .cancel()
             ])
         }
+        .alert(isPresented: $confirmDeletion) {
+            Alert(title: Text("Delete the \(plant.name)"), message: Text("Are you sure you want to remove \(plant.name) from your collection?"), primaryButton: .destructive(Text("Delete"), action: deletePlantFromGarden), secondaryButton: .cancel())
+        }
     }
+    
     
     func updatePlant() {
         plant.name = plantName
@@ -146,6 +152,15 @@ struct PlantDetailView: View {
         let idx = garden.plants.firstIndex(where: { $0.id == plant.id })!
         garden.plants.insert(plant, at: idx)
         garden.plants.remove(at: idx + 1)
+    }
+    
+    
+    func deletePlantFromGarden() {
+        
+        
+        
+        garden.plants.removeAll(where: { $0.id == plant.id })
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
