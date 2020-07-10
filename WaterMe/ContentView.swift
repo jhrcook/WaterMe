@@ -16,9 +16,19 @@ struct PlantCellView: View {
     var body: some View {
         ZStack {
             Image(plant.imageName)
-            VStack(alignment: .leading, spacing: 10) {
-                Text(plant.name)
-                Text(plant.formattedDateLastWatered)
+                .resizable()
+                .scaledToFit()
+            HStack{
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(plant.name)
+                        .padding(.leading, 5)
+                        .font(.headline)
+                    Text(plant.formattedDateLastWatered)
+                        .padding(.leading, 5)
+                        .font(.body)
+                    Spacer()
+                }
+                Spacer()
             }
         }
     }
@@ -27,14 +37,46 @@ struct PlantCellView: View {
 
 struct RowOfPlantCellViews: View {
     
-    var plants: [Plant]
+    @ObservedObject var garden: Garden
+    var rowIndex: Int
+    let numberOfPlantsPerRow: Int
+    let numberOfRowsTotal: Int
+    
+    var plants: [Plant] {
+        plantsFor(row: rowIndex)
+    }
+    
+    @State private var selectedPlant = Plant()
+    @State private var showPlantInformation = false
     
     var body: some View {
-        HStack {
-            ForEach(plants) { plant in
-                PlantCellView(plant: plant)
+        HStack(spacing: 2) {
+            ForEach(self.plants) { plant in
+                Button(action: {
+                    self.selectedPlant = plant
+                    self.showPlantInformation.toggle()
+                }) {
+                    PlantCellView(plant: plant)
+                }
+            .buttonStyle(PlainButtonStyle())
             }
         }
+        .sheet(isPresented: $showPlantInformation) {
+            PlantDetailView(garden: self.garden, plant: self.selectedPlant)
+        }
+    }
+    
+    func plantsFor(row rowIndex: Int) -> [Plant] {
+        var plantsForRow = [Plant]()
+        let start = rowIndex * numberOfPlantsPerRow
+        
+        if rowIndex < numberOfRowsTotal-1 {
+            plantsForRow = Array(garden.plants[start..<start + numberOfPlantsPerRow])
+        } else {
+            plantsForRow = Array(garden.plants[start..<garden.plants.count])
+        }
+        
+        return plantsForRow
     }
 }
 
@@ -54,18 +96,13 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 List {
-                    ForEach(0..<numberOfRows, id: \.self) { rowIndex in
-                        /// TODO: put the following logic into a function and pass it the row index.
-//                        var plantsForRow = [Plant]()
-//                        if rowIndex < numberOfRows-1 {
-//                            plantsForRow = garden.plants[0..<3]
-//                        } else {
-//                            plantsForRow = garden.plants[0..<3]
-//                        }
-                        Text("hi")
-//                        return RowOfPlantCellViews(plants: plantsForRow)
+                    ForEach(0..<self.numberOfRows, id: \.self) { rowIndex in
+                        RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow, numberOfRowsTotal: self.numberOfRows)
+                            .listRowInsets(EdgeInsets())
+                            .padding(.bottom, 2)
                     }
                 }
+                .listStyle(PlainListStyle())
                 
                 VStack {
                     Spacer()
@@ -77,9 +114,13 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationBarTitle("Plants", displayMode: .automatic)
         }
         .sheet(isPresented: $showNewPlantView) {
             MakeNewPlantView(garden: self.garden)
+        }
+        .onAppear {
+            UITableView.appearance().separatorStyle = .none
         }
     }
 }
