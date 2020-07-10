@@ -11,11 +11,21 @@ import Foundation
 struct Plant: Identifiable, Codable {
     
     let id = UUID()
+
+    static let defaultImageNames: [String] = {
+        var a = [String]()
+        for i in 1...5 {
+            a.append("default-plant-image-\(i)")
+        }
+        return a
+    }()
     
-    static let defaultImageName = "default-plant-image-1"
+    static func randomDefaultImage() -> String {
+        return Plant.defaultImageNames.randomElement()!
+    }
     
     var name = ""
-    var imageName = Plant.defaultImageName
+    var imageName: String = Plant.defaultImageNames.randomElement()!
     
     var datesWatered = [Date]()
     
@@ -25,7 +35,7 @@ struct Plant: Identifiable, Codable {
     
     var formattedDateLastWatered: String {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateFormat = "MMMM dd"
         return formatter.string(from: dateLastWatered)
     }
 }

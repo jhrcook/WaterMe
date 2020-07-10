@@ -54,7 +54,7 @@ class Garden: ObservableObject {
         var mockPlants = [Plant]()
         for i in 1...10 {
             mockPlants.append(
-                Plant(name: "Plant \(i)", imageName: Plant.defaultImageName, datesWatered: [Date]())
+                Plant(name: "Plant \(i)", imageName: Plant.randomDefaultImage(), datesWatered: [Date]())
             )
         }
         return mockPlants

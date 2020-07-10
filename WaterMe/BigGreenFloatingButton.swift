@@ -29,6 +29,36 @@ struct BigGreenFloatingButton: View {
 
 struct BigGreenFloatingButton_Previews: PreviewProvider {
     static var previews: some View {
-        BigGreenFloatingButton(action: { print("tap") })
+        Group {
+            BigGreenFloatingButton(action: {})
+                .previewLayout(.sizeThatFits)
+                .padding(.horizontal, 50)
+            
+            BigGreenFloatingButton(action: {})
+                .previewLayout(.sizeThatFits)
+                .padding(.horizontal, 50)
+                .background(Color(.systemBackground))
+                .environment(\.colorScheme, .dark)
+                .previewDisplayName("Dark Mode")
+            
+            BigGreenFloatingButton(action: {})
+                .previewLayout(.sizeThatFits)
+                .padding(.horizontal, 50)
+                .environment(\.sizeCategory, .extraExtraExtraLarge)
+                .previewDisplayName("XXXL")
+            
+            BigGreenFloatingButton(action: {})
+                .previewLayout(.sizeThatFits)
+                .padding(.horizontal, 50)
+                .environment(\.sizeCategory, .accessibilityExtraLarge)
+                .previewDisplayName("accessbility XL")
+            
+            BigGreenFloatingButton(action: {})
+                .previewLayout(.sizeThatFits)
+                .padding(.horizontal, 50)
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+                .previewDisplayName("accessbility XXXL")
+            
+        }
     }
 }
