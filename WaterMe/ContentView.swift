@@ -27,12 +27,12 @@ struct PlantCellView: View {
     var plant: Plant
     
     var body: some View {
-        GeometryReader { geo in
+        GeometryReader {  geo in
             ZStack {
                 self.plant.loadPlantImage()
                     .resizable()
                     .scaledToFill()
-                    .frame(width: geo.size.width)
+                    .frame(width: geo.size.width, height: geo.size.width, alignment: .center)
                 
                 HStack{
                     VStack(alignment: .leading, spacing: 5) {
@@ -62,12 +62,6 @@ struct RowOfPlantCellViews: View {
     @ObservedObject var garden: Garden
     var rowIndex: Int
     let numberOfPlantsPerRow: Int
-    var numberOfRowsTotal: Int {
-        get{
-            let x: Double = Double(garden.numberOfPlants) / Double(self.numberOfPlantsPerRow)
-            return Int(x.rounded(.up))
-        }
-    }
     
     var plants: [Plant] {
         plantsFor(row: rowIndex)
@@ -77,15 +71,20 @@ struct RowOfPlantCellViews: View {
     @State private var showPlantInformation = false
     
     var body: some View {
+        GeometryReader { geo in
             HStack(spacing: cellSpacing) {
-            ForEach(self.plants) { plant in
-                Button(action: {
-                    self.selectedPlant = plant
-                    self.showPlantInformation.toggle()
-                }) {
-                    PlantCellView(plant: plant)
+                Spacer(minLength: 0.0)
+                ForEach(self.plants) { plant in
+                    Button(action: {
+                        self.selectedPlant = plant
+                        self.showPlantInformation.toggle()
+                    }) {
+                        PlantCellView(plant: plant)
+                            .frame(width: self.calculateCellWidth(from: geo.size.width, withCellSpacing: cellSpacing), height: geo.size.height)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
-                .buttonStyle(PlainButtonStyle())
+                Spacer(minLength: 0.0)
             }
         }
         .sheet(isPresented: $showPlantInformation) {
@@ -93,11 +92,22 @@ struct RowOfPlantCellViews: View {
         }
     }
     
+    
+    func calculateCellWidth(from totalWidth: CGFloat, withCellSpacing cellSpacing: CGFloat) -> CGFloat {
+        var x: CGFloat = totalWidth / CGFloat(self.numberOfPlantsPerRow)
+        x -= (cellSpacing * (CGFloat(self.numberOfPlantsPerRow) - 1))
+        return x
+    }
+    
+    
     func plantsFor(row rowIndex: Int) -> [Plant] {
         var plantsForRow = [Plant]()
         let start = rowIndex * numberOfPlantsPerRow
         
-        if rowIndex < numberOfRowsTotal-1 {
+        var numberOfRowsTotal = Double(garden.numberOfPlants) / Double(self.numberOfPlantsPerRow)
+        numberOfRowsTotal.round(.up)
+        
+        if rowIndex < Int(numberOfRowsTotal)-1 {
             plantsForRow = Array(garden.plants[start..<start + numberOfPlantsPerRow])
         } else if start <= garden.plants.count {
             plantsForRow = Array(garden.plants[start..<garden.plants.count])
@@ -125,12 +135,11 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 GeometryReader { geo in
-                    ScrollView {
-                        VStack {
+                    ScrollView(.vertical) {
+                        VStack(spacing: cellSpacing) {
                             ForEach(0..<self.numberOfRows, id: \.self) { rowIndex in
                                 RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow)
-                                    .frame(width: geo.size.width, height: (geo.size.width / CGFloat(self.numberOfPlantsPerRow)) - CGFloat(self.numberOfPlantsPerRow - 1) * cellSpacing)
-                                    .padding(.bottom, cellSpacing)
+                                    .frame(width: geo.size.width, height: self.calculateHeightForCell(from: geo.size.width, withCellSpacing: cellSpacing))
                             }
                         }
                     }.frame(maxHeight: .infinity)
@@ -155,6 +164,13 @@ struct ContentView: View {
             print("There are \(self.garden.plants.count) plants in `garden`.")
             UITableView.appearance().separatorStyle = .none
         }
+    }
+    
+    
+    func calculateHeightForCell(from totalHeight: CGFloat, withCellSpacing cellSpacing: CGFloat) -> CGFloat {
+        var x: CGFloat = totalHeight / CGFloat(self.numberOfPlantsPerRow)
+        x -= (CGFloat(self.numberOfPlantsPerRow - 1) * cellSpacing)
+        return x
     }
 }
 

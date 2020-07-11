@@ -37,6 +37,17 @@ struct PlantDetailView: View {
         formatter.dateFormat = "MMMM dd"
         return formatter.string(from: dateLastWatered)
     }
+    
+    private var image: Image {
+        plant.loadPlantImage()
+    }
+    private var imageWidth: CGFloat {
+        return 200
+    }
+    private var imageHeight: CGFloat {
+        return 200
+    }
+    
     @State private var showDatePicker = false
     @State private var showMoreOptionsActionSheet = false
     @State private var confirmDeletion = false
@@ -55,10 +66,10 @@ struct PlantDetailView: View {
         GeometryReader { geo in
             ZStack {
                 VStack(spacing: 0) {
-                    self.plant.loadPlantImage()
+                    self.image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: geo.size.width)
+                        .frame(width: geo.size.width, height: geo.size.height / 2.0)
                         
                     VStack {
                         TextField("", text: self.$plantName)
@@ -190,9 +201,6 @@ struct PlantDetailView: View {
         }
         updatePlant()
     }
-    
-    
-    
 }
 
 struct PlantDetailView_Previews: PreviewProvider {
