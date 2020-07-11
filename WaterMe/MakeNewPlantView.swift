@@ -41,7 +41,7 @@ struct MakeNewPlantView: View {
             .navigationBarItems(leading: Button("Cancel", action: {
                 self.presentationMode.wrappedValue.dismiss()
             }), trailing: Button("Save") {
-                let newPlant = Plant(name: self.plantName, imageName: Plant.randomDefaultImage(), datesWatered: [self.dateLastWatered])
+                let newPlant = Plant(name: self.plantName, imageName: nil, datesWatered: [self.dateLastWatered])
                 self.garden.plants.append(newPlant)
                 self.presentationMode.wrappedValue.dismiss()
             }.disabled(self.plantName.isEmpty))

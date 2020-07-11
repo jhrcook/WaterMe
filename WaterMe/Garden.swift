@@ -11,7 +11,7 @@ import SwiftUI
 class Garden: ObservableObject {
     
     static private let plantsArrayKey = "plants"
-    static private let inTesting = true
+    static private let inTesting = false
     
     @Published var plants = [Plant]() {
         didSet {
@@ -54,7 +54,7 @@ class Garden: ObservableObject {
         var mockPlants = [Plant]()
         for i in 1...10 {
             mockPlants.append(
-                Plant(name: "Plant \(i)", imageName: Plant.randomDefaultImage(), datesWatered: [Date]())
+                Plant(name: "Plant \(i)", imageName: nil, datesWatered: [Date]())
             )
         }
         return mockPlants

@@ -8,14 +8,7 @@
 
 import SwiftUI
 
-struct utilities: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct utilities_Previews: PreviewProvider {
-    static var previews: some View {
-        utilities()
-    }
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
 }

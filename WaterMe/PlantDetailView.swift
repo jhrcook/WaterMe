@@ -41,6 +41,9 @@ struct PlantDetailView: View {
     @State private var showMoreOptionsActionSheet = false
     @State private var confirmDeletion = false
     
+    @State private var showingImagePicker = false
+    @State private var userSelectedImage: UIImage?
+    
     init(garden: Garden, plant: Plant) {
         self.garden = garden
         _plant = State(initialValue: plant)
@@ -52,14 +55,12 @@ struct PlantDetailView: View {
         GeometryReader { geo in
             ZStack {
                 VStack(spacing: 0) {
-                    Image(self.plant.imageName)
+                    self.plant.loadPlantImage()
                         .resizable()
-                        .scaledToFill()
-                        .frame(height: geo.size.height / 2.0)
-                        .padding(0.0)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geo.size.width)
                         
                     VStack {
-                        
                         TextField("", text: self.$plantName)
                             .font(.title)
                             .fixedSize(horizontal: false, vertical: true)
@@ -106,18 +107,19 @@ struct PlantDetailView: View {
                         ZStack{
                             RoundedRectangle(cornerRadius: 20, style: .continuous)
                                 .edgesIgnoringSafeArea(.all)
-                                .foregroundColor(Color(.systemBackground))
-                                .shadow(color: Color.black.opacity(0.9), radius: 50, x: 0, y: 10)
+                                .foregroundColor(Color(.secondarySystemBackground))
+                                .shadow(color: Color.black, radius: 50, x: 0, y: 10)
                             
                             VStack{
                                 Spacer()
                                 Rectangle()
                                     .edgesIgnoringSafeArea(.all)
-                                    .foregroundColor(Color(.systemBackground))
+                                    .foregroundColor(Color(.secondarySystemBackground))
                                     .padding(.top, 100)
                             }
                         }
                     )
+                    .padding(.top, -21)
                 }
                 
                 VStack {
@@ -148,13 +150,19 @@ struct PlantDetailView: View {
             }
             .actionSheet(isPresented: self.$showMoreOptionsActionSheet) {
                 ActionSheet(title: Text("More options"), buttons: [
-                    .default(Text("Change image"), action: {}),
+                    .default(Text("Change image"), action: { self.showingImagePicker.toggle() }),
                     .destructive(Text("Delete"), action: { self.confirmDeletion.toggle() }),
                     .cancel()
                 ])
             }
             .alert(isPresented: self.$confirmDeletion) {
-                Alert(title: Text("Delete the \(self.plant.name)"), message: Text("Are you sure you want to remove \(self.plant.name) from your collection?"), primaryButton: .destructive(Text("Delete"), action: self.deletePlantFromGarden), secondaryButton: .cancel())
+                Alert(title: Text("Delete the \(self.plant.name)"),
+                      message: Text("Are you sure you want to remove \(self.plant.name) from your collection?"),
+                      primaryButton: .destructive(Text("Delete"), action: self.deletePlantFromGarden),
+                      secondaryButton: .cancel())
+            }
+            .sheet(isPresented: self.$showingImagePicker, onDismiss: self.loadImage) {
+                ImagePicker(image: self.$userSelectedImage)
             }
         }
     }
@@ -163,6 +171,7 @@ struct PlantDetailView: View {
     func updatePlant() {
         plant.name = plantName
         plant.changeDateLastWatered(to: dateLastWatered)
+                
         let idx = garden.plants.firstIndex(where: { $0.id == plant.id })!
         garden.plants.insert(plant, at: idx)
         garden.plants.remove(at: idx + 1)
@@ -170,12 +179,20 @@ struct PlantDetailView: View {
     
     
     func deletePlantFromGarden() {
-        
-        
-        
         garden.plants.removeAll(where: { $0.id == plant.id })
         presentationMode.wrappedValue.dismiss()
     }
+    
+    
+    func loadImage() {
+        if let uiImage = userSelectedImage {
+            plant.savePlantImage(uiImage: uiImage)
+        }
+        updatePlant()
+    }
+    
+    
+    
 }
 
 struct PlantDetailView_Previews: PreviewProvider {

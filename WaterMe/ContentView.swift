@@ -27,25 +27,29 @@ struct PlantCellView: View {
     var plant: Plant
     
     var body: some View {
-        ZStack {
-            Image(plant.imageName)
-                .resizable()
-                .scaledToFit()
-            HStack{
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(plant.name)
-                        .font(.headline)
-                        .padding(.horizontal, 3)
-                        .background(PlantCellTextBackgroundView())
-                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 0))
-                    Text(plant.formattedDateLastWatered)
-                        .font(.body)
-                        .padding(.horizontal, 3)
-                        .background(PlantCellTextBackgroundView())
-                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
+        GeometryReader { geo in
+            ZStack {
+                self.plant.loadPlantImage()
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geo.size.width)
+                
+                HStack{
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(self.plant.name)
+                            .font(.headline)
+                            .padding(.horizontal, 3)
+                            .background(PlantCellTextBackgroundView())
+                            .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 0))
+                        Text(self.plant.formattedDateLastWatered)
+                            .font(.body)
+                            .padding(.horizontal, 3)
+                            .background(PlantCellTextBackgroundView())
+                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
+                        Spacer()
+                    }
                     Spacer()
                 }
-                Spacer()
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -73,7 +77,7 @@ struct RowOfPlantCellViews: View {
     @State private var showPlantInformation = false
     
     var body: some View {
-        HStack(spacing: cellSpacing) {
+            HStack(spacing: cellSpacing) {
             ForEach(self.plants) { plant in
                 Button(action: {
                     self.selectedPlant = plant
@@ -81,7 +85,7 @@ struct RowOfPlantCellViews: View {
                 }) {
                     PlantCellView(plant: plant)
                 }
-            .buttonStyle(PlainButtonStyle())
+                .buttonStyle(PlainButtonStyle())
             }
         }
         .sheet(isPresented: $showPlantInformation) {
@@ -116,18 +120,21 @@ struct ContentView: View {
             return Int(x.rounded(.up))
         }
     }
-
+    
     var body: some View {
         NavigationView {
             ZStack {
-                List {
-                    ForEach(0..<self.numberOfRows, id: \.self) { rowIndex in
-                        RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow)
-                            .listRowInsets(EdgeInsets())
-                            .padding(.bottom, cellSpacing)
-                    }
+                GeometryReader { geo in
+                    ScrollView {
+                        VStack {
+                            ForEach(0..<self.numberOfRows, id: \.self) { rowIndex in
+                                RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow)
+                                    .frame(width: geo.size.width, height: (geo.size.width / CGFloat(self.numberOfPlantsPerRow)) - CGFloat(self.numberOfPlantsPerRow - 1) * cellSpacing)
+                                    .padding(.bottom, cellSpacing)
+                            }
+                        }
+                    }.frame(maxHeight: .infinity)
                 }
-                .listStyle(PlainListStyle())
                 
                 VStack {
                     Spacer()

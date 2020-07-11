@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 struct Plant: Identifiable, Codable {
     
@@ -20,12 +20,10 @@ struct Plant: Identifiable, Codable {
         return a
     }()
     
-    static func randomDefaultImage() -> String {
-        return Plant.defaultImageNames.randomElement()!
-    }
+    private let randomImageIndex: Int = (0..<Plant.defaultImageNames.count).randomElement()!
     
     var name = ""
-    var imageName: String = Plant.defaultImageNames.randomElement()!
+    var imageName: String? = nil
     
     var datesWatered = [Date]() {
         didSet {
@@ -53,5 +51,31 @@ struct Plant: Identifiable, Codable {
         if (!datesWatered.contains(newDate)) {
             datesWatered.append(newDate)
         }
+    }
+    
+    mutating func savePlantImage(uiImage: UIImage) {
+//        if let data = uiImage.pngData() {
+        if let data = uiImage.jpegData(compressionQuality: 0.7) {
+            let imageName = "\(self.id.uuidString)_image.jpeg"
+            let fileName = getDocumentsDirectory().appendingPathComponent(imageName)
+            do {
+                try data.write(to: fileName)
+                self.imageName = imageName
+            } catch {
+                print("Unable to save image file.")
+            }
+        }
+    }
+    
+    func loadPlantImage() -> Image {
+        if let imageName = self.imageName {
+            let fileName = getDocumentsDirectory().appendingPathComponent(imageName)
+            if let imageData = try? Data(contentsOf: fileName) {
+                if let uiImage = UIImage(data: imageData) {
+                    return Image(uiImage: uiImage)
+                }
+            }
+        }
+        return Image(Plant.defaultImageNames[self.randomImageIndex])
     }
 }
