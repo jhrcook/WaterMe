@@ -49,95 +49,113 @@ struct PlantDetailView: View {
     }
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                Image(plant.imageName)
-                    .resizable()
-                    .frame(height: 400)
-                    .scaledToFit()
-                    .padding(0.0)
-                    
-                VStack {
-                    
-                    TextField("", text: $plantName)
-                        .font(.largeTitle)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(nil)
-                        .multilineTextAlignment(.center)
-                        .padding(5)
-                    
-                    Button(action: {
-                        withAnimation(Animation.easeInOut) {
-                            self.showDatePicker.toggle()
-                        }
-                    }) {
-                        Text("Last watered on \(formattedDateLastWatered)")
+        GeometryReader { geo in
+            ZStack {
+                VStack(spacing: 0) {
+                    Image(self.plant.imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: geo.size.height / 2.0)
+                        .padding(0.0)
+                        
+                    VStack {
+                        
+                        TextField("", text: self.$plantName)
                             .font(.title)
                             .fixedSize(horizontal: false, vertical: true)
                             .lineLimit(nil)
                             .multilineTextAlignment(.center)
-                            .padding(5)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Spacer(minLength: 5.0)
-                    
-                    if showDatePicker {
-                        DatePicker(selection: $dateLastWatered, in: ...Date(), displayedComponents: .date) {
-                            Text("Change the last date of watering.")
+                            .padding(EdgeInsets(top: 12, leading: 8, bottom: 8, trailing: 8))
+                        
+                        Button(action: {
+                            withAnimation(Animation.easeInOut) {
+                                self.showDatePicker.toggle()
+                            }
+                        }) {
+                            Text("Last watered on \(self.formattedDateLastWatered)")
+                                .font(.body)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(nil)
+                                .multilineTextAlignment(.center)
+                                .padding(8)
                         }
-                        .labelsHidden()
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        Spacer(minLength: 5.0)
+                        
+                        if self.showDatePicker {
+                            DatePicker(selection: self.$dateLastWatered, in: ...Date(), displayedComponents: .date) {
+                                Text("Change the last date of watering.")
+                            }
+                            .labelsHidden()
+                        }
+                        
+                        Spacer()
+                        
+                        WaterMeButton(action: { self.dateLastWatered = Date() })
+                        
+                        Spacer()
+                        
+                        Button("Set up watering reminders") {
+                            print("Still need to set this feature up...")
+                        }
+                        
+                        Spacer()
                     }
-                    
-                    Spacer()
-                    
-                    WaterMeButton(action: { self.dateLastWatered = Date() })
-                    
-                    Spacer()
+                    .background(
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .edgesIgnoringSafeArea(.all)
+                                .foregroundColor(Color(.systemBackground))
+                                .shadow(color: Color.black.opacity(0.9), radius: 50, x: 0, y: 10)
+                            
+                            VStack{
+                                Spacer()
+                                Rectangle()
+                                    .edgesIgnoringSafeArea(.all)
+                                    .foregroundColor(Color(.systemBackground))
+                                    .padding(.top, 100)
+                            }
+                        }
+                    )
                 }
-                .background(
-                    Rectangle()
-                        .edgesIgnoringSafeArea(.all)
-                        .foregroundColor(Color(.systemBackground))
-                        .shadow(color: Color.black.opacity(0.9), radius: 50, x: 0, y: 10)
-                )
-            }
-            
-            VStack {
-                HStack {
-                    Button(action: {
-                        self.updatePlant()
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Save").font(.headline)
+                
+                VStack {
+                    HStack {
+                        Button(action: {
+                            self.updatePlant()
+                            self.presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Text("Save").font(.headline)
+                        }
+                        .buttonStyle(SmallFloatingTextButtonStyle())
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            self.showMoreOptionsActionSheet.toggle()
+                        }) {
+                            Image(systemName: "ellipsis").font(.title)
+                        }
+                        .buttonStyle(SmallFloatingTextButtonStyle())
+                        
                     }
-                    .buttonStyle(SmallFloatingTextButtonStyle())
-                    .padding(EdgeInsets(top: showDatePicker ? 13 : 10, leading: 10, bottom: 10, trailing: 10))
+                    .padding(EdgeInsets(top: 10 , leading: 10, bottom: 10, trailing: 10))
                     .animation(Animation.easeInOut)
                     
                     Spacer()
-                    
-                    Button(action: {
-                        self.showMoreOptionsActionSheet.toggle()
-                    }) {
-                        Image(systemName: "ellipsis").font(.title)
-                    }
-                    .buttonStyle(SmallFloatingTextButtonStyle())
-                    .padding(EdgeInsets(top: showDatePicker ? 13 : 10, leading: 10, bottom: 10, trailing: 10))
-                    .animation(Animation.easeInOut)
                 }
-                Spacer()
             }
-        }
-        .actionSheet(isPresented: $showMoreOptionsActionSheet) {
-            ActionSheet(title: Text("More options"), buttons: [
-                .default(Text("Change image"), action: {}),
-                .destructive(Text("Delete"), action: { self.confirmDeletion.toggle() }),
-                .cancel()
-            ])
-        }
-        .alert(isPresented: $confirmDeletion) {
-            Alert(title: Text("Delete the \(plant.name)"), message: Text("Are you sure you want to remove \(plant.name) from your collection?"), primaryButton: .destructive(Text("Delete"), action: deletePlantFromGarden), secondaryButton: .cancel())
+            .actionSheet(isPresented: self.$showMoreOptionsActionSheet) {
+                ActionSheet(title: Text("More options"), buttons: [
+                    .default(Text("Change image"), action: {}),
+                    .destructive(Text("Delete"), action: { self.confirmDeletion.toggle() }),
+                    .cancel()
+                ])
+            }
+            .alert(isPresented: self.$confirmDeletion) {
+                Alert(title: Text("Delete the \(self.plant.name)"), message: Text("Are you sure you want to remove \(self.plant.name) from your collection?"), primaryButton: .destructive(Text("Delete"), action: self.deletePlantFromGarden), secondaryButton: .cancel())
+            }
         }
     }
     
@@ -145,10 +163,6 @@ struct PlantDetailView: View {
     func updatePlant() {
         plant.name = plantName
         plant.changeDateLastWatered(to: dateLastWatered)
-        
-        print("Updating plant!")
-        print("plant name: \(plant.name); date: \(plant.formattedDateLastWatered)")
-        
         let idx = garden.plants.firstIndex(where: { $0.id == plant.id })!
         garden.plants.insert(plant, at: idx)
         garden.plants.remove(at: idx + 1)
@@ -168,8 +182,16 @@ struct PlantDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
+                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
+//            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
+//                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
+            
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
+                .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
+            
+//            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
+//                .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
         }
     }
 }

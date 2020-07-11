@@ -14,19 +14,19 @@ struct WaterMeButton: View {
     
     var body: some View {
         Button(action: action) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .foregroundColor(Color.blue)
-                    .frame(width: 220, height: 70)
-                    .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 3)
-                
-                HStack {
-                    Image(systemName: "cloud.drizzle")
-                    Text("Water me")
-                }
-                .font(.largeTitle)
-                .foregroundColor(Color.white)
+            
+            HStack {
+                Image(systemName: "cloud.drizzle")
+                Text("Water me")
             }
+            .font(.title)
+            .foregroundColor(Color.white)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .foregroundColor(Color.blue)
+                    .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 3)
+            )
         }
         .buttonStyle(PlainButtonStyle())
     }

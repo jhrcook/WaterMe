@@ -9,6 +9,19 @@
 import SwiftUI
 
 
+fileprivate let cellSpacing: CGFloat = 5
+
+
+struct PlantCellTextBackgroundView: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 3, style: .continuous)
+            .foregroundColor(Color(UIColor.systemBackground))
+            .opacity(0.5)
+            .shadow(color: Color.black.opacity(0.6), radius: 4, x: 2, y: 2)
+    }
+}
+
+
 struct PlantCellView: View {
     
     var plant: Plant
@@ -21,16 +34,21 @@ struct PlantCellView: View {
             HStack{
                 VStack(alignment: .leading, spacing: 5) {
                     Text(plant.name)
-                        .padding(.leading, 5)
                         .font(.headline)
+                        .padding(.horizontal, 3)
+                        .background(PlantCellTextBackgroundView())
+                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 0))
                     Text(plant.formattedDateLastWatered)
-                        .padding(.leading, 5)
                         .font(.body)
+                        .padding(.horizontal, 3)
+                        .background(PlantCellTextBackgroundView())
+                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                     Spacer()
                 }
                 Spacer()
             }
         }
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -55,7 +73,7 @@ struct RowOfPlantCellViews: View {
     @State private var showPlantInformation = false
     
     var body: some View {
-        HStack(spacing: 2) {
+        HStack(spacing: cellSpacing) {
             ForEach(self.plants) { plant in
                 Button(action: {
                     self.selectedPlant = plant
@@ -106,7 +124,7 @@ struct ContentView: View {
                     ForEach(0..<self.numberOfRows, id: \.self) { rowIndex in
                         RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow)
                             .listRowInsets(EdgeInsets())
-                            .padding(.bottom, 2)
+                            .padding(.bottom, cellSpacing)
                     }
                 }
                 .listStyle(PlainListStyle())
@@ -136,6 +154,34 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+            ContentView()
+                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
+                .previewDisplayName("iPhone 11")
+            
+            ContentView()
+                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
+                .previewDisplayName("iPhone SE")
+            
+            ContentView()
+                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
+                .environment(\.colorScheme, .dark)
+                .previewDisplayName("iPhone 11 (dark mode)")
+            
+            ContentView()
+                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
+                .environment(\.colorScheme, .dark)
+                .previewDisplayName("iPhone SE (dark mode)")
+            
+            ContentView()
+                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
+                .environment(\.sizeCategory, .accessibilityExtraLarge)
+                .previewDisplayName("iPhone 11 (large text)")
+            
+            ContentView()
+                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
+                .environment(\.sizeCategory, .accessibilityExtraLarge)
+                .previewDisplayName("iPhone SE (large text)")
+        }
     }
 }
