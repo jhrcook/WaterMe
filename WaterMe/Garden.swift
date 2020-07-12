@@ -11,17 +11,13 @@ import SwiftUI
 class Garden: ObservableObject {
     
     static private let plantsArrayKey = "plants"
-    static private let inTesting = false
+    static private let inTesting = true
     
     @Published var plants = [Plant]() {
         didSet {
-            let encoder = JSONEncoder()
-            if let encodedData  = try? encoder.encode(plants) {
-                UserDefaults.standard.set(encodedData, forKey: Garden.plantsArrayKey)
-            }
+            savePlants()
         }
     }
-    
     
     var numberOfPlants: Int {
         return plants.count
@@ -49,12 +45,22 @@ class Garden: ObservableObject {
     }
     
     
-    // Generate fake plants
+    /// Save plants to file.
+    func savePlants() {
+        print("Saving plants.")
+        let encoder = JSONEncoder()
+        if let encodedData  = try? encoder.encode(plants) {
+            UserDefaults.standard.set(encodedData, forKey: Garden.plantsArrayKey)
+        }
+    }
+    
+    
+    /// Generate fake plants.
     private func MockPlants() -> [Plant] {
         var mockPlants = [Plant]()
         for i in 1...10 {
             mockPlants.append(
-                Plant(name: "Plant \(i)", imageName: nil, datesWatered: [Date]())
+                Plant(name: "Plant \(i)", datesWatered: [Date]())
             )
         }
         return mockPlants

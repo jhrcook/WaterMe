@@ -23,7 +23,7 @@ struct Plant: Identifiable, Codable {
     private let randomImageIndex: Int = (0..<Plant.defaultImageNames.count).randomElement()!
     
     var name = ""
-    var imageName: String? = nil
+    private var imageName: String? = nil
     
     var datesWatered = [Date]() {
         didSet {
@@ -42,10 +42,25 @@ struct Plant: Identifiable, Codable {
     }
     
     
+    init() {
+        
+    }
+    
+    init(name: String, datesWatered: [Date]) {
+        self.name = name
+        self.datesWatered = datesWatered
+    }
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    
     mutating func changeDateLastWatered(to newDate: Date) {
         self.datesWatered = datesWatered.filter({ $0 < newDate })
         addNewDateLastWatered(to: newDate)
     }
+    
     
     mutating func addNewDateLastWatered(to newDate: Date) {
         if (!datesWatered.contains(newDate)) {
@@ -53,19 +68,32 @@ struct Plant: Identifiable, Codable {
         }
     }
     
+    
     mutating func savePlantImage(uiImage: UIImage) {
-//        if let data = uiImage.pngData() {
-        if let data = uiImage.jpegData(compressionQuality: 0.7) {
-            let imageName = "\(self.id.uuidString)_image.jpeg"
-            let fileName = getDocumentsDirectory().appendingPathComponent(imageName)
-            do {
-                try data.write(to: fileName)
-                self.imageName = imageName
-            } catch {
-                print("Unable to save image file.")
+        if let data = uiImage.pngData() {
+            let oldImageName = self.imageName
+            imageName = "\(UUID().uuidString)_image.png"
+            let fileName = getDocumentsDirectory().appendingPathComponent(imageName!)
+            DispatchQueue.global(qos: .default).async {
+                do {
+                    try data.write(to: fileName)
+                } catch {
+                    print("Unable to save image file.")
+                }
+            }
+            
+            if let oldImageName = oldImageName {
+                DispatchQueue.global(qos: .background).async {
+                    do {
+                        try FileManager.default.removeItem(at: getDocumentsDirectory().appendingPathComponent(oldImageName))
+                    } catch {
+                        print("Unable to delete old image file: \(oldImageName).")
+                    }
+                }
             }
         }
     }
+    
     
     func loadPlantImage() -> Image {
         if let imageName = self.imageName {

@@ -32,15 +32,14 @@ struct PlantDetailView: View {
     
     @State private var plantName: String
     @State private var dateLastWatered: Date
+    @State private var image: Image
+    
     private var formattedDateLastWatered: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd"
         return formatter.string(from: dateLastWatered)
     }
     
-    private var image: Image {
-        plant.loadPlantImage()
-    }
     private var imageWidth: CGFloat {
         return 200
     }
@@ -60,6 +59,7 @@ struct PlantDetailView: View {
         _plant = State(initialValue: plant)
         _plantName = State(initialValue: plant.name)
         _dateLastWatered = State(initialValue: plant.dateLastWatered)
+        _image = State(initialValue: plant.loadPlantImage())
     }
     
     var body: some View {
@@ -197,6 +197,7 @@ struct PlantDetailView: View {
     
     func loadImage() {
         if let uiImage = userSelectedImage {
+            image = Image(uiImage: uiImage)
             plant.savePlantImage(uiImage: uiImage)
         }
         updatePlant()
@@ -206,13 +207,13 @@ struct PlantDetailView: View {
 struct PlantDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
 //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
 //                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
             
 //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
