@@ -22,6 +22,7 @@ struct SmallFloatingTextButtonStyle: ButtonStyle {
     }
 }
 
+
 struct PlantDetailView: View {
     
     @ObservedObject var garden: Garden
@@ -60,21 +61,9 @@ struct PlantDetailView: View {
                     VStack(spacing: 0) {
                         GeometryReader { innergeo in
                             ZStack {
-                                if innergeo.frame(in: .global).minY - geo.frame(in: .global).minY <= 0 {
-                                    self.image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: geo.size.width, height: geo.size.height / 2.0)
-                                        .offset(y: geo.frame(in: .global).minY - innergeo.frame(in: .global).minY)
-                                } else {
-                                    self.image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: geo.size.width, height: geo.size.height / 2.0 + (innergeo.frame(in: .global).minY - geo.frame(in: .global).minY))
-                                        .clipped()
-                                        .blur(radius: innergeo.frame(in: .global).minY - geo.frame(in: .global).minY < 50 ? 0 : (innergeo.frame(in: .global).minY - geo.frame(in: .global).minY - 50) / 10, opaque: true)
-                                        .offset(y: geo.frame(in: .global).minY - innergeo.frame(in: .global).minY)
-                                }
+                                ParallaxHeaderImage(image: self.$image,
+                                                    outerGeoSize: geo.size, outerGeoFrame: geo.frame(in: .global),
+                                                    innerGeoSize: innergeo.size, innerGeoFrame: innergeo.frame(in: .global))
                                 
                                 VStack {
                                     HStack {
@@ -99,8 +88,8 @@ struct PlantDetailView: View {
                             }
                         }
                         .frame(height: geo.size.height / 2.0)
-
-
+                        
+                        
                         VStack {
                             Spacer()
                             TextField("", text: self.$plant.name, onCommit: self.updatePlant)
@@ -140,18 +129,15 @@ struct PlantDetailView: View {
                                     .shadow(color: Color.black.opacity(0.2), radius: 5, x: 5, y: -10)
                             }
                         )
-                        .padding(.top, self.offsetToShowShadowOnImage)
+                            .padding(.top, self.offsetToShowShadowOnImage)
                         
-                        Spacer()
+                        Spacer(minLength: 30)
                         
-                        Text("hidden text!")
-                        
-                        Spacer()
-                        
-                        VStack {
-                            ForEach(0..<10) { i in
-                                Text("some placeholder text")
-                            }
+                        if (self.plant.datesWatered.count == 0) {
+                            Text("No waterings reported, yet.")
+                                .foregroundColor(Color.secondary)
+                        } else {
+                            VerticalTimeLine(dates: self.plant.datesWatered)
                         }
                     }
                 }
