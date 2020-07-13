@@ -8,7 +8,13 @@
 
 import SwiftUI
 
+enum GardenVersion: Int, Codable {
+    case one = 1
+}
+
 class Garden: ObservableObject {
+    
+    let version: GardenVersion = .one
     
     static private let plantsArrayKey = "plants"
     static private let inTesting = true

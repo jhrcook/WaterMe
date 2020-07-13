@@ -8,8 +8,14 @@
 
 import SwiftUI
 
+enum PlantVersion: Int, Codable {
+    case one = 1
+}
+
+
 struct Plant: Identifiable, Codable {
     
+    let version: PlantVersion = .one
     let id = UUID()
 
     static let defaultImageNames: [String] = {
