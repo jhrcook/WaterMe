@@ -42,9 +42,7 @@ struct Plant: Identifiable, Codable {
     }
     
     
-    init() {
-        
-    }
+    init() {}
     
     init(name: String, datesWatered: [Date]) {
         self.name = name

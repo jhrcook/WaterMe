@@ -30,37 +30,27 @@ struct PlantDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var plantName: String
-    @State private var dateLastWatered: Date
     @State private var image: Image
     
     private var formattedDateLastWatered: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd"
-        return formatter.string(from: dateLastWatered)
+        return formatter.string(from: self.plant.dateLastWatered)
     }
-    
-    private var imageWidth: CGFloat {
-        return 200
-    }
-    private var imageHeight: CGFloat {
-        return 200
-    }
-    
-    @State private var showDatePicker = false
+
     @State private var showMoreOptionsActionSheet = false
     @State private var confirmDeletion = false
     
     @State private var showingImagePicker = false
     @State private var userSelectedImage: UIImage?
     
+    
     init(garden: Garden, plant: Plant) {
         self.garden = garden
         _plant = State(initialValue: plant)
-        _plantName = State(initialValue: plant.name)
-        _dateLastWatered = State(initialValue: plant.dateLastWatered)
         _image = State(initialValue: plant.loadPlantImage())
     }
+    
     
     var body: some View {
         GeometryReader { geo in
@@ -72,39 +62,26 @@ struct PlantDetailView: View {
                         .frame(width: geo.size.width, height: geo.size.height / 2.0)
                         
                     VStack {
-                        TextField("", text: self.$plantName)
+                        Spacer()
+                        TextField("", text: self.$plant.name, onCommit: self.updatePlant)
                             .font(.title)
                             .fixedSize(horizontal: false, vertical: true)
                             .lineLimit(nil)
                             .multilineTextAlignment(.center)
                             .padding(EdgeInsets(top: 12, leading: 8, bottom: 8, trailing: 8))
                         
-                        Button(action: {
-                            withAnimation(Animation.easeInOut) {
-                                self.showDatePicker.toggle()
-                            }
-                        }) {
-                            Text("Last watered on \(self.formattedDateLastWatered)")
-                                .font(.body)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .lineLimit(nil)
-                                .multilineTextAlignment(.center)
-                                .padding(8)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        Text("Last watered on \(self.formattedDateLastWatered)")
+                            .font(.headline)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.center)
+                            .padding(8)
                         
                         Spacer(minLength: 5.0)
                         
-                        if self.showDatePicker {
-                            DatePicker(selection: self.$dateLastWatered, in: ...Date(), displayedComponents: .date) {
-                                Text("Change the last date of watering.")
-                            }
-                            .labelsHidden()
-                        }
-                        
                         Spacer()
                         
-                        WaterMeButton(action: { self.dateLastWatered = Date() })
+                        WaterMeButton(action: { self.plant.addNewDateLastWatered(to: Date()) })
                         
                         Spacer()
                         
@@ -135,14 +112,6 @@ struct PlantDetailView: View {
                 
                 VStack {
                     HStack {
-                        Button(action: {
-                            self.updatePlant()
-                            self.presentationMode.wrappedValue.dismiss()
-                        }) {
-                            Text("Save").font(.headline)
-                        }
-                        .buttonStyle(SmallFloatingTextButtonStyle())
-                        
                         Spacer()
                         
                         Button(action: {
@@ -180,12 +149,8 @@ struct PlantDetailView: View {
     
     
     func updatePlant() {
-        plant.name = plantName
-        plant.changeDateLastWatered(to: dateLastWatered)
-                
         let idx = garden.plants.firstIndex(where: { $0.id == plant.id })!
-        garden.plants.insert(plant, at: idx)
-        garden.plants.remove(at: idx + 1)
+        garden.plants[idx] = plant
     }
     
     
