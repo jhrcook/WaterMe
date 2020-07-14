@@ -21,11 +21,18 @@ struct TimeLinePoints: View {
                     RoundedRectangle(cornerRadius: 2, style: .circular)
                         .frame(width: 5)
                         .foregroundColor(Color.blue)
-                        .padding(EdgeInsets(top: -1 * self.paddingHeight, leading: 0, bottom: -1 * self.paddingHeight, trailing: 0))
+                        .padding(EdgeInsets(top: (i == 0 ? 1 : -1) * self.paddingHeight, leading: 0, bottom: -1 * self.paddingHeight, trailing: 0))
+                    
                     if self.selectDates[i] {
                         Circle()
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color.blue)
+                    } else if i == 0 {
+                        Circle()
+                            .overlay(Circle().stroke(Color.blue, style: StrokeStyle(lineWidth: 3)))
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(Color(UIColor.secondarySystemBackground))
+                            
                     }
                 }.padding(.horizontal, 5)
             }
@@ -42,7 +49,7 @@ struct TimeLineDates: View {
     var body: some View {
         VStack(spacing: paddingHeight) {
             ForEach(0..<allDates.count) { i in
-                Text(self.formatDate(self.allDates[i])).opacity(self.selectDates[i] ? 1 : 0)
+                Text(self.formatDate(self.allDates[i])).opacity(self.selectDates[i] || Calendar.current.isDateInToday(self.allDates[i]) ? 1 : 0)
             }
         }
     }
@@ -55,20 +62,24 @@ struct TimeLineDates: View {
 }
 
 
+
 struct VerticalTimeLine: View {
     var dates: [Date]
     
     var allDates: [Date] {
-        let startDate = dates.min()!
-        let endDate = Date()
-        var d = [startDate]
-        while d.last! <= endDate {
-            if let x = Calendar.current.date(byAdding: .day, value: 1, to: d.last!) {
-                d.append(x)
+        if dates.count > 0 {
+            let startDate = dates.min()!
+            let endDate = Date()
+            var d = [startDate]
+            while !Calendar.current.isDate(d.last!, inSameDayAs: endDate) {
+                if let x = Calendar.current.date(byAdding: .day, value: 1, to: d.last!) {
+                    d.append(x)
+                }
             }
+            d.reverse()
+            return d
         }
-        d.reverse()
-        return d
+        return [Date]()
     }
     
     var isInDates: [Bool] {

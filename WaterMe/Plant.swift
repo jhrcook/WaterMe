@@ -37,14 +37,19 @@ struct Plant: Identifiable, Codable {
         }
     }
     
-    var dateLastWatered: Date {
-        return datesWatered.last ?? Date()
+    var dateLastWatered: Date? {
+        get {
+            datesWatered.max()
+        }
     }
     
     var formattedDateLastWatered: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM dd"
-        return formatter.string(from: dateLastWatered)
+        if let dateLastWatered = self.dateLastWatered {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMMM dd"
+            return formatter.string(from: dateLastWatered)
+        }
+        return "Never"
     }
     
     
@@ -69,6 +74,7 @@ struct Plant: Identifiable, Codable {
     mutating func addNewDateLastWatered(to newDate: Date) {
         if (!datesWatered.contains(newDate)) {
             datesWatered.append(newDate)
+            datesWatered.sort()
         }
     }
     

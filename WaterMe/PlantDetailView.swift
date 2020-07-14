@@ -32,12 +32,6 @@ struct PlantDetailView: View {
     
     @State private var image: Image
     
-    private var formattedDateLastWatered: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM dd"
-        return formatter.string(from: self.plant.dateLastWatered)
-    }
-    
     @State private var showMoreOptionsActionSheet = false
     @State private var confirmDeletion = false
     
@@ -99,7 +93,7 @@ struct PlantDetailView: View {
                                 .multilineTextAlignment(.center)
                                 .padding(EdgeInsets(top: 12, leading: 8, bottom: 8, trailing: 8))
                             
-                            Text("Last watered on \(self.formattedDateLastWatered)")
+                            Text("Last watered on \(self.plant.formattedDateLastWatered)")
                                 .font(.headline)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(nil)
@@ -110,7 +104,10 @@ struct PlantDetailView: View {
                             
                             Spacer()
                             
-                            WaterMeButton(action: { self.plant.addNewDateLastWatered(to: Date()) })
+                            WaterMeButton(action: {
+                                self.plant.addNewDateLastWatered(to: Date())
+                                self.updatePlant()
+                            })
                             
                             Spacer()
                             
@@ -120,25 +117,41 @@ struct PlantDetailView: View {
                             
                             Spacer()
                         }
-                        .frame(width: geo.size.width, height: geo.size.height / 2 - self.offsetToShowShadowOnImage)
+                        .frame(width: geo.size.width, height: (geo.size.height / 2) - self.offsetToShowShadowOnImage + 5)
                         .background(
-                            ZStack{
+                            ZStack {
                                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                                     .edgesIgnoringSafeArea(.all)
                                     .foregroundColor(Color(.secondarySystemBackground))
                                     .shadow(color: Color.black.opacity(0.2), radius: 5, x: 5, y: -10)
+                                
+                                VStack {
+                                    Spacer(minLength: 100)
+                                    Rectangle()
+                                        .edgesIgnoringSafeArea(.all)
+                                        .foregroundColor(Color(.secondarySystemBackground))
+                                }
                             }
                         )
-                            .padding(.top, self.offsetToShowShadowOnImage)
+                        .padding(.top, self.offsetToShowShadowOnImage)
                         
-                        Spacer(minLength: 30)
-                        
-                        if (self.plant.datesWatered.count == 0) {
-                            Text("No waterings reported, yet.")
-                                .foregroundColor(Color.secondary)
-                        } else {
-                            VerticalTimeLine(dates: self.plant.datesWatered)
+                        VStack {
+                            Spacer(minLength: 30)
+                            
+                            if (self.plant.datesWatered.count == 0) {
+                                Text("No waterings reported, yet.")
+                                    .foregroundColor(Color.secondary)
+                            } else {
+                                VerticalTimeLine(dates: self.plant.datesWatered)
+                            }
+                            
+                            Spacer(minLength: 10)
                         }
+                        .background(
+                            Color(.secondarySystemBackground)
+                                .edgesIgnoringSafeArea(.all)
+                        )
+                        
                     }
                 }
             }
@@ -195,6 +208,9 @@ struct PlantDetailView_Previews: PreviewProvider {
             
             PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
+            
+//            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
+//            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro Max"))
             
             //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
             //                .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
