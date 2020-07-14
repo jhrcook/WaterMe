@@ -9,6 +9,27 @@
 import SwiftUI
 
 
+
+struct BackgroundView: View {
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .edgesIgnoringSafeArea(.all)
+                .foregroundColor(Color(.secondarySystemBackground))
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 5, y: -10)
+            
+            VStack {
+                Spacer(minLength: 100)
+                Rectangle()
+                    .edgesIgnoringSafeArea(.all)
+                    .foregroundColor(Color(.secondarySystemBackground))
+            }
+        }
+    }
+}
+
+
+
 struct PlantDetailView: View {
     
     @ObservedObject var garden: Garden
@@ -23,8 +44,7 @@ struct PlantDetailView: View {
     
     @State private var showingImagePicker = false
     @State private var userSelectedImage: UIImage?
-    
-    
+        
     let offsetToShowShadowOnImage: CGFloat = -21
     
     init(garden: Garden, plant: Plant) {
@@ -99,26 +119,13 @@ struct PlantDetailView: View {
                             
                             Button("Set up watering reminders") {
                                 print("Still need to set this feature up...")
-                            }.disabled(true)
+                            }
+                            .disabled(true)
                             
                             Spacer()
                         }
                         .frame(width: geo.size.width, height: (geo.size.height / 2) - self.offsetToShowShadowOnImage + 5)
-                        .background(
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                    .edgesIgnoringSafeArea(.all)
-                                    .foregroundColor(Color(.secondarySystemBackground))
-                                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 5, y: -10)
-                                
-                                VStack {
-                                    Spacer(minLength: 100)
-                                    Rectangle()
-                                        .edgesIgnoringSafeArea(.all)
-                                        .foregroundColor(Color(.secondarySystemBackground))
-                                }
-                            }
-                        )
+                        .background(BackgroundView())
                         .padding(.top, self.offsetToShowShadowOnImage)
                         
                         VStack {

@@ -123,6 +123,8 @@ struct ContentView: View {
     @State private var showNewPlantView = false
     @ObservedObject var garden = Garden()
     
+    @Environment(\.colorScheme) var colorScheme
+    
     let numberOfPlantsPerRow: Int = 3
     private var numberOfRows: Int {
         get{
@@ -156,6 +158,15 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle("Plants", displayMode: .automatic)
+            .navigationBarItems(trailing:
+                Button(action: { print("tap water button") }) {
+                    HStack {
+                        Image(systemName: "cloud.rain")
+                        Text("Water")
+                    }
+                }
+                .buttonStyle(SmallFloatingTextButtonStyle(cornerRadius: 8, colorScheme: colorScheme))
+            )
         }
         .sheet(isPresented: $showNewPlantView) {
             MakeNewPlantView(garden: self.garden)
@@ -187,24 +198,24 @@ struct ContentView_Previews: PreviewProvider {
                 .previewDisplayName("iPhone SE")
             
             ContentView()
-                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
-                .environment(\.colorScheme, .dark)
-                .previewDisplayName("iPhone 11 (dark mode)")
-            
-            ContentView()
                 .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
                 .environment(\.colorScheme, .dark)
                 .previewDisplayName("iPhone SE (dark mode)")
             
-            ContentView()
-                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
-                .environment(\.sizeCategory, .accessibilityExtraLarge)
-                .previewDisplayName("iPhone 11 (large text)")
-            
-            ContentView()
-                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
-                .environment(\.sizeCategory, .accessibilityExtraLarge)
-                .previewDisplayName("iPhone SE (large text)")
+//            ContentView()
+//                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
+//                .environment(\.colorScheme, .dark)
+//                .previewDisplayName("iPhone SE (dark mode)")
+//
+//            ContentView()
+//                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
+//                .environment(\.sizeCategory, .accessibilityExtraLarge)
+//                .previewDisplayName("iPhone 11 (large text)")
+//
+//            ContentView()
+//                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
+//                .environment(\.sizeCategory, .accessibilityExtraLarge)
+//                .previewDisplayName("iPhone SE (large text)")
         }
     }
 }

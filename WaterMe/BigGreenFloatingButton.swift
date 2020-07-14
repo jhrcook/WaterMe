@@ -8,6 +8,22 @@
 
 import SwiftUI
 
+
+struct BigGreenFloatingButtonStyle: ButtonStyle {
+        
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(configuration.isPressed ? Color.white.opacity(0.7) : Color.white)
+            .background(Color.green)
+            .clipShape(Circle())
+            .padding()
+            .shadow(color: Color.black.opacity(0.5),
+                    radius: configuration.isPressed ? 1 : 3,
+                    x: configuration.isPressed ? 1 : 3,
+                    y: configuration.isPressed ? 1 : 3)
+    }
+}
+
 struct BigGreenFloatingButton: View {
     
     let action: () -> Void
@@ -16,13 +32,9 @@ struct BigGreenFloatingButton: View {
         Button(action: action) {
             Image(systemName: "plus")
                 .font(.system(.title))
-                .frame(width: 65, height: 65)
-                .foregroundColor(Color.white)
+                .padding(.all, 20)
         }
-        .background(Color.green)
-        .cornerRadius(38.5)
-        .padding()
-        .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 3)
+        .buttonStyle(BigGreenFloatingButtonStyle())
     }
 }
 

@@ -9,6 +9,23 @@
 import SwiftUI
 
 
+struct WaterMeButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(configuration.isPressed ? Color.white.opacity(0.8) : Color.white)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .foregroundColor(Color.blue)
+                    .shadow(color: Color.black.opacity(0.5),
+                            radius: configuration.isPressed ? 1 : 3,
+                            x: configuration.isPressed ? 1 : 3,
+                            y: configuration.isPressed ? 1 : 3)
+            )
+    }
+}
+
+
 struct WaterMeButton: View {
     let action: () -> Void
     
@@ -16,19 +33,12 @@ struct WaterMeButton: View {
         Button(action: action) {
             
             HStack {
-                Image(systemName: "cloud.drizzle")
+                Image(systemName: "cloud.rain")
                 Text("Water me")
             }
             .font(.title)
-            .foregroundColor(Color.white)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .foregroundColor(Color.blue)
-                    .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 3)
-            )
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(WaterMeButtonStyle())
     }
 }
 
