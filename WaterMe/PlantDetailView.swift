@@ -9,20 +9,6 @@
 import SwiftUI
 
 
-struct SmallFloatingTextButtonStyle: ButtonStyle {
-    public func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.system(.body))
-            .frame(width: 60, height: 30)
-            .foregroundColor(Color.white)
-            .background(Color.black.opacity(0.2))
-            .cornerRadius(10)
-            .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 3)
-            .opacity(configuration.isPressed ? 0.5 : 1.0)
-    }
-}
-
-
 struct PlantDetailView: View {
     
     @ObservedObject var garden: Garden
@@ -183,6 +169,7 @@ struct PlantDetailView: View {
     
     
     func deletePlantFromGarden() {
+        plant.deletePlantImageFile()
         garden.plants.removeAll(where: { $0.id == plant.id })
         presentationMode.wrappedValue.dismiss()
     }

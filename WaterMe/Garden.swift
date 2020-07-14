@@ -34,7 +34,7 @@ class Garden: ObservableObject {
         
         if (Garden.inTesting) {
             print("Making mock plants for testing.")
-            self.plants = MockPlants()
+            self.plants = mockPlants()
             return
         }
         
@@ -62,18 +62,18 @@ class Garden: ObservableObject {
     
     
     /// Generate fake plants.
-    private func MockPlants() -> [Plant] {
+    private func mockPlants() -> [Plant] {
         var mockPlants = [Plant]()
         for i in 0..<10 {
             mockPlants.append(
-                Plant(name: "Plant \(i)", datesWatered: ArrayOfDates(i))
+                Plant(name: "Plant \(i)", datesWatered: arrayOfDates(i))
             )
         }
         return mockPlants
     }
     
     
-    private func ArrayOfDates(_ n: Int) -> [Date] {
+    private func arrayOfDates(_ n: Int) -> [Date] {
         var dates = [Date]()
         for _ in 0..<n {
             let nextDate = Calendar.current.date(byAdding: .day, value: -(1...15).randomElement()!, to: Date())

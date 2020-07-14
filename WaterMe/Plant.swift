@@ -84,7 +84,7 @@ struct Plant: Identifiable, Codable {
             let oldImageName = self.imageName
             imageName = "\(UUID().uuidString)_image.png"
             let fileName = getDocumentsDirectory().appendingPathComponent(imageName!)
-            DispatchQueue.global(qos: .default).async {
+            DispatchQueue.global(qos: .userInitiated).async {
                 do {
                     try data.write(to: fileName)
                 } catch {
@@ -93,13 +93,25 @@ struct Plant: Identifiable, Codable {
             }
             
             if let oldImageName = oldImageName {
-                DispatchQueue.global(qos: .background).async {
-                    do {
-                        try FileManager.default.removeItem(at: getDocumentsDirectory().appendingPathComponent(oldImageName))
-                    } catch {
-                        print("Unable to delete old image file: \(oldImageName).")
-                    }
-                }
+                deleteFile(at: getDocumentsDirectory().appendingPathComponent(oldImageName))
+            }
+        }
+    }
+    
+    
+    func deletePlantImageFile() {
+        if let imageName = imageName {
+            deleteFile(at: getDocumentsDirectory().appendingPathComponent(imageName))
+        }
+    }
+    
+    
+    private func deleteFile(at URL: URL) {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                try FileManager.default.removeItem(at: URL)
+            } catch {
+                print("Unable to delete old image file: \(URL.absoluteString).")
             }
         }
     }

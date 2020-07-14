@@ -12,44 +12,84 @@ struct MakeNewPlantView: View {
     
     @ObservedObject var garden: Garden
     @State private var plantName = ""
+    
+    @State private var setDateLastWatered = true
     @State private var dateLastWatered = Date()
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var alertIsShown = false
+    @State private var showingImagePicker = false
+    
+    @State private var userSelectedImage: UIImage?
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
                     TextField("Plant name", text: $plantName)
-                    DatePicker("Date last watered", selection: $dateLastWatered, displayedComponents: .date)
+                }
+                
+                Section {
+                    Toggle(isOn: $setDateLastWatered.animation()) {
+                        Text("Set the date last watered?")
+                    }
+                    
+                    if setDateLastWatered {
+                        DatePicker("Date last watered", selection: $dateLastWatered, displayedComponents: .date)
+                    }
                 }
                 
                 Section {
                     Button(action: {
-                        self.alertIsShown.toggle()
+                        self.showingImagePicker.toggle()
                     }) {
                         HStack {
-                            Image(systemName: "plus")
-                            Text("Add image...")
+                            Image(systemName: userSelectedImage == nil ? "plus" : "camera.rotate")
+                            Text(userSelectedImage == nil ? "Add image..." : "Change image...")
+                        }
+                    }
+                    
+                    if userSelectedImage != nil {
+                        HStack {
+                            Spacer()
+                            Image(uiImage: userSelectedImage!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 200)
+                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                            Spacer()
                         }
                     }
                 }
+                
+                
             }
             .navigationBarTitle("New plant")
             .navigationBarItems(leading: Button("Cancel", action: {
                 self.presentationMode.wrappedValue.dismiss()
-            }), trailing: Button("Save") {
-                let newPlant = Plant(name: self.plantName, datesWatered: [self.dateLastWatered])
-                self.garden.plants.append(newPlant)
-                self.presentationMode.wrappedValue.dismiss()
-            }.disabled(self.plantName.isEmpty))
-                .alert(isPresented: $alertIsShown) {
-                    Alert(title: Text("Feature not built, yet."), message: Text("Sad."), dismissButton: .default(Text("Okay")))
+            }), trailing: Button("Save", action: savePlant)
+            .disabled(self.plantName.isEmpty))
+            .sheet(isPresented: self.$showingImagePicker) {
+                ImagePicker(image: self.$userSelectedImage)
             }
         }
     }
+    
+    func savePlant() {
+        var datesWatered = [Date]()
+        if setDateLastWatered {
+            datesWatered.append(self.dateLastWatered)
+        }
+        
+        var newPlant = Plant(name: self.plantName, datesWatered: datesWatered)
+        if let uiImage = userSelectedImage {
+            newPlant.savePlantImage(uiImage: uiImage)
+        }
+        
+        self.garden.plants.append(newPlant)
+        self.presentationMode.wrappedValue.dismiss()
+    }
+    
 }
 
 struct MakeNewPlantView_Previews: PreviewProvider {
