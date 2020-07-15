@@ -17,7 +17,7 @@ class Garden: ObservableObject {
     let version: GardenVersion = .one
     
     static private let plantsArrayKey = "plants"
-    static private let inTesting = false
+    static private let inTesting = true
     
     @Published var plants = [Plant]() {
         didSet {
@@ -76,9 +76,14 @@ class Garden: ObservableObject {
     private func arrayOfDates(_ n: Int) -> [Date] {
         var dates = [Date]()
         for _ in 0..<n {
-            let nextDate = Calendar.current.date(byAdding: .day, value: -(1...15).randomElement()!, to: Date())
-            dates.append(nextDate!)
+            let nextDate = Calendar.current.date(byAdding: .day, value: -(1...15).randomElement()!, to: Date())!
+            
+            let sameDates = dates.filter({ Calendar.current.isDate($0, inSameDayAs: nextDate) })
+            if sameDates.count == 0 {
+                dates.append(nextDate)
+            }
         }
+        dates.sort()
         return dates
     }
 }

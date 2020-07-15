@@ -36,6 +36,7 @@ struct PlantDetailView: View {
     @State var plant: Plant
     
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var image: Image
     
@@ -44,6 +45,8 @@ struct PlantDetailView: View {
     
     @State private var showingImagePicker = false
     @State private var userSelectedImage: UIImage?
+    
+    @State private var editLoggedWateringDates = false
         
     let offsetToShowShadowOnImage: CGFloat = -21
     
@@ -134,6 +137,33 @@ struct PlantDetailView: View {
                             if (self.plant.datesWatered.count == 0) {
                                 Text("No waterings reported, yet.")
                                     .foregroundColor(Color.secondary)
+                            } else if self.editLoggedWateringDates {
+                                Text("Edit logged watering dates")
+                                    .padding()
+                                List {
+                                    ForEach(self.plant.datesWatered, id: \.self) { date in
+                                        HStack {
+                                            Text(self.formattedDate(date)).padding(.vertical, 2)
+                                            Spacer()
+                                        }
+                                    }
+                                    .onDelete(perform: self.deleteDatesWatered)
+                                }
+                                .frame(width: geo.size.width - 50,
+                                       height: min(400, CGFloat(self.plant.datesWatered.count) * 40))
+                                .background(Color(.tertiarySystemBackground))
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                
+                                Button(action: {
+                                    withAnimation(.linear(duration: 0.3)) {
+                                        self.editLoggedWateringDates.toggle()
+                                    }
+                                }) {
+                                    Text("Done")
+                                }
+                                .buttonStyle(SmallFloatingTextButtonStyle(padding: EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8),
+                                                                          cornerRadius: 5,
+                                                                          colorScheme: self.colorScheme))
                             } else {
                                 VerticalTimeLine(dates: self.plant.datesWatered)
                             }
@@ -141,7 +171,7 @@ struct PlantDetailView: View {
                             Spacer(minLength: 10)
                         }
                         .background(
-                            Color(.secondarySystemBackground)
+                            Color(.systemGroupedBackground)
                                 .edgesIgnoringSafeArea(.all)
                         )
                         
@@ -151,8 +181,15 @@ struct PlantDetailView: View {
             .background(Color(UIColor.secondarySystemBackground).edgesIgnoringSafeArea(.all))
             .actionSheet(isPresented: self.$showMoreOptionsActionSheet) {
                 ActionSheet(title: Text("More options"), buttons: [
-                    .default(Text("Change image"), action: { self.showingImagePicker.toggle() }),
-                    .destructive(Text("Delete"), action: { self.confirmDeletion.toggle() }),
+                    .default(Text("Change image"), action: {
+                        self.showingImagePicker.toggle()
+                    }),
+                    .default(Text("Edit logged watering dates"), action: {
+                        self.editLoggedWateringDates.toggle()
+                    }),
+                    .destructive(Text("Delete"), action: {
+                        self.confirmDeletion.toggle()
+                    }),
                     .cancel()
                 ])
             }
@@ -187,6 +224,18 @@ struct PlantDetailView: View {
             image = Image(uiImage: uiImage)
             plant.savePlantImage(uiImage: uiImage)
         }
+        updatePlant()
+    }
+    
+    
+    func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter.string(from: date)
+    }
+    
+    func deleteDatesWatered(at offsets: IndexSet) {
+        plant.datesWatered.remove(atOffsets: offsets)
         updatePlant()
     }
 }
