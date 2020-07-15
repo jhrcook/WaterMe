@@ -80,9 +80,9 @@ struct Plant: Identifiable, Codable {
     
     
     mutating func savePlantImage(uiImage: UIImage) {
-        if let data = uiImage.pngData() {
+        if let data = uiImage.jpegData(compressionQuality: 1.0) {
             let oldImageName = self.imageName
-            imageName = "\(UUID().uuidString)_image.png"
+            imageName = "\(UUID().uuidString)_image.jpeg"
             let fileName = getDocumentsDirectory().appendingPathComponent(imageName!)
             DispatchQueue.global(qos: .userInitiated).async {
                 do {

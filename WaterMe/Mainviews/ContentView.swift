@@ -118,6 +118,8 @@ struct RowOfPlantCellViews: View {
 }
 
 
+
+
 struct ContentView: View {
     
     @State private var showNewPlantView = false
@@ -136,6 +138,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                
+                LinearGradient(gradient: Gradient(colors: [.lightBlue, .lightTomato]), startPoint: .topLeading, endPoint: .bottomTrailing).edgesIgnoringSafeArea(.all)
+                
                 GeometryReader { geo in
                     ScrollView(.vertical) {
                         VStack(spacing: cellSpacing) {
