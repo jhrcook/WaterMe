@@ -35,7 +35,7 @@ struct MakeNewPlantView: View {
                     }
                     
                     if setDateLastWatered {
-                        DatePicker("Date last watered", selection: $dateLastWatered, displayedComponents: .date)
+                        DatePicker(selection: $dateLastWatered, in: ...Date(), displayedComponents: .date, label: { Text("Date last watered") })
                     }
                 }
                 
