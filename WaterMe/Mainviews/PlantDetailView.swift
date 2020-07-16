@@ -50,12 +50,15 @@ struct PlantDetailView: View {
         
     let offsetToShowShadowOnImage: CGFloat = -21
     
+    @State var selectableDataDates: SelectableData
+    
     init(garden: Garden, plant: Plant) {
         self.garden = garden
         _plant = State(initialValue: plant)
         _image = State(initialValue: plant.loadPlantImage())
+        
+        _selectableDataDates = State(initialValue: SelectableData(dates: plant.datesWatered))
     }
-    
     
     var body: some View {
         GeometryReader { geo in
@@ -140,40 +143,34 @@ struct PlantDetailView: View {
                             } else if self.editLoggedWateringDates {
                                 Text("Edit logged watering dates")
                                     .padding()
-                                List {
-                                    ForEach(self.plant.datesWatered, id: \.self) { date in
-                                        HStack {
-                                            Text(self.formattedDate(date)).padding(.vertical, 2)
-                                            Spacer()
-                                        }
-                                    }
-                                    .onDelete(perform: self.deleteDatesWatered)
-                                }
-                                .frame(width: geo.size.width - 50,
-                                       height: min(400, CGFloat(self.plant.datesWatered.count) * 40))
-                                .background(Color(.tertiarySystemBackground))
-                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                                 
-                                Button(action: {
+                                SelectableTableView(selectableData: self.selectableDataDates, deleteAction: {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        self.selectableDataDates.data = self.selectableDataDates.data.filter({ !$0.isSelected })
+                                    }
+                                    self.plant.datesWatered = self.selectableDataDates.data.map({ $0.date })
+                                    self.updatePlant()
+                                }, doneAction: {
                                     withAnimation(.linear(duration: 0.3)) {
                                         self.editLoggedWateringDates.toggle()
                                     }
-                                }) {
-                                    Text("Done")
-                                }
-                                .buttonStyle(SmallFloatingTextButtonStyle(padding: EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8),
-                                                                          cornerRadius: 5,
-                                                                          colorScheme: self.colorScheme))
+                                })
+                                .padding(EdgeInsets(top: 18, leading: 15, bottom: 18, trailing: 15))
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .foregroundColor(Color(.tertiarySystemBackground))
+                                        .padding(12)
+                                )
                             } else {
                                 VerticalTimeLine(dates: self.plant.datesWatered)
                             }
                             
                             Spacer(minLength: 10)
                         }
-                        .background(
-                            Color(.systemGroupedBackground)
-                                .edgesIgnoringSafeArea(.all)
-                        )
+                    .background(
+                        Color(.secondarySystemBackground)
+                            .edgesIgnoringSafeArea(.all)
+                    )
                         
                     }
                 }
@@ -209,6 +206,7 @@ struct PlantDetailView: View {
     func updatePlant() {
         let idx = garden.plants.firstIndex(where: { $0.id == plant.id })!
         garden.plants[idx] = plant
+        selectableDataDates = SelectableData(dates: plant.datesWatered)
     }
     
     

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		840AA44324B904790017886D /* WaterMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840AA44224B904790017886D /* WaterMeButton.swift */; };
+		8411960124C06A5400ABDFF3 /* SelectableTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8411960024C06A5400ABDFF3 /* SelectableTableView.swift */; };
 		841DB9E924B5F0EF0048A5B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DB9E824B5F0EF0048A5B7 /* AppDelegate.swift */; };
 		841DB9EB24B5F0EF0048A5B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DB9EA24B5F0EF0048A5B7 /* SceneDelegate.swift */; };
 		841DB9ED24B5F0EF0048A5B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DB9EC24B5F0EF0048A5B7 /* ContentView.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		840AA44224B904790017886D /* WaterMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterMeButton.swift; sourceTree = "<group>"; };
+		8411960024C06A5400ABDFF3 /* SelectableTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableTableView.swift; sourceTree = SOURCE_ROOT; };
 		841DB9E524B5F0EF0048A5B7 /* WaterMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		841DB9E824B5F0EF0048A5B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		841DB9EA24B5F0EF0048A5B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		8478646924BF3DCE00674EA9 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				8411960024C06A5400ABDFF3 /* SelectableTableView.swift */,
 				84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */,
 				84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */,
 				8478892B24BF4008001ABE3C /* PlantCellView.swift */,
@@ -241,6 +244,7 @@
 				841DB9FF24B5F13E0048A5B7 /* Garden.swift in Sources */,
 				84833F8324BC6EA6003CE209 /* VerticalTimeLine.swift in Sources */,
 				8478646624BF3AFB00674EA9 /* Color-extension.swift in Sources */,
+				8411960124C06A5400ABDFF3 /* SelectableTableView.swift in Sources */,
 				841DB9E924B5F0EF0048A5B7 /* AppDelegate.swift in Sources */,
 				843EBEE224B7BA7E0021323A /* Plant.swift in Sources */,
 				847C37A824BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift in Sources */,
