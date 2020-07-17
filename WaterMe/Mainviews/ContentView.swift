@@ -1,4 +1,4 @@
-//
+ //
 //  ContentView.swift
 //  WaterMe
 //
@@ -27,6 +27,9 @@ struct ContentView: View {
         }
     }
     
+    @State private var isInMultiselectMode = false
+    @State private var multiselectedPlants = [Plant]()
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -38,7 +41,12 @@ struct ContentView: View {
                     ScrollView(.vertical) {
                         VStack(spacing: cellSpacing) {
                             ForEach(0..<self.numberOfRows, id: \.self) { rowIndex in
-                                RowOfPlantCellViews(garden: self.garden, rowIndex: rowIndex, numberOfPlantsPerRow: self.numberOfPlantsPerRow, cellSpacing: cellSpacing)
+                                RowOfPlantCellViews(garden: self.garden,
+                                                    rowIndex: rowIndex,
+                                                    numberOfPlantsPerRow: self.numberOfPlantsPerRow,
+                                                    multiselectMode: self.$isInMultiselectMode,
+                                                    multiselectedPlants: self.$multiselectedPlants,
+                                                    cellSpacing: cellSpacing)
                                     .frame(width: geo.size.width, height: self.calculateHeightForCell(from: geo.size.width, withCellSpacing: cellSpacing))
                             }
                         }
@@ -48,23 +56,37 @@ struct ContentView: View {
                 VStack {
                     Spacer()
                     HStack {
+                        MakeItRainButton(activated: $isInMultiselectMode) {
+                            self.isInMultiselectMode.toggle()
+                            if !self.isInMultiselectMode {
+                                for selectedPlant in self.multiselectedPlants {
+                                    for i in 0..<self.garden.plants.count {
+                                        var plant = self.garden.plants[i]
+                                        if selectedPlant.id == plant.id {
+                                            plant.addNewDateLastWatered(to: Date())
+                                            self.garden.plants[i] = plant
+                                        }
+                                    }
+                                }
+                                self.multiselectedPlants = [Plant]()
+                            }
+                        }
+                        
                         Spacer()
-                        BigGreenFloatingButton {
-                            self.showNewPlantView.toggle()
+                        
+                        BigGreenSwitchingToRedFloatingButton(setToRed: self.$isInMultiselectMode) {
+                            if self.isInMultiselectMode {
+                                self.isInMultiselectMode = false
+                                self.multiselectedPlants = [Plant]()
+                            } else {
+                                self.showNewPlantView.toggle()
+                            }
                         }
                     }
                 }
             }
-            .navigationBarTitle("Plants", displayMode: .automatic)
-            .navigationBarItems(trailing:
-                Button(action: { print("tap water button") }) {
-                    HStack {
-                        Image(systemName: "cloud.rain")
-                        Text("Water")
-                    }
-                }
-                .buttonStyle(SmallFloatingTextButtonStyle(cornerRadius: 8, colorScheme: colorScheme))
-            )
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarHidden(true)
         }
         .sheet(isPresented: $showNewPlantView) {
             MakeNewPlantView(garden: self.garden)

@@ -19,8 +19,12 @@ struct RowOfPlantCellViews: View {
         plantsFor(row: rowIndex)
     }
     
+    
     @State private var selectedPlant = Plant()
     @State private var showPlantInformation = false
+    
+    @Binding var multiselectMode: Bool
+    @Binding var multiselectedPlants: [Plant]
     
     var cellSpacing: CGFloat = 0
     
@@ -30,10 +34,18 @@ struct RowOfPlantCellViews: View {
                 Spacer(minLength: 0.0)
                 ForEach(self.plants) { plant in
                     Button(action: {
-                        self.selectedPlant = plant
-                        self.showPlantInformation.toggle()
+                        if self.multiselectMode {
+                            if self.multiselectedPlants.contains(where: { $0.id == plant.id }) {
+                                self.multiselectedPlants.removeAll(where: { $0.id == plant.id })
+                            } else {
+                                self.multiselectedPlants.append(plant)
+                            }
+                        } else {
+                            self.selectedPlant = plant
+                            self.showPlantInformation.toggle()
+                        }
                     }) {
-                        PlantCellView(plant: plant)
+                        PlantCellView(plant: plant, multiselectMode: self.$multiselectMode, isSelected: self.multiselectedPlants.contains(where: {$0.id == plant.id}))  // need to change to binding
                             .frame(width: self.calculateCellWidth(from: geo.size.width, withCellSpacing: self.cellSpacing), height: geo.size.height)
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -76,9 +88,17 @@ struct RowOfPlantCellViews: View {
 struct RowOfPlantCellViews_Previews: PreviewProvider {
     
     static var previews: some View {
-        RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, cellSpacing: 5)
-            .frame(width: 400, height: 125)
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(false), multiselectedPlants: .constant([Plant]()), cellSpacing: 5)
+                .frame(width: 400, height: 125)
+                .padding()
+                .previewLayout(.sizeThatFits)
+            
+            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(true), multiselectedPlants: .constant([Plant]()), cellSpacing: 5)
+                .frame(width: 400, height: 125)
+                .padding()
+                .previewLayout(.sizeThatFits)
+                .previewDisplayName("multi-select mode")
+        }
     }
 }

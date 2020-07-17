@@ -23,6 +23,9 @@ struct PlantCellView: View {
     
     var plant: Plant
     
+    @Binding var multiselectMode: Bool
+    var isSelected: Bool
+    
     var body: some View {
         GeometryReader {  geo in
             ZStack {
@@ -47,6 +50,20 @@ struct PlantCellView: View {
                     }
                     Spacer()
                 }
+                
+                if self.multiselectMode {
+                    Color.white.opacity(0.5)
+                    Image(systemName: self.isSelected ? "checkmark.circle.fill" : "checkmark.circle")
+                        .font(.largeTitle)
+                        .foregroundColor(self.isSelected ? .blue : .white)
+                        .padding()
+                        .background(
+                            Image(systemName: "checkmark.circle")
+                                .font(.largeTitle)
+                                .foregroundColor(self.isSelected ? .white : .clear)
+                                .padding()
+                        )
+                }
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -56,9 +73,39 @@ struct PlantCellView: View {
 
 struct PlantCellView_Previews: PreviewProvider {
     static var previews: some View {
-        PlantCellView(plant: Plant(name: "Test plant"))
-            .frame(width: 150, height: 150)
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            PlantCellView(plant: Plant(name: "Test plant"), multiselectMode: .constant(false), isSelected: false)
+                .frame(width: 150, height: 150)
+                .padding()
+                .previewLayout(.sizeThatFits)
+            
+            PlantCellView(plant: Plant(name: "Test plant"), multiselectMode: .constant(true), isSelected: false)
+                .frame(width: 150, height: 150)
+                .padding()
+                .previewLayout(.sizeThatFits)
+                .previewDisplayName("multi-select mode")
+            
+            PlantCellView(plant: Plant(name: "Test plant"), multiselectMode: .constant(true), isSelected: true)
+                .frame(width: 150, height: 150)
+                .padding()
+                .previewLayout(.sizeThatFits)
+                .previewDisplayName("multi-select mode; selected")
+            
+            PlantCellView(plant: Plant(name: "Test plant"), multiselectMode: .constant(true), isSelected: false)
+                .frame(width: 150, height: 150)
+                .padding()
+                .background(Color(.systemBackground))
+                .environment(\.colorScheme, .dark)
+                .previewLayout(.sizeThatFits)
+                .previewDisplayName("dark; multi-select mode")
+            
+            PlantCellView(plant: Plant(name: "Test plant"), multiselectMode: .constant(true), isSelected: true)
+                .frame(width: 150, height: 150)
+                .padding()
+                .background(Color(.systemBackground))
+                .environment(\.colorScheme, .dark)
+                .previewLayout(.sizeThatFits)
+                .previewDisplayName("dark; multi-select mode; selected")
+        }
     }
 }

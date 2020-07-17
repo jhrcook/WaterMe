@@ -64,7 +64,7 @@ class Garden: ObservableObject {
     /// Generate fake plants.
     private func mockPlants() -> [Plant] {
         var mockPlants = [Plant]()
-        for i in 0..<10 {
+        for i in 0..<20 {
             mockPlants.append(
                 Plant(name: "Plant \(i)", datesWatered: arrayOfDates(i))
             )
