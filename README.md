@@ -8,28 +8,8 @@ An iOS application written in SwiftUI to help keep track of watering plants.
 ![Swift](https://img.shields.io/badge/Swift-Swift_Project-FA7343.svg?style=flat&logo=swift)
 ![iOS](https://img.shields.io/badge/iOS-iOS_Project-999999.svg?style=flat&logo=apple)
 
+See the [Projects](https://github.com/jhrcook/WaterMe/projects/1) tab to view the To-Do list.
+
 <img width="400px" src="demos/detailview-demo.gif">
 
 <img width="400px" src="demos/multiselect-demo.gif">
-
-## To-Do
-
-### Features
-
-- recurrent notifications
-- companion Watch app
-- sort the plants by values of the plants (alphabetical ordered, last watered, most frequently watered, etc.)
-- user can manually add dates watered
-
-### Behind-the-scenes
-
-- improve performance of plant detail view
-
-### Bugs
-
-- loaded images are distorted on actual device
-
-### Minor/Styling
-
-- in plant detail view, when WaterMe button hit, change appearance to show has already been watered that day
-- in plant detail view and main view, say days since last watering

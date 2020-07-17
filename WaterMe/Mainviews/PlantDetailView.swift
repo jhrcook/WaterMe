@@ -47,7 +47,7 @@ struct PlantDetailView: View {
     @State private var userSelectedImage: UIImage?
     
     @State private var editLoggedWateringDates = false
-        
+            
     let offsetToShowShadowOnImage: CGFloat = -21
     
     @State var selectableDataDates: SelectableData
@@ -116,10 +116,11 @@ struct PlantDetailView: View {
                             
                             Spacer()
                             
-                            WaterMeButton(action: {
+                            WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
                                 self.plant.addNewDateLastWatered(to: Date())
                                 self.updatePlant()
-                            })
+                            }
+                            .disabled(self.plant.wasWateredToday)
                             
                             Spacer()
                             
@@ -145,7 +146,7 @@ struct PlantDetailView: View {
                                     .padding()
                                 
                                 SelectableTableView(selectableData: self.selectableDataDates, deleteAction: {
-                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                    withAnimation(.linear(duration: 0.3)) {
                                         self.selectableDataDates.data = self.selectableDataDates.data.filter({ !$0.isSelected })
                                     }
                                     self.plant.datesWatered = self.selectableDataDates.data.map({ $0.date })
@@ -167,10 +168,10 @@ struct PlantDetailView: View {
                             
                             Spacer(minLength: 10)
                         }
-                    .background(
-                        Color(.secondarySystemBackground)
-                            .edgesIgnoringSafeArea(.all)
-                    )
+                        .background(
+                            Color(.secondarySystemBackground)
+                                .edgesIgnoringSafeArea(.all)
+                        )
                         
                     }
                 }
@@ -182,7 +183,9 @@ struct PlantDetailView: View {
                         self.showingImagePicker.toggle()
                     }),
                     .default(Text("Edit logged watering dates"), action: {
-                        self.editLoggedWateringDates.toggle()
+                        withAnimation(.linear(duration: 0.3)) {
+                            self.editLoggedWateringDates.toggle()
+                        }
                     }),
                     .destructive(Text("Delete"), action: {
                         self.confirmDeletion.toggle()

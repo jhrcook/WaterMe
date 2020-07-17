@@ -37,6 +37,13 @@ struct Plant: Identifiable, Codable {
         }
     }
     
+    var wasWateredToday: Bool {
+        if let date = dateLastWatered {
+            return Calendar.current.isDate(date, inSameDayAs: Date())
+        }
+        return false
+    }
+    
     var dateLastWatered: Date? {
         get {
             datesWatered.max()
@@ -72,7 +79,8 @@ struct Plant: Identifiable, Codable {
     
     
     mutating func addNewDateLastWatered(to newDate: Date) {
-        if (!datesWatered.contains(newDate)) {
+        let sameDates = datesWatered.filter({ Calendar.current.isDate($0, inSameDayAs: newDate) })
+        if sameDates.count == 0 {
             datesWatered.append(newDate)
             datesWatered.sort()
         }
