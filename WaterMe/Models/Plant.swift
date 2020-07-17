@@ -50,6 +50,25 @@ struct Plant: Identifiable, Codable {
         }
     }
     
+    var daysSinceLastWatering: Int? {
+        if let date = dateLastWatered {
+            return Calendar.current.dateComponents([.day], from: date, to: Date()).day
+        }
+        return nil
+    }
+    
+    var formattedDaysSinceLastWatering: String {
+        if wasWateredToday {
+            return "Today"
+        } else if daysSinceLastWatering == 1 {
+            return "Yesterday"
+        } else if let days = daysSinceLastWatering {
+            return "\(days) days"
+        }
+        
+        return "Never"
+    }
+    
     var formattedDateLastWatered: String {
         if let dateLastWatered = self.dateLastWatered {
             let formatter = DateFormatter()

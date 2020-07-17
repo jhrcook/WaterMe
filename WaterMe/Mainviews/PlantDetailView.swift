@@ -52,6 +52,18 @@ struct PlantDetailView: View {
     
     @State var selectableDataDates: SelectableData
     
+    var stringForDaysSinceLastWatering: String {
+        if plant.wasWateredToday {
+            return "Last watered today"
+        } else if plant.daysSinceLastWatering == 1 {
+            return "Last watered yesterday"
+        } else if let days = plant.daysSinceLastWatering {
+            return "Last watered \(days) days ago"
+        }
+        
+        return "Never watered!"
+    }
+    
     init(garden: Garden, plant: Plant) {
         self.garden = garden
         _plant = State(initialValue: plant)
@@ -99,21 +111,27 @@ struct PlantDetailView: View {
                         VStack {
                             Spacer()
                             TextField("", text: self.$plant.name, onCommit: self.updatePlant)
-                                .font(.title)
+                                .font(.largeTitle)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(nil)
                                 .multilineTextAlignment(.center)
                                 .padding(EdgeInsets(top: 12, leading: 8, bottom: 8, trailing: 8))
                             
-                            Text("Last watered on \(self.plant.formattedDateLastWatered)")
-                                .font(.headline)
+                            Text(self.stringForDaysSinceLastWatering)
+                                .font(.title)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding()
+                                .background(Color(.tertiarySystemBackground))
+                                .cornerRadius(10)
+                            
+                            Text("on \(self.plant.formattedDateLastWatered)")
+                                .font(.body)
+                                .foregroundColor(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(nil)
                                 .multilineTextAlignment(.center)
-                                .padding(8)
-                            
-                            Spacer(minLength: 5.0)
-                            
+                                .padding()
+                                                        
                             Spacer()
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
