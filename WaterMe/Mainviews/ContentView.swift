@@ -30,6 +30,8 @@ struct ContentView: View {
     @State private var isInMultiselectMode = false
     @State private var multiselectedPlants = [Plant]()
     
+    @State private var showOrderingOptions = false
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -55,6 +57,40 @@ struct ContentView: View {
                 
                 VStack {
                     Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            PlantOrderingOptionButton(orderOption: .alphabetically, colorScheme: self.colorScheme, action: {})
+                                .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
+                                .animation(Animation.easeInOut(duration: 0.3).delay(0.2))
+
+                            PlantOrderingOptionButton(orderOption: .lastWatered, colorScheme: self.colorScheme, action: {})
+                                .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
+                                .animation(Animation.easeInOut(duration: 0.3).delay(0.1))
+                            
+                            PlantOrderingOptionButton(orderOption: .frequencyOfWatering, colorScheme: self.colorScheme, action: {})
+                                .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
+                                .animation(.easeInOut(duration: 0.3))
+                            
+                            ChangePlantOrderButton(showOptions: self.$showOrderingOptions, colorScheme: self.colorScheme) {
+                                self.showOrderingOptions.toggle()
+                                print("button tappy tap!")
+    //                            switch self.garden.ordering {
+    //                            case .alphabetically:
+    //                                self.garden.ordering = .lastWatered
+    //                            case .lastWatered:
+    //                                self.garden.ordering = .frequencyOfWatering
+    //                            case .frequencyOfWatering:
+    //                                self.garden.ordering = .alphabetically
+    //                            }
+                            }
+                            .animation(.linear(duration: 0.3))
+                            .offset(x: self.isInMultiselectMode ? 100 : 0, y: 0)
+                        }
+                        .padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+                    }
+                    
                     HStack {
                         MakeItRainButton(activated: $isInMultiselectMode) {
                             self.isInMultiselectMode.toggle()
@@ -71,6 +107,7 @@ struct ContentView: View {
                                 self.multiselectedPlants = [Plant]()
                             }
                         }
+                        .padding(EdgeInsets(top: 2, leading: 6, bottom: 10, trailing: 6))
                         
                         Spacer()
                         
@@ -82,6 +119,7 @@ struct ContentView: View {
                                 self.showNewPlantView.toggle()
                             }
                         }
+                        .padding(EdgeInsets(top: 2, leading: 10, bottom: 10, trailing: 10))
                     }
                 }
             }

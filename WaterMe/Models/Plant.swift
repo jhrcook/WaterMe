@@ -155,4 +155,19 @@ struct Plant: Identifiable, Codable {
         }
         return Image(Plant.defaultImageNames[self.randomImageIndex])
     }
+    
+    
+    /// Calculates the frequency of watering for a plant in days per watering.
+    /// - Returns: The average number of days between waterings (kind of).
+    func calculateFrequencyOfWatering() -> Float {
+        if datesWatered.count == 0 {
+            return 0
+        }
+        let totalInterval = Calendar.current.dateComponents([.day], from: datesWatered.first!, to: Date())
+        if let days = totalInterval.day {
+            return Float(days) / Float(datesWatered.count)
+        } else {
+            return 0
+        }
+    }
 }

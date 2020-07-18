@@ -8,9 +8,18 @@
 
 import SwiftUI
 
+
 enum GardenVersion: Int, Codable {
     case one = 1
 }
+
+
+enum PlantOrder: String, CaseIterable {
+    case alphabetically
+    case lastWatered
+    case frequencyOfWatering
+}
+
 
 class Garden: ObservableObject {
     
@@ -29,12 +38,19 @@ class Garden: ObservableObject {
         return plants.count
     }
     
+    var ordering: PlantOrder = .alphabetically {
+        didSet {
+            sortPlants()
+        }
+    }
+    
     
     init() {
         
         if (Garden.inTesting) {
             print("Making mock plants for testing.")
             self.plants = mockPlants()
+            sortPlants()
             return
         }
         
@@ -42,6 +58,7 @@ class Garden: ObservableObject {
             let decoder = JSONDecoder()
             if let decodedPlants = try? decoder.decode([Plant].self, from: encodedPlants) {
                 self.plants = decodedPlants
+                sortPlants()
                 return
             }
         }
@@ -57,6 +74,51 @@ class Garden: ObservableObject {
         let encoder = JSONEncoder()
         if let encodedData  = try? encoder.encode(plants) {
             UserDefaults.standard.set(encodedData, forKey: Garden.plantsArrayKey)
+        }
+    }
+    
+    
+    func sortPlants() {
+        print("sorting plants by '\(ordering.rawValue)'")
+        switch ordering {
+        case .alphabetically:
+            sortPlantsByALphabeticalOrder()
+        case .lastWatered:
+            sortPlantsByDaysSinceLastWatering()
+        case .frequencyOfWatering:
+            sortPlantsByFrequencyOfWatering()
+        }
+    }
+    
+    
+    /// Sort the plants alphabetically by their name.
+    func sortPlantsByALphabeticalOrder() {
+        plants = plants.sorted { $0.name < $1.name }
+    }
+    
+    
+    /// Sort plants by the number of days since their last watering.
+    func sortPlantsByDaysSinceLastWatering() {
+        plants = plants.sorted {
+            let d1 = $0.dateLastWatered
+            let d2 = $1.dateLastWatered
+            if d1 == nil && d2 == nil {
+                return true
+            } else if d1 == nil {
+                return true
+            } else if d2 == nil {
+                return false
+            } else {
+                return d1! < d2!
+            }
+        }
+    }
+    
+    
+    /// Sort plants by their average frequency of being watered
+    func sortPlantsByFrequencyOfWatering() {
+        plants = plants.sorted {
+            $0.calculateFrequencyOfWatering() < $1.calculateFrequencyOfWatering()
         }
     }
     

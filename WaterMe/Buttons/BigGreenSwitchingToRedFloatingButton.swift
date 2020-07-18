@@ -15,7 +15,7 @@ struct BigGreenSwitchingToRedFloatingButtonStyle: ButtonStyle {
     
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundColor(configuration.isPressed ? Color.white.opacity(0.7) : Color.white)
+            .foregroundColor(Color.white)
             .animation(.linear(duration: 0.2))
             .background(self.setToRed ? Color.red : Color.green)
             .clipShape(Circle())
@@ -24,7 +24,6 @@ struct BigGreenSwitchingToRedFloatingButtonStyle: ButtonStyle {
                     radius: configuration.isPressed ? 1 : 3,
                     x: configuration.isPressed ? 1 : 3,
                     y: configuration.isPressed ? 1 : 3)
-            .padding()
     }
 }
 

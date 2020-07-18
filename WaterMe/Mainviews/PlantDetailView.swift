@@ -174,11 +174,11 @@ struct PlantDetailView: View {
                                         self.editLoggedWateringDates.toggle()
                                     }
                                 })
-                                .padding(EdgeInsets(top: 18, leading: 15, bottom: 18, trailing: 15))
+                                .padding(EdgeInsets(top: 18, leading: 25, bottom: 18, trailing: 25))
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                                         .foregroundColor(Color(.tertiarySystemBackground))
-                                        .padding(12)
+                                        .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
                                 )
                             } else {
                                 VerticalTimeLine(dates: self.plant.datesWatered)
@@ -201,8 +201,10 @@ struct PlantDetailView: View {
                         self.showingImagePicker.toggle()
                     }),
                     .default(Text("Edit logged watering dates"), action: {
-                        withAnimation(.linear(duration: 0.3)) {
-                            self.editLoggedWateringDates.toggle()
+                        if self.plant.datesWatered.count > 0 {
+                            withAnimation(.linear(duration: 0.3)) {
+                                self.editLoggedWateringDates.toggle()
+                            }
                         }
                     }),
                     .destructive(Text("Delete"), action: {

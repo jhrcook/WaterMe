@@ -18,19 +18,14 @@ struct MakeItRainButtonStyle: ButtonStyle {
     
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding(.all, 20)
             .foregroundColor(activated ? Color.white : colorScheme == .light ? Color.white : Color.black)
-//            .foregroundColor(configuration.isPressed ? Color.white.opacity(0.8) : Color.white)
-            .background(
-                Circle()
-                    .foregroundColor(activated ? Color.blue : colorScheme == .light ? Color.black.opacity(0.5) : Color.white.opacity(0.8))
-            )
+            .background(activated ? Color.blue : colorScheme == .light ? Color.black.opacity(0.5) : Color.white.opacity(0.8))
+            .clipShape(Circle())
             .shadow(color: Color.black.opacity(0.5),
                     radius: configuration.isPressed ? 1 : 3,
                     x: configuration.isPressed ? 1 : 3,
                     y: configuration.isPressed ? 1 : 3)
             .animation(.linear(duration: 0.1))
-            .padding()
     }
 }
 
@@ -48,6 +43,7 @@ struct MakeItRainButton: View {
                 Image(systemName: "cloud.rain")
             }
             .font(.title)
+            .padding(20)
         }
         .buttonStyle(MakeItRainButtonStyle(activated: $activated, colorScheme: colorScheme))
     }

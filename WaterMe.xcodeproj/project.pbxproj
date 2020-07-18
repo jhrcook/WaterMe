@@ -16,6 +16,8 @@
 		841DB9F224B5F0F10048A5B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841DB9F124B5F0F10048A5B7 /* Preview Assets.xcassets */; };
 		841DB9F524B5F0F10048A5B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841DB9F324B5F0F10048A5B7 /* LaunchScreen.storyboard */; };
 		841DB9FF24B5F13E0048A5B7 /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DB9FE24B5F13E0048A5B7 /* Garden.swift */; };
+		843BA7BE24C32BB700D85EDC /* ChangePlantOrderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA7BD24C32BB700D85EDC /* ChangePlantOrderButton.swift */; };
+		843BA7C024C3477900D85EDC /* PlantOrderingOptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BA7BF24C3477900D85EDC /* PlantOrderingOptionButton.swift */; };
 		843EBEE224B7BA7E0021323A /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE124B7BA7E0021323A /* Plant.swift */; };
 		843EBEE424B7C6370021323A /* BigGreenFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */; };
 		843EBEE624B7C85C0021323A /* MakeNewPlantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */; };
@@ -44,6 +46,8 @@
 		841DB9F424B5F0F10048A5B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		841DB9F624B5F0F10048A5B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		841DB9FE24B5F13E0048A5B7 /* Garden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Garden.swift; sourceTree = "<group>"; };
+		843BA7BD24C32BB700D85EDC /* ChangePlantOrderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangePlantOrderButton.swift; path = WaterMe/Buttons/ChangePlantOrderButton.swift; sourceTree = SOURCE_ROOT; };
+		843BA7BF24C3477900D85EDC /* PlantOrderingOptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlantOrderingOptionButton.swift; path = WaterMe/Buttons/PlantOrderingOptionButton.swift; sourceTree = SOURCE_ROOT; };
 		843EBEE124B7BA7E0021323A /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
 		843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigGreenFloatingButton.swift; sourceTree = "<group>"; };
 		843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeNewPlantView.swift; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 				8470644024C1D1B600BC53FC /* MakeItRainButton.swift */,
 				843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */,
 				8470643E24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift */,
+				843BA7BD24C32BB700D85EDC /* ChangePlantOrderButton.swift */,
+				843BA7BF24C3477900D85EDC /* PlantOrderingOptionButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -261,9 +267,11 @@
 				8450E5DC24B8A14400795CA3 /* PlantDetailView.swift in Sources */,
 				8478892E24BF40CD001ABE3C /* RowOfPlantCellViews.swift in Sources */,
 				843EBEE424B7C6370021323A /* BigGreenFloatingButton.swift in Sources */,
+				843BA7C024C3477900D85EDC /* PlantOrderingOptionButton.swift in Sources */,
 				84E8144824B9FB79006B9C2E /* ImagePicker.swift in Sources */,
 				841DB9ED24B5F0EF0048A5B7 /* ContentView.swift in Sources */,
 				8470643F24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift in Sources */,
+				843BA7BE24C32BB700D85EDC /* ChangePlantOrderButton.swift in Sources */,
 				840AA44324B904790017886D /* WaterMeButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
