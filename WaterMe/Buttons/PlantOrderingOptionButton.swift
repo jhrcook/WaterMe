@@ -24,7 +24,7 @@ struct PlantOrderingOptionButtonStyle: ButtonStyle {
                     radius: configuration.isPressed ? 1 : 3,
                     x: configuration.isPressed ? 1 : 3,
                     y: configuration.isPressed ? 1 : 3)
-            .animation(.linear(duration: 0.05))
+//            .animation(.linear(duration: 0.05))
     }
 }
 

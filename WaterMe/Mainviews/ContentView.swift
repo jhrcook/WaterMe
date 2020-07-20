@@ -1,18 +1,18 @@
  //
-//  ContentView.swift
-//  WaterMe
-//
-//  Created by Joshua on 7/8/20.
-//  Copyright © 2020 Joshua Cook. All rights reserved.
-//
-
-import SwiftUI
-
-/// The spacing between cells and rows.
-fileprivate let cellSpacing: CGFloat = 5
-
-
-struct ContentView: View {
+ //  ContentView.swift
+ //  WaterMe
+ //
+ //  Created by Joshua on 7/8/20.
+ //  Copyright © 2020 Joshua Cook. All rights reserved.
+ //
+ 
+ import SwiftUI
+ 
+ /// The spacing between cells and rows.
+ fileprivate let cellSpacing: CGFloat = 5
+ 
+ 
+ struct ContentView: View {
     
     @State private var showNewPlantView = false
     @ObservedObject var garden = Garden()
@@ -61,29 +61,29 @@ struct ContentView: View {
                     HStack {
                         Spacer()
                         VStack(alignment: .trailing) {
-                            PlantOrderingOptionButton(orderOption: .alphabetically, colorScheme: self.colorScheme, action: {})
-                                .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
-                                .animation(Animation.easeInOut(duration: 0.3).delay(0.2))
-
-                            PlantOrderingOptionButton(orderOption: .lastWatered, colorScheme: self.colorScheme, action: {})
-                                .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
-                                .animation(Animation.easeInOut(duration: 0.3).delay(0.1))
+                            PlantOrderingOptionButton(orderOption: .alphabetically, colorScheme: self.colorScheme) {
+                                self.garden.ordering = .alphabetically
+                                self.showOrderingOptions = false
+                            }
+                            .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
+                            .animation(Animation.easeInOut(duration: 0.3).delay(0.2))
                             
-                            PlantOrderingOptionButton(orderOption: .frequencyOfWatering, colorScheme: self.colorScheme, action: {})
-                                .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
-                                .animation(.easeInOut(duration: 0.3))
+                            PlantOrderingOptionButton(orderOption: .lastWatered, colorScheme: self.colorScheme) {
+                                self.garden.ordering = .lastWatered
+                                self.showOrderingOptions = false
+                            }
+                            .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
+                            .animation(Animation.easeInOut(duration: 0.3).delay(0.1))
+                            
+                            PlantOrderingOptionButton(orderOption: .frequencyOfWatering, colorScheme: self.colorScheme)  {
+                               self.garden.ordering = .frequencyOfWatering
+                               self.showOrderingOptions = false
+                           }
+                            .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
+                            .animation(.easeInOut(duration: 0.3))
                             
                             ChangePlantOrderButton(showOptions: self.$showOrderingOptions, colorScheme: self.colorScheme) {
                                 self.showOrderingOptions.toggle()
-                                print("button tappy tap!")
-    //                            switch self.garden.ordering {
-    //                            case .alphabetically:
-    //                                self.garden.ordering = .lastWatered
-    //                            case .lastWatered:
-    //                                self.garden.ordering = .frequencyOfWatering
-    //                            case .frequencyOfWatering:
-    //                                self.garden.ordering = .alphabetically
-    //                            }
                             }
                             .animation(.linear(duration: 0.3))
                             .offset(x: self.isInMultiselectMode ? 100 : 0, y: 0)
@@ -94,6 +94,9 @@ struct ContentView: View {
                     HStack {
                         MakeItRainButton(activated: $isInMultiselectMode) {
                             self.isInMultiselectMode.toggle()
+                            
+                            if self.showOrderingOptions { self.showOrderingOptions = false }
+                            
                             if !self.isInMultiselectMode {
                                 for selectedPlant in self.multiselectedPlants {
                                     for i in 0..<self.garden.plants.count {
@@ -116,6 +119,7 @@ struct ContentView: View {
                                 self.isInMultiselectMode = false
                                 self.multiselectedPlants = [Plant]()
                             } else {
+                                self.showOrderingOptions = false
                                 self.showNewPlantView.toggle()
                             }
                         }
@@ -141,10 +145,10 @@ struct ContentView: View {
         x -= (CGFloat(self.numberOfPlantsPerRow - 1) * cellSpacing)
         return x
     }
-}
-
-
-struct ContentView_Previews: PreviewProvider {
+ }
+ 
+ 
+ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
@@ -160,20 +164,20 @@ struct ContentView_Previews: PreviewProvider {
                 .environment(\.colorScheme, .dark)
                 .previewDisplayName("iPhone SE (dark mode)")
             
-//            ContentView()
-//                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
-//                .environment(\.colorScheme, .dark)
-//                .previewDisplayName("iPhone SE (dark mode)")
-//
-//            ContentView()
-//                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
-//                .environment(\.sizeCategory, .accessibilityExtraLarge)
-//                .previewDisplayName("iPhone 11 (large text)")
-//
-//            ContentView()
-//                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
-//                .environment(\.sizeCategory, .accessibilityExtraLarge)
-//                .previewDisplayName("iPhone SE (large text)")
+            //            ContentView()
+            //                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
+            //                .environment(\.colorScheme, .dark)
+            //                .previewDisplayName("iPhone SE (dark mode)")
+            //
+            //            ContentView()
+            //                .previewDevice(PreviewDevice(stringLiteral: "iPhone 11"))
+            //                .environment(\.sizeCategory, .accessibilityExtraLarge)
+            //                .previewDisplayName("iPhone 11 (large text)")
+            //
+            //            ContentView()
+            //                .previewDevice(PreviewDevice(stringLiteral: "iPhone SE (2nd generation)"))
+            //                .environment(\.sizeCategory, .accessibilityExtraLarge)
+            //                .previewDisplayName("iPhone SE (large text)")
         }
     }
-}
+ }
