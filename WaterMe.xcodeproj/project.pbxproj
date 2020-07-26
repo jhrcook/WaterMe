@@ -22,6 +22,8 @@
 		843EBEE424B7C6370021323A /* BigGreenFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */; };
 		843EBEE624B7C85C0021323A /* MakeNewPlantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */; };
 		8450E5DC24B8A14400795CA3 /* PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450E5DB24B8A14400795CA3 /* PlantDetailView.swift */; };
+		8469514C24CDC8F700512AE8 /* WaterNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469514B24CDC8F700512AE8 /* WaterNotification.swift */; };
+		8469514E24CDCECF00512AE8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469514D24CDCECF00512AE8 /* SettingsView.swift */; };
 		8470643F24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470643E24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift */; };
 		8470644124C1D1B600BC53FC /* MakeItRainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470644024C1D1B600BC53FC /* MakeItRainButton.swift */; };
 		8478646624BF3AFB00674EA9 /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478646524BF3AFB00674EA9 /* Color-extension.swift */; };
@@ -52,6 +54,8 @@
 		843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigGreenFloatingButton.swift; sourceTree = "<group>"; };
 		843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeNewPlantView.swift; sourceTree = "<group>"; };
 		8450E5DB24B8A14400795CA3 /* PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailView.swift; sourceTree = "<group>"; };
+		8469514B24CDC8F700512AE8 /* WaterNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterNotification.swift; sourceTree = "<group>"; };
+		8469514D24CDCECF00512AE8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		8470643E24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BigGreenSwitchingToRedFloatingButton.swift; path = WaterMe/Buttons/BigGreenSwitchingToRedFloatingButton.swift; sourceTree = SOURCE_ROOT; };
 		8470644024C1D1B600BC53FC /* MakeItRainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MakeItRainButton.swift; path = WaterMe/Buttons/MakeItRainButton.swift; sourceTree = SOURCE_ROOT; };
 		8478646524BF3AFB00674EA9 /* Color-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-extension.swift"; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			children = (
 				843EBEE124B7BA7E0021323A /* Plant.swift */,
 				841DB9FE24B5F13E0048A5B7 /* Garden.swift */,
+				8469514B24CDC8F700512AE8 /* WaterNotification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -157,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				841DB9EC24B5F0EF0048A5B7 /* ContentView.swift */,
+				8469514D24CDCECF00512AE8 /* SettingsView.swift */,
 				8450E5DB24B8A14400795CA3 /* PlantDetailView.swift */,
 				843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */,
 			);
@@ -260,12 +266,14 @@
 				8470644124C1D1B600BC53FC /* MakeItRainButton.swift in Sources */,
 				841DB9E924B5F0EF0048A5B7 /* AppDelegate.swift in Sources */,
 				843EBEE224B7BA7E0021323A /* Plant.swift in Sources */,
+				8469514E24CDCECF00512AE8 /* SettingsView.swift in Sources */,
 				847C37A824BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift in Sources */,
 				8478892C24BF4008001ABE3C /* PlantCellView.swift in Sources */,
 				841DB9EB24B5F0EF0048A5B7 /* SceneDelegate.swift in Sources */,
 				84E8144A24BA000C006B9C2E /* utilities.swift in Sources */,
 				8450E5DC24B8A14400795CA3 /* PlantDetailView.swift in Sources */,
 				8478892E24BF40CD001ABE3C /* RowOfPlantCellViews.swift in Sources */,
+				8469514C24CDC8F700512AE8 /* WaterNotification.swift in Sources */,
 				843EBEE424B7C6370021323A /* BigGreenFloatingButton.swift in Sources */,
 				843BA7C024C3477900D85EDC /* PlantOrderingOptionButton.swift in Sources */,
 				84E8144824B9FB79006B9C2E /* ImagePicker.swift in Sources */,

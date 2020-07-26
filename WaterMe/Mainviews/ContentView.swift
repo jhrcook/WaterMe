@@ -14,7 +14,6 @@
  
  struct ContentView: View {
     
-    @State private var showNewPlantView = false
     @ObservedObject var garden = Garden()
     
     @Environment(\.colorScheme) var colorScheme
@@ -27,10 +26,14 @@
         }
     }
     
+    @State private var showNewPlantView = false
+    
     @State private var isInMultiselectMode = false
     @State private var multiselectedPlants = [Plant]()
     
     @State private var showOrderingOptions = false
+    
+    @State private var showSettings = false
     
     var body: some View {
         NavigationView {
@@ -52,7 +55,21 @@
                                     .frame(width: geo.size.width, height: self.calculateHeightForCell(from: geo.size.width, withCellSpacing: cellSpacing))
                             }
                         }
-                    }.frame(maxHeight: .infinity)
+                        Button(action: {
+                            self.showSettings.toggle()
+                        }) {
+                            HStack(spacing: 5) {
+                                Spacer()
+                                Image(systemName: "gear")
+                                Text("Settings")
+                                Spacer()
+                            }
+                            .foregroundColor(self.colorScheme == .light ? .black : .white)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .frame(maxHeight: .infinity)
+                    .sheet(isPresented: self.$showSettings, content: { SettingsView() })
                 }
                 
                 VStack {
@@ -76,9 +93,9 @@
                             .animation(Animation.easeInOut(duration: 0.3).delay(0.1))
                             
                             PlantOrderingOptionButton(orderOption: .frequencyOfWatering, colorScheme: self.colorScheme)  {
-                               self.garden.ordering = .frequencyOfWatering
-                               self.showOrderingOptions = false
-                           }
+                                self.garden.ordering = .frequencyOfWatering
+                                self.showOrderingOptions = false
+                            }
                             .offset(x: self.showOrderingOptions ? 0 : 200, y: 0)
                             .animation(.easeInOut(duration: 0.3))
                             

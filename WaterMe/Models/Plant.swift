@@ -79,6 +79,10 @@ struct Plant: Identifiable, Codable {
     }
     
     
+    /// The watering notification.
+    var wateringNotification: WaterNotification? = nil
+    
+    
     init() {}
     
     init(name: String, datesWatered: [Date]) {
@@ -169,5 +173,19 @@ struct Plant: Identifiable, Codable {
         } else {
             return 0
         }
+    }
+    
+    
+    
+}
+
+
+
+// Watering Notifications
+
+extension Plant {
+    /// Schedule a watering notification based off of the `wateringNotification` property.
+    func scheduleNotification() {
+        
     }
 }
