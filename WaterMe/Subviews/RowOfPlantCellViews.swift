@@ -19,7 +19,6 @@ struct RowOfPlantCellViews: View {
         plantsFor(row: rowIndex)
     }
     
-    
     @State private var selectedPlant = Plant()
     @State private var showPlantInformation = false
     

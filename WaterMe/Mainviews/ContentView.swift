@@ -85,8 +85,8 @@
                             ChangePlantOrderButton(showOptions: self.$showOrderingOptions, colorScheme: self.colorScheme) {
                                 self.showOrderingOptions.toggle()
                             }
-                            .animation(.linear(duration: 0.3))
-                            .offset(x: self.isInMultiselectMode ? 100 : 0, y: 0)
+                            .animation(.linear(duration: 0.5))
+                            .offset(x: self.isInMultiselectMode ? 50 : 0, y: 0)
                         }
                         .padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
                     }
