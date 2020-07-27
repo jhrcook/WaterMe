@@ -10,8 +10,8 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: "snoozeDuration"))
-    @State private var timeForNotifications: Date = UserDefaults.standard.object(forKey: "timeForNotifications") as? Date ?? Date()
+    @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: UserDefaultKeys.snoozeDuration))
+    @State private var timeForNotifications: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.timeForNotifications) as? Date ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     
     var body: some View {
         NavigationView {
@@ -19,7 +19,7 @@ struct SettingsView: View {
                 
                 Section(header: HStack{
                     Image(systemName: "bell")
-                    Text("NOTIFICATIONS")
+                    Text("Notifications")
                 }) {
                     HStack {
                         Text("Snooze duration")
@@ -30,24 +30,15 @@ struct SettingsView: View {
                         Text("days")
                     }
                     
-                    VStack() {
-                        HStack {
-                            Text("Time of day to receive notifications")
-                            Spacer()
-                        }
-                        
-                        DatePicker("Select a time to receive notifications.",
-                                   selection: $timeForNotifications,
-                                   displayedComponents: .hourAndMinute)
-                        .datePickerStyle(WheelDatePickerStyle())
-                        .labelsHidden()
-                    }
+                    DatePicker("Time of day to receive notifications",
+                               selection: $timeForNotifications,
+                               displayedComponents: .hourAndMinute)
                 }
                 
                 
                 Section(header: HStack {
                     Image(systemName: "info.circle")
-                    Text("ABOUT")
+                    Text("About")
                 }) {
                     HStack {
                         Text("Version")
@@ -64,9 +55,15 @@ struct SettingsView: View {
                 
             }
             .navigationBarTitle("Settings")
+            .onDisappear {
+                print("Setting UserDefault values.")
+                UserDefaults.standard.set(self.snoozeDuration, forKey: UserDefaultKeys.snoozeDuration)
+                UserDefaults.standard.set(self.timeForNotifications, forKey: UserDefaultKeys.timeForNotifications)
+            }
         }
     }
 }
+
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
