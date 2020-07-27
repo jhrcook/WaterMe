@@ -145,10 +145,9 @@ struct PlantDetailView: View {
                             
                             Spacer()
                             
-                            Button("Set up watering reminders") {
+                            Button(self.plant.wateringNotification?.formattedNotificationSummary ?? "Set up watering reminders") {
                                 self.showNotificationEditingView.toggle()
                             }
-                            .disabled(false)
                             
                             Spacer()
                         }

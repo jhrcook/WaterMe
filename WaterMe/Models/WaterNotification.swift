@@ -38,6 +38,25 @@ struct WaterNotification: Codable {
     /// Whether a notification has been set or not.
     var notificationHasBeenScheduled: Bool = false
     
+    /// A formatted summary of the notification.
+    var formattedNotificationSummary: String {
+        let prefix = "Reminder scheduled for every"
+        if self.type == .weekday {
+            if weekdayFrequency! == 1 {
+                return "\(prefix) \(weekday!.rawValue)"
+            } else if weekdayFrequency! == 2 {
+                 return "\(prefix) other \(weekday!.rawValue)"
+            } else {
+                return "\(prefix) two \(weekday!.rawValue)s"
+            }
+        } else {
+            if numberOfDays! == 1 {
+                return "\(prefix) day"
+            } else {
+                return "\(prefix) \(numberOfDays!) days"
+            }
+        }
+    }
     
     /// Create a notification to be scheduled every set numbrer of days.
     /// - Parameter numberOfDays: The number of ways between reminders.
