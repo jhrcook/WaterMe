@@ -64,6 +64,9 @@ struct PlantDetailView: View {
         return "Never watered!"
     }
     
+    @State private var showNotificationEditingView = false
+    
+    
     init(garden: Garden, plant: Plant) {
         self.garden = garden
         _plant = State(initialValue: plant)
@@ -143,15 +146,18 @@ struct PlantDetailView: View {
                             Spacer()
                             
                             Button("Set up watering reminders") {
-                                print("Still need to set this feature up...")
+                                self.showNotificationEditingView.toggle()
                             }
-                            .disabled(true)
+                            .disabled(false)
                             
                             Spacer()
                         }
                         .frame(width: geo.size.width, height: (geo.size.height / 2) - self.offsetToShowShadowOnImage + 5)
                         .background(BackgroundView())
                         .padding(.top, self.offsetToShowShadowOnImage)
+                        .sheet(isPresented: self.$showNotificationEditingView) {
+                            EditNotificationView(plant: self.$plant, garden: self.garden)
+                        }
                         
                         VStack {
                             Spacer(minLength: 30)
@@ -227,8 +233,7 @@ struct PlantDetailView: View {
     
     
     func updatePlant() {
-        let idx = garden.plants.firstIndex(where: { $0.id == plant.id })!
-        garden.plants[idx] = plant
+        garden.update(self.plant)
         selectableDataDates = SelectableData(dates: plant.datesWatered)
     }
     

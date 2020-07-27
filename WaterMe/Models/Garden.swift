@@ -148,4 +148,10 @@ class Garden: ObservableObject {
         dates.sort()
         return dates
     }
+    
+    
+    func update(_ plant: Plant) {
+        let idx = self.plants.firstIndex(where: { $0.id == plant.id })!
+        self.plants[idx] = plant
+    }
 }
