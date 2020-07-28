@@ -139,6 +139,7 @@ struct PlantDetailView: View {
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
                                 self.plant.addNewDateLastWatered(to: Date())
+                                self.plant.scheduleNotification()
                                 self.updatePlant()
                             }
                             .disabled(self.plant.wasWateredToday)

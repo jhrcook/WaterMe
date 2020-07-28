@@ -186,6 +186,9 @@ struct Plant: Identifiable, Codable {
 extension Plant {
     /// Schedule a watering notification based off of the `wateringNotification` property.
     func scheduleNotification() {
-        
+        if let notification = wateringNotification {
+            print("Schedule notification for plant \(name)")
+            notification.scheduleNotificationFor(self)
+        }
     }
 }

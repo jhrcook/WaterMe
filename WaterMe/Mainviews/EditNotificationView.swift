@@ -16,7 +16,7 @@ struct EditNotificationView: View {
     @State var plantHasNotificationsSet: Bool
     @State private var selectedNotificationType: WaterNotificationType
     
-    @State private var dayOfTheWeek: Weekday
+    @State private var dayOfTheWeek: Date.Weekday
     @State private var weekdayFrequency: Int
     @State private var numberOfDaysPerNotification: Int
     
@@ -52,7 +52,7 @@ struct EditNotificationView: View {
                         if selectedNotificationType == .weekday {
                             // Picker for using either weekday or number of days.
                             Picker(selection: $dayOfTheWeek, label: Text("Day")) {
-                                ForEach(Weekday.allCases, id: \.self) { day in
+                                ForEach(Date.Weekday.allCases, id: \.self) { day in
                                     Text(day.rawValue)
                                 }
                             }
@@ -91,8 +91,9 @@ struct EditNotificationView: View {
                     self.plant.wateringNotification = notification
                 }
                 
+                self.plant.scheduleNotification()
+                
                 self.garden.update(self.plant)
-//                self.garden.savePlants()
             }
         }
     }

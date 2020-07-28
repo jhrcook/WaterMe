@@ -13,6 +13,8 @@ struct SettingsView: View {
     @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: UserDefaultKeys.snoozeDuration))
     @State private var timeForNotifications: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.timeForNotifications) as? Date ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     
+    @State private var removeAllNotificationConfirmation = false
+    
     var body: some View {
         NavigationView {
             Form {
@@ -33,6 +35,29 @@ struct SettingsView: View {
                     DatePicker("Time of day to receive notifications",
                                selection: $timeForNotifications,
                                displayedComponents: .hourAndMinute)
+                    
+                    Button(action: {
+                        self.removeAllNotificationConfirmation.toggle()
+                        // Add double check....
+//                        var nc = GardenNotificationCenter()
+//                        nc.clearAllNotifications()
+                    }) {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "bell.slash").foregroundColor(.red)
+                            Text("Remove all notifications").foregroundColor(.red)
+                            Spacer()
+                        }
+                    }
+                }
+                .alert(isPresented: $removeAllNotificationConfirmation) {
+                    Alert(title: Text("Remove all notifications?"),
+                          message: Text("Are you sure you want to remove all scheduled notifications?"),
+                          primaryButton: .default(Text("No")),
+                          secondaryButton: .destructive(Text("Remove")) {
+                            var nc = GardenNotificationCenter()
+                            nc.clearAllNotifications()
+                        })
                 }
                 
                 
@@ -57,8 +82,11 @@ struct SettingsView: View {
             .navigationBarTitle("Settings")
             .onDisappear {
                 print("Setting UserDefault values.")
+                
                 UserDefaults.standard.set(self.snoozeDuration, forKey: UserDefaultKeys.snoozeDuration)
-                UserDefaults.standard.set(self.timeForNotifications, forKey: UserDefaultKeys.timeForNotifications)
+                
+                let hour = Calendar.current.component(.hour, from: self.timeForNotifications)
+                UserDefaults.standard.set(hour, forKey: UserDefaultKeys.timeForNotifications)
             }
         }
     }

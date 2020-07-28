@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 
 enum WaterNotificationType: String, Codable {
@@ -15,9 +16,7 @@ enum WaterNotificationType: String, Codable {
 }
 
 
-enum Weekday: String, Codable, CaseIterable {
-    case Saturday, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday
-}
+
 
 
 struct WaterNotification: Codable {
@@ -31,12 +30,9 @@ struct WaterNotification: Codable {
     var numberOfDays: Int?
     
     /// The day of the week in which to send reminders.
-    var weekday: Weekday?
+    var weekday: Date.Weekday?
     /// How frequently to set reminders for weekdays.
     var weekdayFrequency: Int?
-    
-    /// Whether a notification has been set or not.
-    var notificationHasBeenScheduled: Bool = false
     
     /// A formatted summary of the notification.
     var formattedNotificationSummary: String {
@@ -58,6 +54,36 @@ struct WaterNotification: Codable {
         }
     }
     
+    var dateOfLastSetNotification: Date = Date()
+    
+    var dateOfNextNotification: Date {
+        if type == .numeric {
+            if let numberOfDays = numberOfDays {
+                var date = Calendar.current.date(byAdding: .day, value: numberOfDays, to: dateOfLastSetNotification)!
+                let hour: Int = UserDefaults.standard.integer(forKey: UserDefaultKeys.timeForNotifications)
+                date = Calendar.current.date(bySettingHour: hour, minute: 00, second: 00, of: date)!
+                return date
+            } else {
+                fatalError("No `numberOfDays` value for a `.numeric` notification.")
+            }
+        } else {
+            if let weekday = weekday, let weekdayFrequency = weekdayFrequency {
+                var nextDate = Date()
+                for _ in 0..<weekdayFrequency {
+                    nextDate = nextDate.next(weekday, considerToday: false)
+                }
+                return nextDate
+            } else {
+                fatalError("No `weekday` or `weekdayFrequency` value for a `.weekday` notification.")
+            }
+        }
+    }
+    
+    var notificationTimeInterval: TimeInterval {
+        let dateDuration = Calendar.current.dateComponents([.second], from: Date(), to: dateOfNextNotification)
+        return Double(dateDuration.second!)
+    }
+    
     /// Create a notification to be scheduled every set numbrer of days.
     /// - Parameter numberOfDays: The number of ways between reminders.
     init(numberOfDays: Int) {
@@ -74,12 +100,19 @@ struct WaterNotification: Codable {
     /// - Parameters:
     ///   - weekday: The day of the week.
     ///   - weekdayFrequency: Frequency of weekly notifications.
-    init(weekday: Weekday, weekdayFrequency: Int) {
+    init(weekday: Date.Weekday, weekdayFrequency: Int) {
         self.type = .weekday
         
         self.weekday = weekday
         self.weekdayFrequency = weekdayFrequency
         
         self.numberOfDays = nil
+    }
+    
+    /// Add the plant to the list of plants for the notification for the correct date.
+    /// - Parameter plant: Plant for reminder.
+    func scheduleNotificationFor(_ plant: Plant) {
+        var nc = GardenNotificationCenter()
+        nc.addPlant(plant, toDate: dateOfNextNotification)
     }
 }
