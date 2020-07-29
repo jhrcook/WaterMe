@@ -112,7 +112,7 @@ struct WaterNotification: Codable {
     /// Add the plant to the list of plants for the notification for the correct date.
     /// - Parameter plant: Plant for reminder.
     func scheduleNotificationFor(_ plant: Plant) {
-        var nc = GardenNotificationCenter()
-        nc.addPlant(plant, toDate: dateOfNextNotification)
+        var gnc = GardenNotificationCenter()
+        gnc.add(plant, toDate: dateOfNextNotification)
     }
 }

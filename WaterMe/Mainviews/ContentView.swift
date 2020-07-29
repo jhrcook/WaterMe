@@ -67,6 +67,24 @@
                             .foregroundColor(self.colorScheme == .light ? .black : .white)
                         }
                         .buttonStyle(PlainButtonStyle())
+                        
+                        Button(action: {
+                            print("All notifications:")
+                            let nc = GardenNotificationCenter()
+                            for notification in nc.scheduledNotifications {
+                                print("\(notification.id): \(notification.notificationTitle)")
+                            }
+                        }) {
+                            HStack(spacing: 5) {
+                                Spacer()
+                                Image(systemName: "bell.circle")
+                                Text("Print Notifs")
+                                Spacer()
+                            }
+                            .foregroundColor(self.colorScheme == .light ? .black : .white)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
                     }
                     .frame(maxHeight: .infinity)
                     .sheet(isPresented: self.$showSettings, content: { SettingsView() })

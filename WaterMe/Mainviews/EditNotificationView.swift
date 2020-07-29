@@ -82,6 +82,21 @@ struct EditNotificationView: View {
             }
             .navigationBarTitle("Water reminders")
             .onDisappear {
+                
+                // Remove old notification.
+                if self.plant.wateringNotification != nil {
+                    var gnc = GardenNotificationCenter()
+                    gnc.remove(self.plant)
+                }
+                
+                // Set the notification to `nil` if the switch is Off.
+                if !self.plantHasNotificationsSet {
+                    self.plant.wateringNotification = nil
+                    self.garden.update(self.plant)
+                    return
+                }
+                
+                // Make new notification.
                 switch self.selectedNotificationType {
                 case .weekday:
                     let notification = WaterNotification(weekday: self.dayOfTheWeek, weekdayFrequency: self.weekdayFrequency)
@@ -91,8 +106,8 @@ struct EditNotificationView: View {
                     self.plant.wateringNotification = notification
                 }
                 
+                // Schedule the notification and update garden.
                 self.plant.scheduleNotification()
-                
                 self.garden.update(self.plant)
             }
         }
