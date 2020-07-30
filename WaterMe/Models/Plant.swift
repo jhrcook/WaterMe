@@ -16,7 +16,7 @@ enum PlantVersion: Int, Codable {
 struct Plant: Identifiable, Codable {
     
     let version: PlantVersion = .one
-    let id = UUID()
+    let id: UUID
 
     static let defaultImageNames: [String] = {
         var a = [String]()
@@ -79,14 +79,22 @@ struct Plant: Identifiable, Codable {
     }
     
     
-    init() {}
+    /// The watering notification.
+    var wateringNotification: WaterNotification? = nil
+    
+    
+    init() {
+        id = UUID()
+    }
     
     init(name: String, datesWatered: [Date]) {
+        id = UUID()
         self.name = name
         self.datesWatered = datesWatered
     }
     
     init(name: String) {
+        id = UUID()
         self.name = name
     }
     
@@ -168,6 +176,23 @@ struct Plant: Identifiable, Codable {
             return Float(days) / Float(datesWatered.count)
         } else {
             return 0
+        }
+    }
+    
+    
+    
+}
+
+
+
+// Watering Notifications
+
+extension Plant {
+    /// Schedule a watering notification based off of the `wateringNotification` property.
+    func scheduleNotification() {
+        if let notification = wateringNotification {
+            print("Schedule notification for plant \(name)")
+            notification.scheduleNotificationFor(self)
         }
     }
 }

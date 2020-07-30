@@ -25,8 +25,7 @@ class Garden: ObservableObject {
     
     let version: GardenVersion = .one
     
-    static private let plantsArrayKey = "plants"
-    static private let inTesting = true
+    static private let inTesting = false
     
     @Published var plants = [Plant]() {
         didSet {
@@ -54,7 +53,7 @@ class Garden: ObservableObject {
             return
         }
         
-        if let encodedPlants = UserDefaults.standard.data(forKey: Garden.plantsArrayKey) {
+        if let encodedPlants = UserDefaults.standard.data(forKey: UserDefaultKeys.plantsArrayKey) {
             let decoder = JSONDecoder()
             if let decodedPlants = try? decoder.decode([Plant].self, from: encodedPlants) {
                 self.plants = decodedPlants
@@ -73,7 +72,7 @@ class Garden: ObservableObject {
         print("Saving plants.")
         let encoder = JSONEncoder()
         if let encodedData  = try? encoder.encode(plants) {
-            UserDefaults.standard.set(encodedData, forKey: Garden.plantsArrayKey)
+            UserDefaults.standard.set(encodedData, forKey: UserDefaultKeys.plantsArrayKey)
         }
     }
     
@@ -147,5 +146,11 @@ class Garden: ObservableObject {
         }
         dates.sort()
         return dates
+    }
+    
+    
+    func update(_ plant: Plant) {
+        let idx = self.plants.firstIndex(where: { $0.id == plant.id })!
+        self.plants[idx] = plant
     }
 }

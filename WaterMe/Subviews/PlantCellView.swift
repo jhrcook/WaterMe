@@ -26,6 +26,23 @@ struct PlantCellView: View {
     @Binding var multiselectMode: Bool
     var isSelected: Bool
     
+    var foregroundColor: Color {
+        if plant.wateringNotification == nil || self.multiselectMode {
+            return .clear
+        } else {
+            return .white
+        }
+    }
+    
+    var notificationImageName: String {
+        if let notification = plant.wateringNotification {
+            if notification.notificationTriggered {
+                return "bell.fill"
+            }
+        }
+        return "bell"
+    }
+    
     var body: some View {
         GeometryReader {  geo in
             ZStack {
@@ -36,18 +53,26 @@ struct PlantCellView: View {
                 
                 HStack{
                     VStack(alignment: .leading, spacing: 5) {
+                        
                         Text(self.plant.name)
                             .font(.headline)
                             .padding(.horizontal, 3)
                             .background(PlantCellTextBackgroundView())
                             .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 0))
-//                        Text(self.plant.formattedDateLastWatered)
+
                         Text(self.plant.formattedDaysSinceLastWatering)
                             .font(.body)
                             .padding(.horizontal, 3)
                             .background(PlantCellTextBackgroundView())
                             .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
+                        
                         Spacer()
+                        
+                        Image(systemName: self.notificationImageName)
+                            .font(.footnote)
+                            .foregroundColor(self.foregroundColor)
+                            .opacity(0.6)
+                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 7, trailing: 0))
                     }
                     Spacer()
                 }

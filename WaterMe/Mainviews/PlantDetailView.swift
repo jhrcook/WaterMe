@@ -64,6 +64,9 @@ struct PlantDetailView: View {
         return "Never watered!"
     }
     
+    @State private var showNotificationEditingView = false
+    
+    
     init(garden: Garden, plant: Plant) {
         self.garden = garden
         _plant = State(initialValue: plant)
@@ -124,7 +127,7 @@ struct PlantDetailView: View {
                                 .background(Color(.tertiarySystemBackground))
                                 .cornerRadius(10)
                             
-                            Text("on \(self.plant.formattedDateLastWatered)")
+                            Text(self.plant.datesWatered.count == 0 ? "" : "on \(self.plant.formattedDateLastWatered)")
                                 .font(.body)
                                 .foregroundColor(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -136,22 +139,25 @@ struct PlantDetailView: View {
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
                                 self.plant.addNewDateLastWatered(to: Date())
+                                self.plant.scheduleNotification()
                                 self.updatePlant()
                             }
                             .disabled(self.plant.wasWateredToday)
                             
                             Spacer()
                             
-                            Button("Set up watering reminders") {
-                                print("Still need to set this feature up...")
+                            Button(self.plant.wateringNotification?.formattedNotificationSummary ?? "Set up watering reminders") {
+                                self.showNotificationEditingView.toggle()
                             }
-                            .disabled(true)
                             
                             Spacer()
                         }
                         .frame(width: geo.size.width, height: (geo.size.height / 2) - self.offsetToShowShadowOnImage + 5)
                         .background(BackgroundView())
                         .padding(.top, self.offsetToShowShadowOnImage)
+                        .sheet(isPresented: self.$showNotificationEditingView) {
+                            EditNotificationView(plant: self.$plant, garden: self.garden)
+                        }
                         
                         VStack {
                             Spacer(minLength: 30)
@@ -164,11 +170,14 @@ struct PlantDetailView: View {
                                     .padding()
                                 
                                 SelectableTableView(selectableData: self.selectableDataDates, deleteAction: {
-                                    withAnimation(.linear(duration: 0.3)) {
+                                    withAnimation(.easeOut(duration: 0.3)) {
                                         self.selectableDataDates.data = self.selectableDataDates.data.filter({ !$0.isSelected })
                                     }
                                     self.plant.datesWatered = self.selectableDataDates.data.map({ $0.date })
                                     self.updatePlant()
+                                    if self.plant.datesWatered.count == 0 {
+                                        self.editLoggedWateringDates = false
+                                    }
                                 }, doneAction: {
                                     withAnimation(.linear(duration: 0.3)) {
                                         self.editLoggedWateringDates.toggle()
@@ -227,8 +236,7 @@ struct PlantDetailView: View {
     
     
     func updatePlant() {
-        let idx = garden.plants.firstIndex(where: { $0.id == plant.id })!
-        garden.plants[idx] = plant
+        garden.update(self.plant)
         selectableDataDates = SelectableData(dates: plant.datesWatered)
     }
     
