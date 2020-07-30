@@ -74,6 +74,7 @@ struct GardenNotificationCenter {
             scheduledNotifications.append(newNotification)
         }
         
+        checkForNotificationsOnTheSameDay()
         save()
     }
     
@@ -87,6 +88,8 @@ struct GardenNotificationCenter {
             }
             return $0
         }
+        
+        checkForNotificationsOnTheSameDay()
         save()
     }
     
@@ -105,6 +108,24 @@ struct GardenNotificationCenter {
         }
         scheduledNotifications = []
         save()
+    }
+    
+    
+    func checkForNotificationsOnTheSameDay() {
+        var uniqueDates = [Date]()
+        for notification in scheduledNotifications {
+            for date in uniqueDates {
+                if notification.isSameDateAs(date) {
+                    continue
+                }
+            }
+            uniqueDates.append(notification.date)
+        }
+        if uniqueDates.count == scheduledNotifications.count {
+            print("(All notifications scheduled on different dates)")
+        } else {
+            print("(Some notifications are scheduled on the same date)")
+        }
     }
     
 }
