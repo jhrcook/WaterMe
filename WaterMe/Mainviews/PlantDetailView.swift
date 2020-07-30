@@ -127,7 +127,7 @@ struct PlantDetailView: View {
                                 .background(Color(.tertiarySystemBackground))
                                 .cornerRadius(10)
                             
-                            Text("on \(self.plant.formattedDateLastWatered)")
+                            Text(self.plant.datesWatered.count == 0 ? "" : "on \(self.plant.formattedDateLastWatered)")
                                 .font(.body)
                                 .foregroundColor(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -170,11 +170,14 @@ struct PlantDetailView: View {
                                     .padding()
                                 
                                 SelectableTableView(selectableData: self.selectableDataDates, deleteAction: {
-                                    withAnimation(.linear(duration: 0.3)) {
+                                    withAnimation(.easeOut(duration: 0.3)) {
                                         self.selectableDataDates.data = self.selectableDataDates.data.filter({ !$0.isSelected })
                                     }
                                     self.plant.datesWatered = self.selectableDataDates.data.map({ $0.date })
                                     self.updatePlant()
+                                    if self.plant.datesWatered.count == 0 {
+                                        self.editLoggedWateringDates = false
+                                    }
                                 }, doneAction: {
                                     withAnimation(.linear(duration: 0.3)) {
                                         self.editLoggedWateringDates.toggle()

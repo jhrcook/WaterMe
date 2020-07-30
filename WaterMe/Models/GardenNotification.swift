@@ -96,7 +96,7 @@ struct GardenNotification: Codable, Identifiable {
 
         let dateDuration = Calendar.current.dateComponents([.second], from: Date(), to: date)
         let timeInterval = Double(dateDuration.second!)
-        
+        print("Notification set for \(timeInterval) seconds.")
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
         
         let request = UNNotificationRequest(identifier: id.uuidString, content: content, trigger: trigger)

@@ -71,6 +71,7 @@ struct GardenNotificationCenter {
         let isSameDate = scheduledNotifications.map { !$0.isSameDateAs(date) }
         if scheduledNotifications.count == 0 || isSameDate.allSatisfy({$0}) {
             let newNotification = GardenNotification(date: date, plant: plant)
+            newNotification.scheduleNotification()
             scheduledNotifications.append(newNotification)
         }
         

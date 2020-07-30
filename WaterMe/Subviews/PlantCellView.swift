@@ -35,7 +35,12 @@ struct PlantCellView: View {
     }
     
     var notificationImageName: String {
-        plant.wateringNotification!.notificationTriggered ? "bell.fill" : "bell"
+        if let notification = plant.wateringNotification {
+            if notification.notificationTriggered {
+                return "bell.fill"
+            }
+        }
+        return "bell"
     }
     
     var body: some View {

@@ -44,7 +44,7 @@ struct RowOfPlantCellViews: View {
                             self.showPlantInformation.toggle()
                         }
                     }) {
-                        PlantCellView(plant: plant, multiselectMode: self.$multiselectMode, isSelected: self.multiselectedPlants.contains(where: {$0.id == plant.id}))  // need to change to binding
+                        PlantCellView(plant: plant, multiselectMode: self.$multiselectMode, isSelected: self.multiselectedPlants.contains(where: {$0.id == plant.id}))
                             .frame(width: self.calculateCellWidth(from: geo.size.width, withCellSpacing: self.cellSpacing), height: geo.size.height)
                     }
                     .buttonStyle(PlainButtonStyle())
