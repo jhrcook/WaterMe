@@ -26,6 +26,18 @@ struct PlantCellView: View {
     @Binding var multiselectMode: Bool
     var isSelected: Bool
     
+    var foregroundColor: Color {
+        if plant.wateringNotification == nil || self.multiselectMode {
+            return .clear
+        } else {
+            return .white
+        }
+    }
+    
+    var notificationImageName: String {
+        plant.wateringNotification!.notificationTriggered ? "bell.fill" : "bell"
+    }
+    
     var body: some View {
         GeometryReader {  geo in
             ZStack {
@@ -50,6 +62,12 @@ struct PlantCellView: View {
                             .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                         
                         Spacer()
+                        
+                        Image(systemName: self.notificationImageName)
+                            .font(.footnote)
+                            .foregroundColor(self.foregroundColor)
+                            .opacity(0.6)
+                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 7, trailing: 0))
                     }
                     Spacer()
                 }

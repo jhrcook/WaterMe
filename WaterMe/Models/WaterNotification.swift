@@ -59,7 +59,7 @@ struct WaterNotification: Codable {
     var dateOfNextNotification: Date {
         if type == .numeric {
             if let numberOfDays = numberOfDays {
-                var date = Calendar.current.date(byAdding: .day, value: numberOfDays - 1, to: dateOfLastSetNotification)!  // REMOVE THE "-1" AFTER TESTING!
+                var date = Calendar.current.date(byAdding: .day, value: numberOfDays, to: dateOfLastSetNotification)!
                 date = setTimeOfDayForDate(date)
                 return date
             } else {
@@ -77,6 +77,10 @@ struct WaterNotification: Codable {
                 fatalError("No `weekday` or `weekdayFrequency` value for a `.weekday` notification.")
             }
         }
+    }
+    
+    var notificationTriggered: Bool {
+        return dateOfNextNotification <= Date()
     }
     
     var notificationTimeInterval: TimeInterval {
@@ -125,7 +129,6 @@ struct WaterNotification: Codable {
         if let notificationDate: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.dateForNotifications) as? Date {
             let hour = Calendar.current.component(.hour, from: notificationDate)
             let minute = Calendar.current.component(.minute, from: notificationDate)
-            print("adjust date to hour \(hour), minute \(minute)")
             return Calendar.current.date(bySettingHour: hour, minute: minute, second: 00, of: date)!
         } else {
             print("Unable to get date from UserDefaults for time of notifications.")
