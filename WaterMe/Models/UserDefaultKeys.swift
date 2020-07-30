@@ -10,7 +10,7 @@ import Foundation
 
 struct UserDefaultKeys {
     static let snoozeDuration = "snoozeDuration"
-    static let timeForNotifications = "timeForNotifications"
+    static let dateForNotifications = "dateForNotifications"
     
     static let plantsArrayKey = "plants"
     

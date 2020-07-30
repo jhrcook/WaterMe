@@ -59,7 +59,7 @@ struct WaterNotification: Codable {
     var dateOfNextNotification: Date {
         if type == .numeric {
             if let numberOfDays = numberOfDays {
-                var date = Calendar.current.date(byAdding: .day, value: numberOfDays, to: dateOfLastSetNotification)!
+                var date = Calendar.current.date(byAdding: .day, value: numberOfDays - 1, to: dateOfLastSetNotification)!  // REMOVE THE "-1" AFTER TESTING!
                 date = setTimeOfDayForDate(date)
                 return date
             } else {
@@ -109,6 +109,7 @@ struct WaterNotification: Codable {
         self.numberOfDays = nil
     }
     
+    
     /// Add the plant to the list of plants for the notification for the correct date.
     /// - Parameter plant: Plant for reminder.
     func scheduleNotificationFor(_ plant: Plant) {
@@ -116,8 +117,19 @@ struct WaterNotification: Codable {
         gnc.add(plant, toDate: dateOfNextNotification)
     }
     
+    
+    /// Adjust the time for a notification to that requested by the user.
+    /// - Parameter date: The date to be adjusted.
+    /// - Returns: A date object with the time set to the hour and minute taken from UserDefaults.
     func setTimeOfDayForDate(_ date: Date) -> Date {
-        let hour: Int = UserDefaults.standard.integer(forKey: UserDefaultKeys.timeForNotifications)
-        return Calendar.current.date(bySettingHour: hour, minute: 00, second: 00, of: date)!
+        if let notificationDate: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.dateForNotifications) as? Date {
+            let hour = Calendar.current.component(.hour, from: notificationDate)
+            let minute = Calendar.current.component(.minute, from: notificationDate)
+            print("adjust date to hour \(hour), minute \(minute)")
+            return Calendar.current.date(bySettingHour: hour, minute: minute, second: 00, of: date)!
+        } else {
+            print("Unable to get date from UserDefaults for time of notifications.")
+            return Calendar.current.date(bySettingHour: 9, minute: 00, second: 00, of: date)!
+        }
     }
 }

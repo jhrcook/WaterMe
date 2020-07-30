@@ -116,16 +116,13 @@ struct GardenNotificationCenter {
         for notification in scheduledNotifications {
             for date in uniqueDates {
                 if notification.isSameDateAs(date) {
-                    continue
+                    print("(Some notifications are scheduled on the same date)")
+                    return
                 }
             }
             uniqueDates.append(notification.date)
         }
-        if uniqueDates.count == scheduledNotifications.count {
-            print("(All notifications scheduled on different dates)")
-        } else {
-            print("(Some notifications are scheduled on the same date)")
-        }
+        print("(All notifications scheduled on different dates)")
     }
     
 }

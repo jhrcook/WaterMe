@@ -13,7 +13,7 @@ struct SettingsView: View {
     @ObservedObject var garden: Garden
     
     @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: UserDefaultKeys.snoozeDuration))
-    @State private var timeForNotifications: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.timeForNotifications) as? Date ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
+    @State private var dateForNotifications: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.dateForNotifications) as? Date ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     
     @State private var cancelExistingNotifications = false
     @State private var removePlantNotifications = false
@@ -36,7 +36,7 @@ struct SettingsView: View {
                     }
                     
                     DatePicker("Time of day to receive notifications",
-                               selection: $timeForNotifications,
+                               selection: $dateForNotifications,
                                displayedComponents: .hourAndMinute)
                     
                     // Cancel scheduled notifications.
@@ -113,11 +113,8 @@ struct SettingsView: View {
             .navigationBarTitle("Settings")
             .onDisappear {
                 print("Setting UserDefault values.")
-                
                 UserDefaults.standard.set(self.snoozeDuration, forKey: UserDefaultKeys.snoozeDuration)
-                
-                let hour = Calendar.current.component(.hour, from: self.timeForNotifications)
-                UserDefaults.standard.set(hour, forKey: UserDefaultKeys.timeForNotifications)
+                UserDefaults.standard.set(self.dateForNotifications, forKey: UserDefaultKeys.dateForNotifications)
             }
         }
     }
