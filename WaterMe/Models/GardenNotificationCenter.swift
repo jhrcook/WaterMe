@@ -12,7 +12,11 @@ import UserNotifications
 
 struct GardenNotificationCenter {
     
-    var scheduledNotifications: [GardenNotification]
+    var scheduledNotifications: [GardenNotification] {
+        didSet {
+            scheduledNotifications = scheduledNotifications.filter { $0.plantIds.count > 0 }
+        }
+    }
     
     init() {
         if let encodedNC = UserDefaults.standard.data(forKey: UserDefaultKeys.gardenNotificationCenterKey) {
@@ -45,7 +49,6 @@ struct GardenNotificationCenter {
         
         // Check all existing notifications.
         scheduledNotifications = scheduledNotifications.map {
-            print($0.id.uuidString)
             if $0.contains(plant) {
                 if $0.isSameDateAs(date) {
                     return $0
@@ -65,8 +68,8 @@ struct GardenNotificationCenter {
         }
         
         // Create a new notification if there is none with the date `date`.
-        let isSameDate = scheduledNotifications.map { $0.isSameDateAs(date) }
-        if scheduledNotifications.count == 0 || !isSameDate.allSatisfy({$0}) {
+        let isSameDate = scheduledNotifications.map { !$0.isSameDateAs(date) }
+        if scheduledNotifications.count == 0 || isSameDate.allSatisfy({$0}) {
             let newNotification = GardenNotification(date: date, plant: plant)
             scheduledNotifications.append(newNotification)
         }
@@ -89,6 +92,7 @@ struct GardenNotificationCenter {
     
     
     func rescheduleAllNotifications() {
+        print("Rescheduling all notifications.")
         for notification in scheduledNotifications {
             notification.scheduleNotification()
         }
@@ -97,7 +101,7 @@ struct GardenNotificationCenter {
     mutating func clearAllNotifications() {
         print("Clearing all notifications.")
         for notification in scheduledNotifications {
-            notification.removeOldNotification()
+            notification.cancelNotification()
         }
         scheduledNotifications = []
         save()

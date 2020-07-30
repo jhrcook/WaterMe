@@ -10,10 +10,13 @@ import SwiftUI
 
 struct SettingsView: View {
     
+    @ObservedObject var garden: Garden
+    
     @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: UserDefaultKeys.snoozeDuration))
     @State private var timeForNotifications: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.timeForNotifications) as? Date ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     
-    @State private var removeAllNotificationConfirmation = false
+    @State private var cancelExistingNotifications = false
+    @State private var removePlantNotifications = false
     
     var body: some View {
         NavigationView {
@@ -36,29 +39,57 @@ struct SettingsView: View {
                                selection: $timeForNotifications,
                                displayedComponents: .hourAndMinute)
                     
+                    // Cancel scheduled notifications.
                     Button(action: {
-                        self.removeAllNotificationConfirmation.toggle()
-                        // Add double check....
-//                        var nc = GardenNotificationCenter()
-//                        nc.clearAllNotifications()
+                        self.cancelExistingNotifications.toggle()
+                    }) {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "pause").foregroundColor(.red)
+                            Text("Pasue notifications").foregroundColor(.red)
+                            Spacer()
+                        }
+                    }
+                    .alert(isPresented: $cancelExistingNotifications) {
+                        Alert(title: Text("Pasue notifications?"),
+                              message: Text("Are you sure you want to cancel all scheduled notifications? They will resume next time the plant is watered."),
+                              primaryButton: .default(Text("No")),
+                              secondaryButton: .destructive(Text("Pause")) {
+                                var nc = GardenNotificationCenter()
+                                nc.clearAllNotifications()
+                            })
+                    }
+                    
+                    // Cancel scheduled notifications and remove notifications from plants.
+                    Button(action: {
+                        self.removePlantNotifications.toggle()
                     }) {
                         HStack {
                             Spacer()
                             Image(systemName: "bell.slash").foregroundColor(.red)
-                            Text("Remove all notifications").foregroundColor(.red)
+                            Text("Remove notifications from plants").foregroundColor(.red)
                             Spacer()
                         }
                     }
+                    .alert(isPresented: $removePlantNotifications) {
+                        Alert(title: Text("Remove notifications?"),
+                              message: Text("Are you sure you want to remove notifications from all plants?"),
+                              primaryButton: .default(Text("No")),
+                              secondaryButton: .destructive(Text("Remove")) {
+                                // Cancel scheduled notifications.
+                                var nc = GardenNotificationCenter()
+                                nc.clearAllNotifications()
+                                
+                                // Remove notifications from plants.
+                                self.garden.plants = self.garden.plants.map { plant in
+                                    var newPlant = plant
+                                    newPlant.wateringNotification = nil
+                                    return newPlant
+                                }
+                            })
+                    }
                 }
-                .alert(isPresented: $removeAllNotificationConfirmation) {
-                    Alert(title: Text("Remove all notifications?"),
-                          message: Text("Are you sure you want to remove all scheduled notifications?"),
-                          primaryButton: .default(Text("No")),
-                          secondaryButton: .destructive(Text("Remove")) {
-                            var nc = GardenNotificationCenter()
-                            nc.clearAllNotifications()
-                        })
-                }
+                
                 
                 
                 Section(header: HStack {
@@ -95,6 +126,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(garden: Garden())
     }
 }

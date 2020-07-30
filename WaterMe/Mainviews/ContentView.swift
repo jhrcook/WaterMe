@@ -72,7 +72,7 @@
                             print("All notifications:")
                             let nc = GardenNotificationCenter()
                             for notification in nc.scheduledNotifications {
-                                print("\(notification.id): \(notification.notificationTitle)")
+                                print("\(notification.id): \(notification.description)")
                             }
                         }) {
                             HStack(spacing: 5) {
@@ -87,7 +87,7 @@
                         
                     }
                     .frame(maxHeight: .infinity)
-                    .sheet(isPresented: self.$showSettings, content: { SettingsView() })
+                    .sheet(isPresented: self.$showSettings, content: { SettingsView(garden: self.garden) })
                 }
                 
                 VStack {

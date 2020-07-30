@@ -11,9 +11,17 @@ import UserNotifications
 
 
 struct GardenNotification: Codable, Identifiable {
+    
     let id: UUID
     let date: Date
-    var plantIds: [UUID] = []
+    
+    var plantIds: [UUID] = [] {
+        didSet {
+            if plantIds.count == 0 {
+                cancelNotification()
+            }
+        }
+    }
     
     var notificationTitle: String {
         if plantIds.count == 1 {
@@ -21,6 +29,10 @@ struct GardenNotification: Codable, Identifiable {
         } else {
             return "You have \(plantIds.count) plants to water"
         }
+    }
+    
+    var description: String {
+        return "number of plants: \(plantIds.count), date: \(date.description)"
     }
     
     init(date: Date) {
@@ -63,7 +75,7 @@ struct GardenNotification: Codable, Identifiable {
     func scheduleNotification() {
         
         if plantIds.count == 0 {
-            removeOldNotification()
+            cancelNotification()
             return
         }
         
@@ -111,8 +123,8 @@ struct GardenNotification: Codable, Identifiable {
     }
     
     
-    func removeOldNotification() {
-        print("Removing notification id \(id.uuidString)")
+    func cancelNotification() {
+        print("Removing pending notification id \(id.uuidString)")
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
     }
     

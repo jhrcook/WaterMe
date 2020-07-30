@@ -16,7 +16,7 @@ enum PlantVersion: Int, Codable {
 struct Plant: Identifiable, Codable {
     
     let version: PlantVersion = .one
-    let id = UUID()
+    let id: UUID
 
     static let defaultImageNames: [String] = {
         var a = [String]()
@@ -83,14 +83,18 @@ struct Plant: Identifiable, Codable {
     var wateringNotification: WaterNotification? = nil
     
     
-    init() {}
+    init() {
+        id = UUID()
+    }
     
     init(name: String, datesWatered: [Date]) {
+        id = UUID()
         self.name = name
         self.datesWatered = datesWatered
     }
     
     init(name: String) {
+        id = UUID()
         self.name = name
     }
     
