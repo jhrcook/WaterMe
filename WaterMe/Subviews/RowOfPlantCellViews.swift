@@ -27,34 +27,50 @@ struct RowOfPlantCellViews: View {
     
     var cellSpacing: CGFloat = 0
     
+    @State private var angleOfHiddenImage: Double = 90
+    
     var body: some View {
         GeometryReader { geo in
-            HStack(spacing: self.cellSpacing) {
-                Spacer(minLength: 0.0)
-                ForEach(self.plants) { plant in
-                    Button(action: {
-                        if self.multiselectMode {
-                            if self.multiselectedPlants.contains(where: { $0.id == plant.id }) {
-                                self.multiselectedPlants.removeAll(where: { $0.id == plant.id })
-                            } else {
-                                self.multiselectedPlants.append(plant)
-                            }
-                        } else {
-                            self.selectedPlant = plant
-                            self.showPlantInformation.toggle()
+            ZStack {
+                Image(systemName: "trash").opacity(0).rotationEffect(.degrees(self.angleOfHiddenImage))
+                HStack(spacing: self.cellSpacing) {
+                    Spacer(minLength: 0.0)
+                    ForEach(self.plants) { plant in
+                        Button(action: {}) {
+                            PlantCellView(plant: plant, multiselectMode: self.$multiselectMode, isSelected: self.multiselectedPlants.contains(where: {$0.id == plant.id}))
+                                .frame(width: self.calculateCellWidth(from: geo.size.width, withCellSpacing: self.cellSpacing), height: geo.size.height)
+                                .onTapGesture {
+                                    if self.multiselectMode {
+                                        if self.multiselectedPlants.contains(where: { $0.id == plant.id }) {
+                                            self.multiselectedPlants.removeAll(where: { $0.id == plant.id })
+                                        } else {
+                                            self.multiselectedPlants.append(plant)
+                                        }
+                                    } else {
+                                        self.selectedPlant = plant
+                                        self.showPlantInformation.toggle()
+                                    }
+                                }
+                                .onLongPressGesture {
+                                    if UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering) {
+                                        self.garden.water(plant)
+                                        self.pointlessAnimationToUpdateView()
+                                    }
+                                }
                         }
-                    }) {
-                        PlantCellView(plant: plant, multiselectMode: self.$multiselectMode, isSelected: self.multiselectedPlants.contains(where: {$0.id == plant.id}))
-                            .frame(width: self.calculateCellWidth(from: geo.size.width, withCellSpacing: self.cellSpacing), height: geo.size.height)
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    Spacer(minLength: 0.0)
                 }
-                Spacer(minLength: 0.0)
             }
         }
         .sheet(isPresented: $showPlantInformation) {
             PlantDetailView(garden: self.garden, plant: self.selectedPlant)
         }
+    }
+    
+    func pointlessAnimationToUpdateView() {
+        self.angleOfHiddenImage += 90
     }
     
     

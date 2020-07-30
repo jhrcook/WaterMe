@@ -153,4 +153,11 @@ class Garden: ObservableObject {
         let idx = self.plants.firstIndex(where: { $0.id == plant.id })!
         self.plants[idx] = plant
     }
+    
+    func water(_ plant: Plant) {
+        var newPlant = plant
+        newPlant.addNewDateLastWatered(to: Date())
+        newPlant.scheduleNotification()
+        update(newPlant)
+    }
 }

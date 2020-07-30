@@ -15,4 +15,6 @@ struct UserDefaultKeys {
     static let plantsArrayKey = "plants"
     
     static let gardenNotificationCenterKey = "GardenNotificationCenter"
+    
+    static let allowLongPressWatering =  "allowLongPressWatering"
 }

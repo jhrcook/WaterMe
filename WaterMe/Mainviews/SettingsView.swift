@@ -12,6 +12,8 @@ struct SettingsView: View {
     
     @ObservedObject var garden: Garden
     
+    @State var allowLongPressWatering: Bool = UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering)
+    
     @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: UserDefaultKeys.snoozeDuration))
     @State private var dateForNotifications: Date = UserDefaults.standard.object(forKey: UserDefaultKeys.dateForNotifications) as? Date ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     
@@ -23,9 +25,19 @@ struct SettingsView: View {
             Form {
                 
                 Section(header: HStack{
+                    Image(systemName: "cloud.drizzle")
+                    Text("Plants")
+                }, footer: Text("Turn on to be able to indicate that a plant has been watered by long pressing on the plant's cell on the home screen.")) {
+                    Toggle(isOn: $allowLongPressWatering) {
+                        Text("Long press to water a plant")
+                    }
+                }
+                
+                
+                Section(header: HStack{
                     Image(systemName: "bell")
                     Text("Notifications")
-                }) {
+                }, footer: Text("Notifications are scheduled when a plant is watered or the settings for a notification have been modified. Only one notification is scheduled on a given day and it indicates the number of plants to be checked.")) {
                     HStack {
                         Text("Snooze duration")
                         Spacer()
@@ -113,6 +125,7 @@ struct SettingsView: View {
             .navigationBarTitle("Settings")
             .onDisappear {
                 print("Setting UserDefault values.")
+                UserDefaults.standard.set(self.allowLongPressWatering, forKey: UserDefaultKeys.allowLongPressWatering)
                 UserDefaults.standard.set(self.snoozeDuration, forKey: UserDefaultKeys.snoozeDuration)
                 UserDefaults.standard.set(self.dateForNotifications, forKey: UserDefaultKeys.dateForNotifications)
             }

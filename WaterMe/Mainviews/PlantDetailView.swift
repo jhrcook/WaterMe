@@ -138,8 +138,6 @@ struct PlantDetailView: View {
                             Spacer()
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
-                                self.plant.addNewDateLastWatered(to: Date())
-                                self.plant.scheduleNotification()
                                 self.updatePlant()
                             }
                             .disabled(self.plant.wasWateredToday)
@@ -236,7 +234,7 @@ struct PlantDetailView: View {
     
     
     func updatePlant() {
-        garden.update(self.plant)
+        garden.water(self.plant)
         selectableDataDates = SelectableData(dates: plant.datesWatered)
     }
     
