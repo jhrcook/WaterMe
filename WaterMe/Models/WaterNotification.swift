@@ -60,8 +60,7 @@ struct WaterNotification: Codable {
         if type == .numeric {
             if let numberOfDays = numberOfDays {
                 var date = Calendar.current.date(byAdding: .day, value: numberOfDays, to: dateOfLastSetNotification)!
-                let hour: Int = UserDefaults.standard.integer(forKey: UserDefaultKeys.timeForNotifications)
-                date = Calendar.current.date(bySettingHour: hour, minute: 00, second: 00, of: date)!
+                date = setTimeOfDayForDate(date)
                 return date
             } else {
                 fatalError("No `numberOfDays` value for a `.numeric` notification.")
@@ -72,6 +71,7 @@ struct WaterNotification: Codable {
                 for _ in 0..<weekdayFrequency {
                     nextDate = nextDate.next(weekday, considerToday: false)
                 }
+                nextDate = setTimeOfDayForDate(nextDate)
                 return nextDate
             } else {
                 fatalError("No `weekday` or `weekdayFrequency` value for a `.weekday` notification.")
@@ -114,5 +114,10 @@ struct WaterNotification: Codable {
     func scheduleNotificationFor(_ plant: Plant) {
         var gnc = GardenNotificationCenter()
         gnc.add(plant, toDate: dateOfNextNotification)
+    }
+    
+    func setTimeOfDayForDate(_ date: Date) -> Date {
+        let hour: Int = UserDefaults.standard.integer(forKey: UserDefaultKeys.timeForNotifications)
+        return Calendar.current.date(bySettingHour: hour, minute: 00, second: 00, of: date)!
     }
 }
