@@ -35,9 +35,13 @@
     
     @State private var showSettings = false
     
+    @State private var forceAnimationToResetView = false
+    
     var body: some View {
         NavigationView {
             ZStack {
+                
+                Image(systemName: "trash").opacity(0).rotationEffect(forceAnimationToResetView ? .degrees(0) : .degrees(90))
                 
                 LinearGradient(gradient: Gradient(colors: [.lightBlue, .lightTomato]), startPoint: .topLeading, endPoint: .bottomTrailing).edgesIgnoringSafeArea(.all)
                     .opacity(0.5)
@@ -51,7 +55,8 @@
                                                     numberOfPlantsPerRow: self.numberOfPlantsPerRow,
                                                     multiselectMode: self.$isInMultiselectMode,
                                                     multiselectedPlants: self.$multiselectedPlants,
-                                                    cellSpacing: cellSpacing)
+                                                    cellSpacing: cellSpacing,
+                                                    forceAnimationToResetView: self.$forceAnimationToResetView)
                                     .frame(width: geo.size.width, height: self.calculateHeightForCell(from: geo.size.width, withCellSpacing: cellSpacing))
                             }
                         }

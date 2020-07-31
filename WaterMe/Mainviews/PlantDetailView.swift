@@ -40,6 +40,8 @@ struct PlantDetailView: View {
     
     @State private var image: Image
     
+    @Binding var forceAnimationToResetView: Bool
+    
     @State private var showMoreOptionsActionSheet = false
     @State private var confirmDeletion = false
     
@@ -67,10 +69,11 @@ struct PlantDetailView: View {
     @State private var showNotificationEditingView = false
     
     
-    init(garden: Garden, plant: Plant) {
+    init(garden: Garden, plant: Plant, forceAnimationToResetView: Binding<Bool>) {
         self.garden = garden
         _plant = State(initialValue: plant)
         _image = State(initialValue: plant.loadPlantImage())
+        _forceAnimationToResetView = forceAnimationToResetView
         
         _selectableDataDates = State(initialValue: SelectableData(dates: plant.datesWatered))
     }
@@ -139,6 +142,7 @@ struct PlantDetailView: View {
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
                                 self.updatePlant()
+                                self.forceAnimationToResetView.toggle()
                             }
                             .disabled(self.plant.wasWateredToday)
                             
@@ -270,13 +274,13 @@ struct PlantDetailView: View {
 struct PlantDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
             //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
             //                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
             
 //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
