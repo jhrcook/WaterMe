@@ -71,7 +71,7 @@ struct PlantCellView: View {
                         Image(systemName: self.notificationImageName)
                             .font(.footnote)
                             .foregroundColor(self.foregroundColor)
-                            .opacity(0.6)
+                            .opacity(0.8)
                             .padding(EdgeInsets(top: 0, leading: 5, bottom: 7, trailing: 0))
                     }
                     Spacer()
