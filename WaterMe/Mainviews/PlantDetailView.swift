@@ -116,7 +116,7 @@ struct PlantDetailView: View {
                         
                         VStack {
                             Spacer()
-                            TextField("", text: self.$plant.name, onCommit: self.updatePlant)
+                            TextField("", text: self.$plant.name, onCommit: { self.updatePlant() })
                                 .font(.largeTitle)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(nil)
@@ -141,7 +141,7 @@ struct PlantDetailView: View {
                             Spacer()
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
-                                self.updatePlant()
+                                self.updatePlant(andWater: true)
                                 self.forceAnimationToResetView.toggle()
                             }
                             .disabled(self.plant.wasWateredToday)
@@ -237,8 +237,11 @@ struct PlantDetailView: View {
     }
     
     
-    func updatePlant() {
-        garden.water(self.plant)
+    func updatePlant(andWater waterPlant: Bool = false) {
+        if waterPlant {
+            self.plant.water()
+        }
+        garden.update(self.plant)
         selectableDataDates = SelectableData(dates: plant.datesWatered)
     }
     

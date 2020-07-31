@@ -170,8 +170,7 @@ class Garden: ObservableObject {
     /// Calls the `update(_ plant: Plant)` method at the end to save changes.
     func water(_ plant: Plant) {
         var newPlant = plant
-        newPlant.addNewDateLastWatered(to: Date())
-        newPlant.scheduleNotification()
+        newPlant.water()
         update(newPlant)
     }
     

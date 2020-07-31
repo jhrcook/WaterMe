@@ -113,6 +113,11 @@ struct Plant: Identifiable, Codable {
         }
     }
     
+    mutating func water() {
+        addNewDateLastWatered(to: Date())
+        scheduleNotification()
+    }
+    
     
     mutating func savePlantImage(uiImage: UIImage) {
         if let data = uiImage.jpegData(compressionQuality: 1.0) {

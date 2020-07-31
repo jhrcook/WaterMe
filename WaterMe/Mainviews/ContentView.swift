@@ -41,7 +41,9 @@
         NavigationView {
             ZStack {
                 
-                Image(systemName: "trash").opacity(0).rotationEffect(forceAnimationToResetView ? .degrees(0) : .degrees(90))
+                Text("Meaningless text to animate to update the UI.")
+                    .opacity(0)
+                    .rotationEffect(forceAnimationToResetView ? .degrees(0) : .degrees(90))
                 
                 LinearGradient(gradient: Gradient(colors: [.lightBlue, .lightTomato]), startPoint: .topLeading, endPoint: .bottomTrailing).edgesIgnoringSafeArea(.all)
                     .opacity(0.5)
