@@ -13,6 +13,7 @@ struct UserDefaultKeys {
     static let dateForNotifications = "dateForNotifications"
     
     static let plantsArrayKey = "plants"
+    static let gardenPlantOrder = "gardenPlantOrder"
     
     static let gardenNotificationCenterKey = "GardenNotificationCenter"
     

@@ -37,8 +37,9 @@ class Garden: ObservableObject {
         return plants.count
     }
     
-    var ordering: PlantOrder = .alphabetically {
+    var ordering: PlantOrder = readOrderingMethodFromUserDefaults() {
         didSet {
+            saveOrderingMethodToUserDefaults()
             sortPlants()
         }
     }
@@ -150,8 +151,9 @@ class Garden: ObservableObject {
     
     
     func update(_ plant: Plant) {
-        let idx = self.plants.firstIndex(where: { $0.id == plant.id })!
-        self.plants[idx] = plant
+        let idx = plants.firstIndex(where: { $0.id == plant.id })!
+        plants[idx] = plant
+        sortPlants()
     }
     
     func water(_ plant: Plant) {
@@ -159,5 +161,19 @@ class Garden: ObservableObject {
         newPlant.addNewDateLastWatered(to: Date())
         newPlant.scheduleNotification()
         update(newPlant)
+    }
+    
+    
+    private static func readOrderingMethodFromUserDefaults() -> PlantOrder {
+        if let plantOrderString = UserDefaults.standard.string(forKey: UserDefaultKeys.gardenPlantOrder) {
+            if let plantOrder = PlantOrder(rawValue: plantOrderString) {
+                return plantOrder
+            }
+        }
+        return .alphabetically
+    }
+    
+    private func saveOrderingMethodToUserDefaults() {
+        UserDefaults.standard.set(ordering.rawValue, forKey: UserDefaultKeys.gardenPlantOrder)
     }
 }
