@@ -78,6 +78,7 @@ class Garden: ObservableObject {
     }
     
     
+    /// Sort the plants per the `ordering` value.
     func sortPlants() {
         print("sorting plants by '\(ordering.rawValue)'")
         switch ordering {
@@ -135,6 +136,11 @@ class Garden: ObservableObject {
     }
     
     
+    /// Get an array of unique dates for making a mock garden.
+    /// - Parameter n: The number of dates.
+    /// - Returns: An array of dates.
+    ///
+    /// This function is used to create the plants for a mock garden.
     private func arrayOfDates(_ n: Int) -> [Date] {
         var dates = [Date]()
         for _ in 0..<n {
@@ -150,12 +156,18 @@ class Garden: ObservableObject {
     }
     
     
+    /// Update a plant in the array of plants.
+    /// - Parameter plant: The plant to update.
     func update(_ plant: Plant) {
         let idx = plants.firstIndex(where: { $0.id == plant.id })!
         plants[idx] = plant
         sortPlants()
     }
     
+    /// Water a plant.
+    /// - Parameter plant: The plant that gets watered
+    ///
+    /// Calls the `update(_ plant: Plant)` method at the end to save changes.
     func water(_ plant: Plant) {
         var newPlant = plant
         newPlant.addNewDateLastWatered(to: Date())
@@ -164,6 +176,8 @@ class Garden: ObservableObject {
     }
     
     
+    /// Load the saved `ordering` value from UserDefaults.
+    /// - Returns: The saved `PlantOrder` value. If `nil`, defaults to `alphabetically`.
     private static func readOrderingMethodFromUserDefaults() -> PlantOrder {
         if let plantOrderString = UserDefaults.standard.string(forKey: UserDefaultKeys.gardenPlantOrder) {
             if let plantOrder = PlantOrder(rawValue: plantOrderString) {
@@ -173,6 +187,7 @@ class Garden: ObservableObject {
         return .alphabetically
     }
     
+    /// Save the plant ordering method to UserDefaults.
     private func saveOrderingMethodToUserDefaults() {
         UserDefaults.standard.set(ordering.rawValue, forKey: UserDefaultKeys.gardenPlantOrder)
     }
