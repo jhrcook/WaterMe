@@ -43,7 +43,7 @@
 
 /* Begin PBXFileReference section */
 		840AA44224B904790017886D /* WaterMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterMeButton.swift; sourceTree = "<group>"; };
-		8411960024C06A5400ABDFF3 /* SelectableTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableTableView.swift; sourceTree = SOURCE_ROOT; };
+		8411960024C06A5400ABDFF3 /* SelectableTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SelectableTableView.swift; path = WaterMe/Subviews/SelectableTableView.swift; sourceTree = SOURCE_ROOT; };
 		84153CB924D04BDF006535F0 /* Date-extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date-extensions.swift"; sourceTree = "<group>"; };
 		84153CBB24D0542C006535F0 /* GardenNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenNotificationCenter.swift; sourceTree = "<group>"; };
 		841DB9E524B5F0EF0048A5B7 /* WaterMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
