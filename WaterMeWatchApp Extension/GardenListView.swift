@@ -15,69 +15,37 @@ struct PlantRowView: View {
     @ObservedObject var garden: Garden
     var plant: Plant
     
-    @State private var showWaterMeButton = false
+    @State private var showWaterMeButton = true
     
     var body: some View {
-        
-        ZStack {
-            HStack(alignment: .center, spacing: 10) {
-                
-//                Spacer(minLength: 5)
-                
-                Button(action: {
-                    self.showWaterMeButton.toggle()
-                }) {
-                    Image(systemName: "cloud.rain").font(.system(size: 30))
-                        .padding(15)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                .foregroundColor(.blue)
-                        )
-                }
-                .padding()
-                .disabled(!showWaterMeButton)
-                
-//                Spacer(minLength: 30)
-                
-                Button(action: {
-                    self.showWaterMeButton.toggle()
-                }) {
-                    Image(systemName: "plus").font(.system(size: 30))
-                        .rotationEffect(.degrees(45))
-                        .padding(15)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                .foregroundColor(.red)
-                        )
-                }
-                .padding()
-                .disabled(!showWaterMeButton)
-                
-//                Spacer(minLength: 5)
-                
-            }
-            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-            .opacity(showWaterMeButton ? 1 : 0)
-            
-            Button(action: {
-                self.showWaterMeButton.toggle()
-            }) {
-                HStack {
-                    plant.loadPlantImage()
+        GeometryReader { geo in
+            HStack {
+                ZStack {
+                    self.plant.loadPlantImage()
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 60)
                         .clipShape(Circle())
-                    Spacer()
-                    Text(plant.name)
-                    Spacer()
+                        .frame(width: 65)
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Image(systemName: "bell.fill")
+                                .padding(EdgeInsets(top: 0, leading: 1, bottom: 8, trailing: 10))
+                                .foregroundColor(.blue)
+                                .opacity(self.plant.wateringNotification?.notificationTriggered ?? false ? 1 : 0)
+                            Spacer()
+                        }
+                    }
                 }
+                VStack(alignment: .leading) {
+                    Text(self.plant.name)
+                        .font(.headline)
+                    Text(self.plant.formattedDaysSinceLastWatering)
+                        .font(.caption)
+                }
+                .frame(width: geo.size.width * 7/12)
             }
-            .disabled(showWaterMeButton)
-            .opacity(showWaterMeButton ? 0 : 1)
         }
-        .rotation3DEffect(showWaterMeButton ? .degrees(180) : .degrees(0), axis: (x: 0, y: 1, z: 0))
-        .animation(.easeInOut)
     }
 }
 
@@ -89,8 +57,10 @@ struct GardenListView: View {
     var body: some View {
         List {
             ForEach(garden.plants) { plant in
-                PlantRowView(garden: self.garden, plant: plant)
-                    .padding(.vertical, 10)
+                NavigationLink(destination: Text("Hi")) {
+                    PlantRowView(garden: self.garden, plant: plant)
+                        .frame(height: 80)
+                }
             }
         }
     }
