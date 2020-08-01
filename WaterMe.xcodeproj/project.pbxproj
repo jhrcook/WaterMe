@@ -37,6 +37,18 @@
 		84825EA424BCC5EA008A8F14 /* ParallaxHeaderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */; };
 		84833F8324BC6EA6003CE209 /* VerticalTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */; };
 		84A2E6BB24D1832E000C1DF2 /* GardenNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */; };
+		84B2335F24D59A9200101DCD /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE124B7BA7E0021323A /* Plant.swift */; };
+		84B2336024D59A9200101DCD /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DB9FE24B5F13E0048A5B7 /* Garden.swift */; };
+		84B2336124D59A9200101DCD /* GardenNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84153CBB24D0542C006535F0 /* GardenNotificationCenter.swift */; };
+		84B2336224D59A9200101DCD /* GardenNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */; };
+		84B2336324D59A9200101DCD /* WaterNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469514B24CDC8F700512AE8 /* WaterNotification.swift */; };
+		84B2336424D59A9200101DCD /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F53F724CF40C3007EFAF5 /* UserDefaultKeys.swift */; };
+		84B2336524D59AF700101DCD /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8144924BA000C006B9C2E /* utilities.swift */; };
+		84B2336624D59B0000101DCD /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478646524BF3AFB00674EA9 /* Color-extension.swift */; };
+		84B2336724D59B0000101DCD /* Date-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84153CB924D04BDF006535F0 /* Date-extensions.swift */; };
+		84B2336924D59BCA00101DCD /* KeyboardDismiss-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */; };
+		84B2336B24D59EEC00101DCD /* GardenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2336A24D59EEC00101DCD /* GardenListView.swift */; };
+		84B2336C24D5A16300101DCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841DB9EE24B5F0F10048A5B7 /* Assets.xcassets */; };
 		84BE3E1324D43C4400D7CC74 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E1124D43C4400D7CC74 /* Interface.storyboard */; };
 		84BE3E1524D43C4800D7CC74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E1424D43C4800D7CC74 /* Assets.xcassets */; };
 		84BE3E1C24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 84BE3E1B24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -128,6 +140,8 @@
 		84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeaderImage.swift; sourceTree = "<group>"; };
 		84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTimeLine.swift; sourceTree = "<group>"; };
 		84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenNotification.swift; sourceTree = "<group>"; };
+		84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardDismiss-extension.swift"; sourceTree = "<group>"; };
+		84B2336A24D59EEC00101DCD /* GardenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenListView.swift; sourceTree = "<group>"; };
 		84BE3E0F24D43C4400D7CC74 /* WaterMeWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterMeWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84BE3E1224D43C4400D7CC74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		84BE3E1424D43C4800D7CC74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -268,6 +282,7 @@
 			children = (
 				8478646524BF3AFB00674EA9 /* Color-extension.swift */,
 				84153CB924D04BDF006535F0 /* Date-extensions.swift */,
+				84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -295,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				84BE3E2024D43C4900D7CC74 /* ContentView.swift */,
+				84B2336A24D59EEC00101DCD /* GardenListView.swift */,
 				84BE3E2224D43C4900D7CC74 /* HostingController.swift */,
 				84BE3E2424D43C4900D7CC74 /* ExtensionDelegate.swift */,
 				84BE3E2624D43C4900D7CC74 /* NotificationController.swift */,
@@ -438,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84BE3E3024D43C4A00D7CC74 /* Preview Assets.xcassets in Resources */,
+				84B2336C24D5A16300101DCD /* Assets.xcassets in Resources */,
 				84BE3E2D24D43C4A00D7CC74 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +475,7 @@
 				8470644124C1D1B600BC53FC /* MakeItRainButton.swift in Sources */,
 				841DB9E924B5F0EF0048A5B7 /* AppDelegate.swift in Sources */,
 				84153CBA24D04BDF006535F0 /* Date-extensions.swift in Sources */,
+				84B2336924D59BCA00101DCD /* KeyboardDismiss-extension.swift in Sources */,
 				843EBEE224B7BA7E0021323A /* Plant.swift in Sources */,
 				8469514E24CDCECF00512AE8 /* SettingsView.swift in Sources */,
 				84A2E6BB24D1832E000C1DF2 /* GardenNotification.swift in Sources */,
@@ -485,12 +503,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B2336024D59A9200101DCD /* Garden.swift in Sources */,
 				84BE3E2324D43C4900D7CC74 /* HostingController.swift in Sources */,
+				84B2336B24D59EEC00101DCD /* GardenListView.swift in Sources */,
+				84B2336724D59B0000101DCD /* Date-extensions.swift in Sources */,
+				84B2336124D59A9200101DCD /* GardenNotificationCenter.swift in Sources */,
+				84B2336524D59AF700101DCD /* utilities.swift in Sources */,
 				84BE3E2124D43C4900D7CC74 /* ContentView.swift in Sources */,
 				84BE3E2724D43C4900D7CC74 /* NotificationController.swift in Sources */,
 				84BE3E2524D43C4900D7CC74 /* ExtensionDelegate.swift in Sources */,
+				84B2336624D59B0000101DCD /* Color-extension.swift in Sources */,
+				84B2335F24D59A9200101DCD /* Plant.swift in Sources */,
 				84BE3E2924D43C4900D7CC74 /* NotificationView.swift in Sources */,
+				84B2336424D59A9200101DCD /* UserDefaultKeys.swift in Sources */,
 				84BE3E2B24D43C4900D7CC74 /* ComplicationController.swift in Sources */,
+				84B2336324D59A9200101DCD /* WaterNotification.swift in Sources */,
+				84B2336224D59A9200101DCD /* GardenNotification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

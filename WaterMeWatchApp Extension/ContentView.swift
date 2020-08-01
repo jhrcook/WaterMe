@@ -9,8 +9,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject var garden = Garden()
+    
     var body: some View {
-        Text("Hello, World!")
+        GardenListView(garden: garden)
     }
 }
 
