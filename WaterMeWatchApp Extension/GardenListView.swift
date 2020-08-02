@@ -49,6 +49,7 @@ struct PlantRowView: View {
             .background(Color.mySystemGrey6)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .scaleEffect(self.calculateScaleSizeBasedOnFrameLocation(geo: geo))
+            .opacity(Double(self.calculateScaleSizeBasedOnFrameLocation(geo: geo)))
         }
     }
     
@@ -63,34 +64,17 @@ struct PlantRowView: View {
         
         let midY = geo.frame(in: .global).midY
         
-        if plant.name == "Plant one" {
-            print("bottomY: \(bottomY), bottomRange: \(bottomRange), topY: \(topY), topRange: \(topRange)")
-            print("local midY: \(geo.frame(in: .local).midY), global midY: \(geo.frame(in: .global).midY), midY: \(midY)")
-        }
-        
-        
         if midY > topRange && midY < bottomRange {
-            if plant.name == "Plant one" {
-                print("scaled to: 1")
-            }
             return 1
-        }
-        
-        if midY < topRange {
-            let s = map(midY, fromMin: topY, fromMax: topRange)
-            if plant.name == "Plant one" {
-                print("scaled to: \(s)")
-            }
-            return s
+        } else if midY < topRange {
+            return map(midY, fromMin: topY, fromMax: topRange)
         } else {
-            let s = map(midY, fromMin: bottomRange, fromMax: bottomY, toMin: 1.0, toMax: 0.85)
-            if plant.name == "Plant one" {
-                print("scaled to: \(s)")
-            }
-            return s
+            return map(midY, fromMin: bottomRange, fromMax: bottomY, toMin: 1.0, toMax: 0.85)
         }
     }
     
+    
+    /// A copy of the Arduino `map()` function.
     func map(_ x: CGFloat, fromMin: CGFloat, fromMax: CGFloat, toMin: CGFloat = 0.8, toMax: CGFloat = 1) -> CGFloat {
         return (x - fromMin) * (toMax - toMin) / (fromMax - fromMin) + toMin
     }
