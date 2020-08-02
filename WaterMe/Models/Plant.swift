@@ -65,7 +65,6 @@ struct Plant: Identifiable, Codable {
         } else if let days = daysSinceLastWatering {
             return "\(days) days"
         }
-        
         return "Never"
     }
     
