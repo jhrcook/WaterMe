@@ -10,6 +10,18 @@ An iOS application written in SwiftUI to help keep track of watering plants.
 
 See the [Projects](https://github.com/jhrcook/WaterMe/projects/1) tab to view the To-Do list.
 
-<img width="400px" src="demos/detailview-demo.gif">
+### Edit logged watering dates
 
-<img width="400px" src="demos/multiselect-demo.gif">
+<img width="400px" src="demos/waterme-editloggedwaters.gif">
+
+### Water multiple plants at once
+
+<img width="400px" src="demos/waterme-makeitrain.gif">
+
+### Set up watering notifications
+
+<img width="400px" src="demos/waterme-setupnotifications.gif">
+
+### Companion Watch app (UI only at the moment)
+
+<img width="300px" src="demos/waterme-watch-ui.gif">
