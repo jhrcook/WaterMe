@@ -49,6 +49,7 @@
 		84B2336924D59BCA00101DCD /* KeyboardDismiss-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */; };
 		84B2336B24D59EEC00101DCD /* GardenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2336A24D59EEC00101DCD /* GardenListView.swift */; };
 		84B2336C24D5A16300101DCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841DB9EE24B5F0F10048A5B7 /* Assets.xcassets */; };
+		84B37A0224D6F1C600CD4887 /* PlantRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B37A0124D6F1C600CD4887 /* PlantRowView.swift */; };
 		84BE3E1324D43C4400D7CC74 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E1124D43C4400D7CC74 /* Interface.storyboard */; };
 		84BE3E1524D43C4800D7CC74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E1424D43C4800D7CC74 /* Assets.xcassets */; };
 		84BE3E1C24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 84BE3E1B24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -142,6 +143,7 @@
 		84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenNotification.swift; sourceTree = "<group>"; };
 		84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardDismiss-extension.swift"; sourceTree = "<group>"; };
 		84B2336A24D59EEC00101DCD /* GardenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenListView.swift; sourceTree = "<group>"; };
+		84B37A0124D6F1C600CD4887 /* PlantRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantRowView.swift; sourceTree = "<group>"; };
 		84BE3E0F24D43C4400D7CC74 /* WaterMeWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterMeWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84BE3E1224D43C4400D7CC74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		84BE3E1424D43C4800D7CC74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			children = (
 				84BE3E2024D43C4900D7CC74 /* ContentView.swift */,
 				84B2336A24D59EEC00101DCD /* GardenListView.swift */,
+				84B37A0124D6F1C600CD4887 /* PlantRowView.swift */,
 				84BE3E2224D43C4900D7CC74 /* HostingController.swift */,
 				84BE3E2424D43C4900D7CC74 /* ExtensionDelegate.swift */,
 				84BE3E2624D43C4900D7CC74 /* NotificationController.swift */,
@@ -519,6 +522,7 @@
 				84BE3E2B24D43C4900D7CC74 /* ComplicationController.swift in Sources */,
 				84B2336324D59A9200101DCD /* WaterNotification.swift in Sources */,
 				84B2336224D59A9200101DCD /* GardenNotification.swift in Sources */,
+				84B37A0224D6F1C600CD4887 /* PlantRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
