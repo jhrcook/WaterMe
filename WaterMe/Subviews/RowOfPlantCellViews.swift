@@ -27,13 +27,13 @@ struct RowOfPlantCellViews: View {
     
     var cellSpacing: CGFloat = 0
     
-//    @State private var angleOfHiddenImage: Double = 90
     @Binding var forceAnimationToResetView: Bool
+    
+    var watchCommunicator: PhoneAndWatchCommunicator?
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
-//                Image(systemName: "trash").opacity(0).rotationEffect(.degrees(self.angleOfHiddenImage))
                 HStack(spacing: self.cellSpacing) {
                     Spacer(minLength: 0.0)
                     ForEach(self.plants) { plant in
@@ -57,7 +57,6 @@ struct RowOfPlantCellViews: View {
                                 .onLongPressGesture {
                                     if UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering) {
                                         self.garden.water(plant)
-//                                        self.pointlessAnimationToUpdateView()
                                         self.forceAnimationToResetView.toggle()
                                     }
                                 }
@@ -69,13 +68,12 @@ struct RowOfPlantCellViews: View {
             }
         }
         .sheet(isPresented: $showPlantInformation) {
-            PlantDetailView(garden: self.garden, plant: self.selectedPlant, forceAnimationToResetView: self.$forceAnimationToResetView)
+            PlantDetailView(garden: self.garden,
+                            plant: self.selectedPlant,
+                            watchCommunicator: self.watchCommunicator,
+                            forceAnimationToResetView: self.$forceAnimationToResetView)
         }
     }
-    
-//    func pointlessAnimationToUpdateView() {
-//        self.angleOfHiddenImage += 90
-//    }
     
     
     func calculateCellWidth(from totalWidth: CGFloat, withCellSpacing cellSpacing: CGFloat) -> CGFloat {

@@ -37,6 +37,8 @@
     
     @State private var forceAnimationToResetView = false
     
+    var watchCommunicator = PhoneAndWatchCommunicator()
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -58,7 +60,8 @@
                                                     multiselectMode: self.$isInMultiselectMode,
                                                     multiselectedPlants: self.$multiselectedPlants,
                                                     cellSpacing: cellSpacing,
-                                                    forceAnimationToResetView: self.$forceAnimationToResetView)
+                                                    forceAnimationToResetView: self.$forceAnimationToResetView,
+                                                    watchCommunicator: self.watchCommunicator)
                                     .frame(width: geo.size.width, height: self.calculateHeightForCell(from: geo.size.width, withCellSpacing: cellSpacing))
                             }
                         }
@@ -94,7 +97,9 @@
                         
                     }
                     .frame(maxHeight: .infinity)
-                    .sheet(isPresented: self.$showSettings, content: { SettingsView(garden: self.garden) })
+                    .sheet(isPresented: self.$showSettings) {
+                        SettingsView(garden: self.garden, watchCommunicator: self.watchCommunicator)
+                    }
                 }
                 
                 VStack {
@@ -173,7 +178,8 @@
             .navigationBarHidden(true)
         }
         .sheet(isPresented: $showNewPlantView) {
-            MakeNewPlantView(garden: self.garden)
+            MakeNewPlantView(garden: self.garden,
+                             watchCommunicator: self.watchCommunicator)
         }
         .onAppear {
             print("There are \(self.garden.plants.count) plants in `garden`.")

@@ -12,6 +12,8 @@ struct SettingsView: View {
     
     @ObservedObject var garden: Garden
     
+    var watchCommunicator: PhoneAndWatchCommunicator?
+    
     @State var allowLongPressWatering: Bool = UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering)
     
     @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: UserDefaultKeys.snoozeDuration))

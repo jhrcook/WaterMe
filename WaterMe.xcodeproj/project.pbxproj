@@ -36,6 +36,8 @@
 		847C37A824BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847C37A724BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift */; };
 		84825EA424BCC5EA008A8F14 /* ParallaxHeaderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */; };
 		84833F8324BC6EA6003CE209 /* VerticalTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */; };
+		849843BB24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */; };
+		849843BC24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */; };
 		84A2E6BB24D1832E000C1DF2 /* GardenNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */; };
 		84B2335F24D59A9200101DCD /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE124B7BA7E0021323A /* Plant.swift */; };
 		84B2336024D59A9200101DCD /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DB9FE24B5F13E0048A5B7 /* Garden.swift */; };
@@ -140,6 +142,7 @@
 		847C37A724BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallFloatingTextButtonStyle.swift; sourceTree = "<group>"; };
 		84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeaderImage.swift; sourceTree = "<group>"; };
 		84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTimeLine.swift; sourceTree = "<group>"; };
+		849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAndWatchCommunicator.swift; sourceTree = "<group>"; };
 		84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenNotification.swift; sourceTree = "<group>"; };
 		84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardDismiss-extension.swift"; sourceTree = "<group>"; };
 		84B2336A24D59EEC00101DCD /* GardenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenListView.swift; sourceTree = "<group>"; };
@@ -209,6 +212,7 @@
 				8478646B24BF3E0000674EA9 /* Extensions */,
 				8478646724BF3DA100674EA9 /* Buttons */,
 				8478646824BF3DBC00674EA9 /* Models */,
+				849843B924E155CF00DB49A4 /* Watch Connectivity */,
 				8478646C24BF3E1300674EA9 /* Utilities */,
 				841DB9E824B5F0EF0048A5B7 /* AppDelegate.swift */,
 				841DB9EA24B5F0EF0048A5B7 /* SceneDelegate.swift */,
@@ -296,6 +300,14 @@
 				84E8144724B9FB79006B9C2E /* ImagePicker.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		849843B924E155CF00DB49A4 /* Watch Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */,
+			);
+			path = "Watch Connectivity";
 			sourceTree = "<group>";
 		};
 		84BE3E1024D43C4400D7CC74 /* WaterMeWatchApp */ = {
@@ -497,6 +509,7 @@
 				8470643F24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift in Sources */,
 				843BA7BE24C32BB700D85EDC /* ChangePlantOrderButton.swift in Sources */,
 				840AA44324B904790017886D /* WaterMeButton.swift in Sources */,
+				849843BB24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */,
 				84153CBC24D0542C006535F0 /* GardenNotificationCenter.swift in Sources */,
 				845F53FA24CF43D3007EFAF5 /* EditNotificationView.swift in Sources */,
 			);
@@ -515,6 +528,7 @@
 				84BE3E2124D43C4900D7CC74 /* ContentView.swift in Sources */,
 				84BE3E2724D43C4900D7CC74 /* NotificationController.swift in Sources */,
 				84BE3E2524D43C4900D7CC74 /* ExtensionDelegate.swift in Sources */,
+				849843BC24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */,
 				84B2336624D59B0000101DCD /* Color-extension.swift in Sources */,
 				84B2335F24D59A9200101DCD /* Plant.swift in Sources */,
 				84BE3E2924D43C4900D7CC74 /* NotificationView.swift in Sources */,

@@ -35,6 +35,8 @@ struct PlantDetailView: View {
     @ObservedObject var garden: Garden
     @State var plant: Plant
     
+    var watchCommunicator: PhoneAndWatchCommunicator?
+    
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
     
@@ -69,11 +71,13 @@ struct PlantDetailView: View {
     @State private var showNotificationEditingView = false
     
     
-    init(garden: Garden, plant: Plant, forceAnimationToResetView: Binding<Bool>) {
+    init(garden: Garden, plant: Plant, watchCommunicator: PhoneAndWatchCommunicator?, forceAnimationToResetView: Binding<Bool>) {
         self.garden = garden
         _plant = State(initialValue: plant)
         _image = State(initialValue: plant.loadPlantImage())
         _forceAnimationToResetView = forceAnimationToResetView
+        
+        self.watchCommunicator = watchCommunicator
         
         _selectableDataDates = State(initialValue: SelectableData(dates: plant.datesWatered))
     }
