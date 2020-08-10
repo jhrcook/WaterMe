@@ -37,7 +37,7 @@
     
     @State private var forceAnimationToResetView = false
     
-    var watchCommunicator = PhoneAndWatchCommunicator()
+    var watchCommunicator = PhoneToWatchCommunicator()
     
     var body: some View {
         NavigationView {

@@ -12,7 +12,7 @@ struct SettingsView: View {
     
     @ObservedObject var garden: Garden
     
-    var watchCommunicator: PhoneAndWatchCommunicator?
+    var watchCommunicator: PhoneToWatchCommunicator?
     
     @State var allowLongPressWatering: Bool = UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering)
     

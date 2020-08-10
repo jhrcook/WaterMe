@@ -22,7 +22,7 @@ struct MakeNewPlantView: View {
     
     @State private var userSelectedImage: UIImage?
     
-    var watchCommunicator: PhoneAndWatchCommunicator?
+    var watchCommunicator: PhoneToWatchCommunicator?
     
     var body: some View {
         NavigationView {

@@ -35,7 +35,7 @@ struct PlantDetailView: View {
     @ObservedObject var garden: Garden
     @State var plant: Plant
     
-    var watchCommunicator: PhoneAndWatchCommunicator?
+    var watchCommunicator: PhoneToWatchCommunicator?
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
@@ -71,7 +71,7 @@ struct PlantDetailView: View {
     @State private var showNotificationEditingView = false
     
     
-    init(garden: Garden, plant: Plant, watchCommunicator: PhoneAndWatchCommunicator?, forceAnimationToResetView: Binding<Bool>) {
+    init(garden: Garden, plant: Plant, watchCommunicator: PhoneToWatchCommunicator?, forceAnimationToResetView: Binding<Bool>) {
         self.garden = garden
         _plant = State(initialValue: plant)
         _image = State(initialValue: plant.loadPlantImage())
@@ -281,13 +281,13 @@ struct PlantDetailView: View {
 struct PlantDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), forceAnimationToResetView: .constant(false))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: nil, forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
             //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
             //                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), forceAnimationToResetView: .constant(false))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: nil, forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
             
 //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))

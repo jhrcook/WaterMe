@@ -36,11 +36,17 @@
 		847C37A824BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847C37A724BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift */; };
 		84825EA424BCC5EA008A8F14 /* ParallaxHeaderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */; };
 		84833F8324BC6EA6003CE209 /* VerticalTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */; };
-		849843BB24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */; };
-		849843BC24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */; };
+		849843BB24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BA24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift */; };
+		849843BE24E15B7600DB49A4 /* WCDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BD24E15B7600DB49A4 /* WCDataManager.swift */; };
+		849843BF24E15B7600DB49A4 /* WCDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BD24E15B7600DB49A4 /* WCDataManager.swift */; };
+		849843C324E15DA400DB49A4 /* PlantWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C224E15DA400DB49A4 /* PlantWatch.swift */; };
+		849843C424E15DA400DB49A4 /* PlantWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C224E15DA400DB49A4 /* PlantWatch.swift */; };
+		849843C624E15F1E00DB49A4 /* GardenWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C524E15F1E00DB49A4 /* GardenWatch.swift */; };
+		849843C724E15F1E00DB49A4 /* GardenWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C524E15F1E00DB49A4 /* GardenWatch.swift */; };
+		849843C924E166CC00DB49A4 /* WatchToPhoneCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C824E166CC00DB49A4 /* WatchToPhoneCommunicator.swift */; };
+		849843CB24E1688E00DB49A4 /* WatchConnectivity-utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */; };
+		849843CC24E169D000DB49A4 /* WatchConnectivity-utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */; };
 		84A2E6BB24D1832E000C1DF2 /* GardenNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */; };
-		84B2335F24D59A9200101DCD /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE124B7BA7E0021323A /* Plant.swift */; };
-		84B2336024D59A9200101DCD /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DB9FE24B5F13E0048A5B7 /* Garden.swift */; };
 		84B2336124D59A9200101DCD /* GardenNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84153CBB24D0542C006535F0 /* GardenNotificationCenter.swift */; };
 		84B2336224D59A9200101DCD /* GardenNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */; };
 		84B2336324D59A9200101DCD /* WaterNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469514B24CDC8F700512AE8 /* WaterNotification.swift */; };
@@ -142,7 +148,12 @@
 		847C37A724BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallFloatingTextButtonStyle.swift; sourceTree = "<group>"; };
 		84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeaderImage.swift; sourceTree = "<group>"; };
 		84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTimeLine.swift; sourceTree = "<group>"; };
-		849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAndWatchCommunicator.swift; sourceTree = "<group>"; };
+		849843BA24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneToWatchCommunicator.swift; sourceTree = "<group>"; };
+		849843BD24E15B7600DB49A4 /* WCDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCDataManager.swift; sourceTree = "<group>"; };
+		849843C224E15DA400DB49A4 /* PlantWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantWatch.swift; sourceTree = "<group>"; };
+		849843C524E15F1E00DB49A4 /* GardenWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenWatch.swift; sourceTree = "<group>"; };
+		849843C824E166CC00DB49A4 /* WatchToPhoneCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchToPhoneCommunicator.swift; sourceTree = "<group>"; };
+		849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchConnectivity-utilities.swift"; sourceTree = "<group>"; };
 		84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenNotification.swift; sourceTree = "<group>"; };
 		84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardDismiss-extension.swift"; sourceTree = "<group>"; };
 		84B2336A24D59EEC00101DCD /* GardenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenListView.swift; sourceTree = "<group>"; };
@@ -305,9 +316,31 @@
 		849843B924E155CF00DB49A4 /* Watch Connectivity */ = {
 			isa = PBXGroup;
 			children = (
-				849843BA24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift */,
+				849843BD24E15B7600DB49A4 /* WCDataManager.swift */,
+				849843BA24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift */,
+				849843C824E166CC00DB49A4 /* WatchToPhoneCommunicator.swift */,
+				849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */,
 			);
 			path = "Watch Connectivity";
+			sourceTree = "<group>";
+		};
+		849843C024E15D8100DB49A4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84BE3E2024D43C4900D7CC74 /* ContentView.swift */,
+				84B2336A24D59EEC00101DCD /* GardenListView.swift */,
+				84B37A0124D6F1C600CD4887 /* PlantRowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		849843C124E15D8E00DB49A4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				849843C224E15DA400DB49A4 /* PlantWatch.swift */,
+				849843C524E15F1E00DB49A4 /* GardenWatch.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		84BE3E1024D43C4400D7CC74 /* WaterMeWatchApp */ = {
@@ -323,9 +356,8 @@
 		84BE3E1F24D43C4900D7CC74 /* WaterMeWatchApp Extension */ = {
 			isa = PBXGroup;
 			children = (
-				84BE3E2024D43C4900D7CC74 /* ContentView.swift */,
-				84B2336A24D59EEC00101DCD /* GardenListView.swift */,
-				84B37A0124D6F1C600CD4887 /* PlantRowView.swift */,
+				849843C124E15D8E00DB49A4 /* Models */,
+				849843C024E15D8100DB49A4 /* Views */,
 				84BE3E2224D43C4900D7CC74 /* HostingController.swift */,
 				84BE3E2424D43C4900D7CC74 /* ExtensionDelegate.swift */,
 				84BE3E2624D43C4900D7CC74 /* NotificationController.swift */,
@@ -493,6 +525,7 @@
 				84B2336924D59BCA00101DCD /* KeyboardDismiss-extension.swift in Sources */,
 				843EBEE224B7BA7E0021323A /* Plant.swift in Sources */,
 				8469514E24CDCECF00512AE8 /* SettingsView.swift in Sources */,
+				849843C324E15DA400DB49A4 /* PlantWatch.swift in Sources */,
 				84A2E6BB24D1832E000C1DF2 /* GardenNotification.swift in Sources */,
 				847C37A824BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift in Sources */,
 				8478892C24BF4008001ABE3C /* PlantCellView.swift in Sources */,
@@ -505,11 +538,14 @@
 				843BA7C024C3477900D85EDC /* PlantOrderingOptionButton.swift in Sources */,
 				84E8144824B9FB79006B9C2E /* ImagePicker.swift in Sources */,
 				845F53F824CF40C3007EFAF5 /* UserDefaultKeys.swift in Sources */,
+				849843CB24E1688E00DB49A4 /* WatchConnectivity-utilities.swift in Sources */,
 				841DB9ED24B5F0EF0048A5B7 /* ContentView.swift in Sources */,
+				849843C624E15F1E00DB49A4 /* GardenWatch.swift in Sources */,
 				8470643F24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift in Sources */,
 				843BA7BE24C32BB700D85EDC /* ChangePlantOrderButton.swift in Sources */,
 				840AA44324B904790017886D /* WaterMeButton.swift in Sources */,
-				849843BB24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */,
+				849843BB24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift in Sources */,
+				849843BE24E15B7600DB49A4 /* WCDataManager.swift in Sources */,
 				84153CBC24D0542C006535F0 /* GardenNotificationCenter.swift in Sources */,
 				845F53FA24CF43D3007EFAF5 /* EditNotificationView.swift in Sources */,
 			);
@@ -519,22 +555,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84B2336024D59A9200101DCD /* Garden.swift in Sources */,
 				84BE3E2324D43C4900D7CC74 /* HostingController.swift in Sources */,
 				84B2336B24D59EEC00101DCD /* GardenListView.swift in Sources */,
 				84B2336724D59B0000101DCD /* Date-extensions.swift in Sources */,
 				84B2336124D59A9200101DCD /* GardenNotificationCenter.swift in Sources */,
+				849843C724E15F1E00DB49A4 /* GardenWatch.swift in Sources */,
 				84B2336524D59AF700101DCD /* utilities.swift in Sources */,
+				849843BF24E15B7600DB49A4 /* WCDataManager.swift in Sources */,
+				849843C924E166CC00DB49A4 /* WatchToPhoneCommunicator.swift in Sources */,
 				84BE3E2124D43C4900D7CC74 /* ContentView.swift in Sources */,
+				849843CC24E169D000DB49A4 /* WatchConnectivity-utilities.swift in Sources */,
 				84BE3E2724D43C4900D7CC74 /* NotificationController.swift in Sources */,
 				84BE3E2524D43C4900D7CC74 /* ExtensionDelegate.swift in Sources */,
-				849843BC24E1563A00DB49A4 /* PhoneAndWatchCommunicator.swift in Sources */,
 				84B2336624D59B0000101DCD /* Color-extension.swift in Sources */,
-				84B2335F24D59A9200101DCD /* Plant.swift in Sources */,
 				84BE3E2924D43C4900D7CC74 /* NotificationView.swift in Sources */,
 				84B2336424D59A9200101DCD /* UserDefaultKeys.swift in Sources */,
 				84BE3E2B24D43C4900D7CC74 /* ComplicationController.swift in Sources */,
 				84B2336324D59A9200101DCD /* WaterNotification.swift in Sources */,
+				849843C424E15DA400DB49A4 /* PlantWatch.swift in Sources */,
 				84B2336224D59A9200101DCD /* GardenNotification.swift in Sources */,
 				84B37A0224D6F1C600CD4887 /* PlantRowView.swift in Sources */,
 			);

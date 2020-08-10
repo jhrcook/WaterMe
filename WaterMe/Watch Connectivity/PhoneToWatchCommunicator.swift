@@ -9,7 +9,7 @@
 import UIKit
 import WatchConnectivity
 
-class PhoneAndWatchCommunicator: NSObject, WCSessionDelegate {
+class PhoneToWatchCommunicator: NSObject, WCSessionDelegate {
 
     private let session: WCSession
     
@@ -33,21 +33,46 @@ class PhoneAndWatchCommunicator: NSObject, WCSessionDelegate {
 
 
 
-// iOS Specific Methods
+// Sending Data
 
-#if os(iOS)
-extension PhoneAndWatchCommunicator {
-    /// Is the Watch supported, paired, and app installed?
-    /// - Returns: Boolean value to answer this question.
-    func checkConnectivityWithWatch() -> Bool {
-        return WCSession.isSupported() && session.isPaired && session.isWatchAppInstalled
+extension PhoneToWatchCommunicator {
+    
+    func addToWatch(_ plant: Plant) {
+        
+    }
+    
+    func deleteFromWatch(_ plant: Plant) {
+        
+    }
+    
+    func updateOnWatch(_ plant: Plant) {
+        
+    }
+    
+    func transferImageToWatch(_ plant: Plant) {
+        
+    }
+    
+    func sendAllDataToWatch(_ garden: Garden) {
+        
     }
 }
-#endif
 
 
-#if os(iOS)
-extension PhoneAndWatchCommunicator {
+// Receiving Data
+
+extension PhoneToWatchCommunicator {
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        <#code#>
+    }
+    
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        <#code#>
+    }
+}
+
+
+extension PhoneToWatchCommunicator {
     func sessionDidDeactivate(_ session: WCSession) {
         print("WC session deactivated.")
     }
@@ -64,4 +89,3 @@ extension PhoneAndWatchCommunicator {
         print("WC session: Watch reachability state did change.")
     }
 }
-#endif

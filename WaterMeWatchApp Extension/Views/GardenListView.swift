@@ -42,6 +42,7 @@ struct GardenListView_Previews: PreviewProvider {
         garden.plants.append(plant)
         
         garden.plants.append(Plant(name: "Plant three"))
+        
         return GardenListView(garden: garden)
     }
 }

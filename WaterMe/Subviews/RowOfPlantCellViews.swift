@@ -29,7 +29,7 @@ struct RowOfPlantCellViews: View {
     
     @Binding var forceAnimationToResetView: Bool
     
-    var watchCommunicator: PhoneAndWatchCommunicator?
+    var watchCommunicator: PhoneToWatchCommunicator?
     
     var body: some View {
         GeometryReader { geo in
