@@ -14,12 +14,12 @@ enum PlantWatchVersion: Int, Codable {
 
 struct PlantWatch: Identifiable, Codable {
     let version: PlantWatchVersion = .one
-    let id: String
+    var id: String
     
     var name: String
     var imageName: String? = nil
     
-    let dateLastWatered: Date?
+    var dateLastWatered: Date? = nil
     var wasWateredToday: Bool {
         if let date = dateLastWatered {
             return Calendar.current.isDateInToday(date)
@@ -27,6 +27,33 @@ struct PlantWatch: Identifiable, Codable {
         return false
     }
     
-    var hasNotification = false
-    var notificationWasTriggered = false
+    var dateOfNextNotification: Date? = nil
+    var notificationWasTriggered: Bool {
+        if let dateOfNextNotification = dateOfNextNotification {
+            return dateOfNextNotification < Date()
+        }
+        return false
+    }
+    
+    init() {
+        self.name = ""
+        self.id = UUID().uuidString
+    }
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    init(id: String, name: String) {
+        self.id = id
+        self.init(name: name)
+    }
+    
+    init(id: String, name: String, imageName: String?, dateLastWatered: Date?,
+         dateOfNextNotification: Date?) {
+        self.init(id: id, name: name)
+        self.imageName = imageName
+        self.dateLastWatered = dateLastWatered
+        self.dateOfNextNotification = dateOfNextNotification
+    }
 }

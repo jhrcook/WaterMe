@@ -38,23 +38,45 @@ class PhoneToWatchCommunicator: NSObject, WCSessionDelegate {
 extension PhoneToWatchCommunicator {
     
     func addToWatch(_ plant: Plant) {
-        
+        let info: [String : Any] = [
+            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.addPlant.rawValue,
+            DataDictionaryKey.data.rawValue : WCDataManager().convert(plantForWatch: plant)
+        ]
+        sendMessageOrTransfer(session: session, info: info)
     }
     
     func deleteFromWatch(_ plant: Plant) {
-        
+        let info: [String : Any] = [
+            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.deletePlant.rawValue,
+            DataDictionaryKey.data.rawValue : [plant.id]
+        ]
+        sendMessageOrTransfer(session: session, info: info)
     }
     
     func updateOnWatch(_ plant: Plant) {
-        
+        let info: [String : Any] = [
+            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.updatePlant.rawValue,
+            DataDictionaryKey.data.rawValue : WCDataManager().convert(plantForWatch: plant)
+        ]
+        sendMessageOrTransfer(session: session, info: info)
     }
     
     func transferImageToWatch(_ plant: Plant) {
-        
+        // TODO
+        // transfer file and call `updateOnWatch(plant)` to send new image name
     }
     
     func sendAllDataToWatch(_ garden: Garden) {
-        
+        let info: [String : Any] = [
+            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.allData.rawValue,
+            DataDictionaryKey.data.rawValue : WCDataManager().convert(plantsForWatch: garden.plants)
+        ]
+        do {
+            try session.updateApplicationContext(info)
+            print("Sent application context.")
+        } catch {
+            print("Unable to update application context: \(error.localizedDescription)")
+        }
     }
 }
 

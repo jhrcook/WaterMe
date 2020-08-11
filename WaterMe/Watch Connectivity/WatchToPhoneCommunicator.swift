@@ -50,12 +50,62 @@ extension WatchToPhoneCommunicator {
 extension WatchToPhoneCommunicator {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        <#code#>
+        do {
+            try parseIncomingMessageOrTransfer(info: message)
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+        } catch {
+            print("Error in parsing recieved message: \(error.localizedDescription)")
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+        }
     }
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        <#code#>
+        do {
+            try parseIncomingMessageOrTransfer(info: userInfo)
+        } catch {
+            print("Error in recieved transfer: \(error.localizedDescription)")
+        }
     }
+    
+    private func parseIncomingMessageOrTransfer(info: [String : Any]) throws {
+        if let dataTypeString = info[DataDictionaryKey.datatype.rawValue] as? String {
+            if let dataType = PhoneToWatchDataType(rawValue: dataTypeString) {
+                switch dataType {
+                case .addPlant:
+                    addPlant(plantInfo: info[DataDictionaryKey.data.rawValue] as? [String : Any] ?? [String : Any]())
+                case .deletePlant:
+                    deletePlants(plantIds: info[DataDictionaryKey.data.rawValue] as? [String] ?? [String]())
+                case .updatePlant:
+                    updatePlant(plantInfo: info[DataDictionaryKey.data.rawValue] as? [String : Any] ?? [String : Any]())
+                case .imageFile, .allData:
+                    throw WatchConnectivityDataError.inappropriateDataType(dataType.rawValue)
+                }
+            }
+        }
+        
+    }
+
+    
+    private func addPlant(plantInfo: [String : Any]) {
+        let plant = WCDataManager().convert(plantInfo: plantInfo)
+        let garden = GardenWatch()
+        garden.plants.append(plant)
+    }
+    
+    
+    private func deletePlants(plantIds: [String]) {
+        let garden = GardenWatch()
+        garden.plants = garden.plants.filter { !plantIds.contains($0.id) }
+    }
+    
+    
+    private func updatePlant(plantInfo: [String : Any]) {
+        let garden = GardenWatch()
+        let plant = WCDataManager().convert(plantInfo: plantInfo)
+        garden.update(plant, addIfNew: true, updatePlantOrder: true)
+    }
+    
+    
     
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         <#code#>

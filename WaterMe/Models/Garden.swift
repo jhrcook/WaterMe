@@ -158,10 +158,18 @@ class Garden: ObservableObject {
     
     /// Update a plant in the array of plants.
     /// - Parameter plant: The plant to update.
-    func update(_ plant: Plant) {
-        let idx = plants.firstIndex(where: { $0.id == plant.id })!
-        plants[idx] = plant
-        sortPlants()
+    /// - Parameter addIfNew: If the plant is not already in the array, should it be added?
+    /// - Parameter updatePlantOrder: Should the array be sorted?
+    func update(_ plant: Plant, addIfNew: Bool = true, updatePlantOrder: Bool = true) {
+        if let idx = plants.firstIndex(where: { $0.id == plant.id }) {
+            plants[idx] = plant
+        } else if addIfNew {
+            plants.append(plant)
+        }
+        
+        if updatePlantOrder {
+            sortPlants()
+        }
     }
     
     /// Water a plant.

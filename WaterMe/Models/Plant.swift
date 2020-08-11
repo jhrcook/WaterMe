@@ -29,7 +29,7 @@ struct Plant: Identifiable, Codable {
     private let randomImageIndex: Int = (0..<Plant.defaultImageNames.count).randomElement()!
     
     var name = ""
-    private var imageName: String? = nil
+    private(set) var imageName: String? = nil
     
     var datesWatered = [Date]() {
         didSet {

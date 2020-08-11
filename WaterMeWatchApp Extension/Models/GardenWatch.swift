@@ -13,12 +13,15 @@ enum GardenWatchVersion: Int, Codable {
 }
 
 class GardenWatch: ObservableObject {
+    
     let version = GardenWatchVersion.one
+    
     @Published var plants = [PlantWatch]() {
         didSet {
             savePlants()
         }
     }
+    
     
     init() {
         if let encodedPlants = UserDefaults.standard.data(forKey: UserDefaultKeys.plantsArrayKey) {
@@ -33,6 +36,7 @@ class GardenWatch: ObservableObject {
         self.plants = [PlantWatch]()
     }
     
+    
     func savePlants() {
         print("Saving plants.")
         let encoder = JSONEncoder()
@@ -41,13 +45,14 @@ class GardenWatch: ObservableObject {
         }
     }
     
+    
     func sortPlants() {
         plants = plants.sorted {
-            if $0.hasNotification && $0.notificationWasTriggered && $1.hasNotification && $1.notificationWasTriggered {
-                return was($0, wateredBefore: $1) ?? ($0.name < $1.name)
-            } else if $0.hasNotification && $0.notificationWasTriggered {
+            if $0.notificationWasTriggered && $1.notificationWasTriggered {
+                return $0.name < $1.name
+            } else if $0.notificationWasTriggered {
                 return true
-            } else if $1.hasNotification && $1.notificationWasTriggered {
+            } else if $1.notificationWasTriggered {
                 return false
             } else {
                 return was($0, wateredBefore: $1) ?? ($0.name < $1.name)
@@ -67,10 +72,23 @@ class GardenWatch: ObservableObject {
             }
             return false
         } else {
-            if let _ = plantTwo.dateLastWatered {
+            if plantTwo.dateLastWatered != nil {
                 return true
             }
         }
         return nil
+    }
+    
+    
+    func update(_ plant: PlantWatch, addIfNew: Bool = true, updatePlantOrder: Bool = true) {
+        if let idx = plants.firstIndex(where: { $0.id == plant.id }) {
+            plants[idx] = plant
+        } else if addIfNew {
+            plants.append(plant)
+        }
+        
+        if updatePlantOrder {
+            sortPlants()
+        }
     }
 }
