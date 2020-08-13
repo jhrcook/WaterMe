@@ -10,17 +10,17 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var garden = Garden()
+    @ObservedObject var garden = GardenWatch()
     
     var body: some View {
         GardenListView(garden: garden)
             .onAppear {
                 self.garden.plants = []
-                self.garden.plants.append(Plant(name: "Plant one"))
-                self.garden.plants.append(Plant(name: "Plant two"))
-                self.garden.plants.append(Plant(name: "Plant three"))
-                self.garden.plants.append(Plant(name: "Plant four"))
-                self.garden.plants.append(Plant(name: "Plant five"))
+                self.garden.plants.append(PlantWatch(name: "Plant one"))
+                self.garden.plants.append(PlantWatch(name: "Plant two"))
+                self.garden.plants.append(PlantWatch(name: "Plant three"))
+                self.garden.plants.append(PlantWatch(name: "Plant four"))
+                self.garden.plants.append(PlantWatch(name: "Plant five"))
             }
     }
 }

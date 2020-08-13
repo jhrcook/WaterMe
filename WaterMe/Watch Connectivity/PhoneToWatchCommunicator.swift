@@ -13,6 +13,8 @@ class PhoneToWatchCommunicator: NSObject, WCSessionDelegate {
 
     private let session: WCSession
     
+    var gardenDelegate: GardenDelegate? = nil
+    
     init(session: WCSession = .default) {
         self.session = session
         super.init()
@@ -38,39 +40,35 @@ class PhoneToWatchCommunicator: NSObject, WCSessionDelegate {
 extension PhoneToWatchCommunicator {
     
     func addToWatch(_ plant: Plant) {
-        let info: [String : Any] = [
-            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.addPlant.rawValue,
-            DataDictionaryKey.data.rawValue : WCDataManager().convert(plantForWatch: plant)
-        ]
-        sendMessageOrTransfer(session: session, info: info)
+        let dm = WCDataManager()
+        let info = dm.packageMessageInfo(datatype: .addPlant,
+                                         data: dm.convert(plantForWatch: plant))
+        session.sendMessageOrTransfer(info: info)
     }
     
     func deleteFromWatch(_ plant: Plant) {
-        let info: [String : Any] = [
-            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.deletePlant.rawValue,
-            DataDictionaryKey.data.rawValue : [plant.id]
-        ]
-        sendMessageOrTransfer(session: session, info: info)
+        let dm = WCDataManager()
+        let info = dm.packageMessageInfo(datatype: .deletePlant,
+                                         data: [plant.id])
+        session.sendMessageOrTransfer(info: info)
     }
     
     func updateOnWatch(_ plant: Plant) {
-        let info: [String : Any] = [
-            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.updatePlant.rawValue,
-            DataDictionaryKey.data.rawValue : WCDataManager().convert(plantForWatch: plant)
-        ]
-        sendMessageOrTransfer(session: session, info: info)
+        let dm = WCDataManager()
+        let info = dm.packageMessageInfo(datatype: .updatePlant, data: dm.convert(plantForWatch: plant))
+        session.sendMessageOrTransfer(info: info)
     }
     
     func transferImageToWatch(_ plant: Plant) {
         // TODO
         // transfer file and call `updateOnWatch(plant)` to send new image name
+        updateOnWatch(plant)
+        #warning("TO-DO: Image name is updated on watch, but not file is sent.")
     }
     
     func sendAllDataToWatch(_ garden: Garden) {
-        let info: [String : Any] = [
-            DataDictionaryKey.datatype.rawValue : PhoneToWatchDataType.allData.rawValue,
-            DataDictionaryKey.data.rawValue : WCDataManager().convert(plantsForWatch: garden.plants)
-        ]
+        let dm = WCDataManager()
+        let info = dm.packageMessageInfo(datatype: .allData, data: dm.convert(plantsForWatch: garden.plants))
         do {
             try session.updateApplicationContext(info)
             print("Sent application context.")
@@ -85,11 +83,56 @@ extension PhoneToWatchCommunicator {
 
 extension PhoneToWatchCommunicator {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        <#code#>
+        do {
+            try parseIncomingMessageOrTransfer(info: message)
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+        } catch {
+            print("Error in parsing recieved message: \(error.localizedDescription)")
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+        }
     }
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        <#code#>
+        do {
+            try parseIncomingMessageOrTransfer(info: userInfo)
+        } catch {
+            print("Error in recieved transfer: \(error.localizedDescription)")
+        }
+    }
+    
+    private func parseIncomingMessageOrTransfer(info: [String : Any]) throws {
+        if let dataTypeString = info[DataDictionaryKey.datatype.rawValue] as? String {
+            if let dataType = WatchToPhoneDataType(rawValue: dataTypeString) {
+                switch dataType {
+                case .requestAllData:
+                    sendAllDataToWatch(Garden())
+                case .waterPlant:
+                    waterPlants(ids: info[DataDictionaryKey.data.rawValue] as? [String] ?? [String]())
+                }
+            } else {
+                throw WatchConnectivityDataError.unknownDataType(dataTypeString)
+            }
+        } else {
+            throw WatchConnectivityDataError.noDataTypeIndicated
+        }
+    }
+    
+    func waterPlants(ids: [String]) {
+        let garden = Garden()
+        for id in ids {
+            garden.water(plantId: id)
+        }
+        if ids.count > 0 {
+            updateGardenDelegateInForeground()
+        }
+    }
+    
+    private func updateGardenDelegateInForeground() {
+        if let gardenDelegate = gardenDelegate {
+            DispatchQueue.main.async {
+                gardenDelegate.gardenDidChange()
+            }
+        }
     }
 }
 

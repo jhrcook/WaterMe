@@ -91,4 +91,23 @@ class GardenWatch: ObservableObject {
             sortPlants()
         }
     }
+    
+    
+    func delete(plantIds: [String]) {
+        for id in plantIds {
+            if let plant = plants.first(where: { $0.id == id }) {
+                plant.deletePlantImageFile()
+            }
+        }
+        plants = plants.filter { !plantIds.contains($0.id) }
+        sortPlants()
+    }
+    
+    
+    func deleteAllPlants() {
+        for plant in plants {
+            plant.deletePlantImageFile()
+        }
+        plants = []
+    }
 }

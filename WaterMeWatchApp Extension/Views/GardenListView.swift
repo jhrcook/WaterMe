@@ -11,7 +11,7 @@ import SwiftUI
 
 struct GardenListView: View {
     
-    @ObservedObject var garden: Garden
+    @ObservedObject var garden: GardenWatch
     
     var body: some View {
         GeometryReader { geo in
@@ -31,17 +31,17 @@ struct GardenListView: View {
 
 struct GardenListView_Previews: PreviewProvider {
     static var previews: some View {
-        let garden = Garden()
+        let garden = GardenWatch()
         garden.plants = []
-        var plant = Plant(name: "Plant one")
-        plant.addNewDateLastWatered(to: Date())
+        var plant = PlantWatch(name: "Plant one")
+        plant.dateLastWatered = Date()
         garden.plants.append(plant)
         
-        plant = Plant(name: "Plant two")
-        plant.addNewDateLastWatered(to: Calendar.current.date(byAdding: .day, value: -3, to: Date())!)
+        plant = PlantWatch(name: "Plant two")
+        plant.dateLastWatered = Calendar.current.date(byAdding: .day, value: -3, to: Date())!
         garden.plants.append(plant)
         
-        garden.plants.append(Plant(name: "Plant three"))
+        garden.plants.append(PlantWatch(name: "Plant three"))
         
         return GardenListView(garden: garden)
     }

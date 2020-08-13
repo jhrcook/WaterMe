@@ -32,8 +32,8 @@ struct BackOfPlantRowButton: View {
 
 struct PlantRowView: View {
     
-    @ObservedObject var garden: Garden
-    var plant: Plant
+    @ObservedObject var garden: GardenWatch
+    var plant: PlantWatch
     var outerGeo: GeometryProxy
     
     @State private var showWaterMeButton = false
@@ -96,7 +96,7 @@ struct PlantRowView: View {
                                 Image(systemName: "bell.fill")
                                     .padding(EdgeInsets(top: 0, leading: 1, bottom: 8, trailing: 10))
                                     .foregroundColor(.blue)
-                                    .opacity(self.plant.wateringNotification?.notificationTriggered ?? false ? 1 : 0)
+                                    .opacity(self.plant.notificationWasTriggered ? 1 : 0)
                                 Spacer()
                             }
                         }
@@ -158,7 +158,7 @@ struct PlantRowView: View {
 struct PlantRowView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { geo in
-            PlantRowView(garden: Garden(), plant: Plant(name: "Test plant"), outerGeo: geo)
+            PlantRowView(garden: GardenWatch(), plant: PlantWatch(name: "Test plant"), outerGeo: geo)
                 .previewLayout(.fixed(width: 400, height: 80))
         }
     }

@@ -26,7 +26,7 @@ struct Plant: Identifiable, Codable {
         return a
     }()
     
-    private let randomImageIndex: Int = (0..<Plant.defaultImageNames.count).randomElement()!
+    let randomImageIndex: Int = (0..<Plant.defaultImageNames.count).randomElement()!
     
     var name = ""
     private(set) var imageName: String? = nil
@@ -132,7 +132,7 @@ struct Plant: Identifiable, Codable {
             }
             
             if let oldImageName = oldImageName {
-                deleteFile(at: getDocumentsDirectory().appendingPathComponent(oldImageName))
+                deleteFileInBackground(at: getDocumentsDirectory().appendingPathComponent(oldImageName))
             }
         }
     }
@@ -140,18 +140,7 @@ struct Plant: Identifiable, Codable {
     
     func deletePlantImageFile() {
         if let imageName = imageName {
-            deleteFile(at: getDocumentsDirectory().appendingPathComponent(imageName))
-        }
-    }
-    
-    
-    private func deleteFile(at URL: URL) {
-        DispatchQueue.global(qos: .background).async {
-            do {
-                try FileManager.default.removeItem(at: URL)
-            } catch {
-                print("Unable to delete old image file: \(URL.absoluteString).")
-            }
+            deleteFileInBackground(at: getDocumentsDirectory().appendingPathComponent(imageName))
         }
     }
     

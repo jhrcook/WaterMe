@@ -13,6 +13,8 @@ class WatchToPhoneCommunicator: NSObject, WCSessionDelegate {
 
     private let session: WCSession
     
+    var gardenDelegate: GardenDelegate? = nil
+    
     init(session: WCSession = .default) {
         self.session = session
         super.init()
@@ -36,11 +38,15 @@ class WatchToPhoneCommunicator: NSObject, WCSessionDelegate {
 
 extension WatchToPhoneCommunicator {
     func sendWateringUpdate(_ plant: PlantWatch) {
-
+        let dm = WCDataManager()
+        let info = dm.packageMessageInfo(datatype: .waterPlant, info: [plant.id])
+        session.sendMessageOrTransfer(info: info)
     }
 
     func requestAllApplicationData() {
-
+        let dm = WCDataManager()
+        let info = dm.packageMessageInfo(datatype: .requestAllData, info: "")
+        session.sendMessageOrTransfer(info: info)
     }
 }
 
@@ -80,7 +86,11 @@ extension WatchToPhoneCommunicator {
                 case .imageFile, .allData:
                     throw WatchConnectivityDataError.inappropriateDataType(dataType.rawValue)
                 }
+            } else {
+                throw WatchConnectivityDataError.unknownDataType(dataTypeString)
             }
+        } else {
+            throw WatchConnectivityDataError.noDataTypeIndicated
         }
         
     }
@@ -88,30 +98,80 @@ extension WatchToPhoneCommunicator {
     
     private func addPlant(plantInfo: [String : Any]) {
         let plant = WCDataManager().convert(plantInfo: plantInfo)
+        print("Adding plant: '\(plant.name)'.")
         let garden = GardenWatch()
         garden.plants.append(plant)
+        updateGardenDelegateInForeground()
     }
     
     
     private func deletePlants(plantIds: [String]) {
+        print("Deleting \(plantIds.count) plant(s).")
         let garden = GardenWatch()
-        garden.plants = garden.plants.filter { !plantIds.contains($0.id) }
+        garden.delete(plantIds: plantIds)
+        updateGardenDelegateInForeground()
     }
     
     
     private func updatePlant(plantInfo: [String : Any]) {
         let garden = GardenWatch()
         let plant = WCDataManager().convert(plantInfo: plantInfo)
+        print("Updating plant: '\(plant.name)'")
         garden.update(plant, addIfNew: true, updatePlantOrder: true)
+        updateGardenDelegateInForeground()
     }
     
     
     
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
-        <#code#>
+        #warning("TO-DO: File recieved but not parsed.")
     }
     
+    
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        <#code#>
+        do {
+            try parseApplicationContext(info: applicationContext)
+        } catch {
+            print("Error in parsing application context: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    func parseApplicationContext(info: [String : Any]) throws {
+        if let dataTypeString = info[DataDictionaryKey.datatype.rawValue] as? String {
+            if let dataType = PhoneToWatchDataType.init(rawValue: dataTypeString) {
+                switch dataType {
+                case .allData:
+                    print("All plant data recieved!")
+                    setGardenPlants(fromInfo: info[DataDictionaryKey.data.rawValue] as? [[String : Any]] ?? [[String : Any]]())
+                default:
+                    throw WatchConnectivityDataError.inappropriateDataType(dataType.rawValue)
+                }
+            } else {
+                throw WatchConnectivityDataError.unknownDataType(dataTypeString)
+            }
+        } else {
+            throw WatchConnectivityDataError.noDataTypeIndicated
+        }
+    }
+    
+    
+    func setGardenPlants(fromInfo plantInfo: [[String : Any]]) {
+        let garden = GardenWatch()
+        garden.deleteAllPlants()
+        let plants = WCDataManager().convert(plantsInfo: plantInfo)
+        print("Replacing current data with \(plants) plant(s)")
+        garden.plants = plants
+        garden.sortPlants()
+        updateGardenDelegateInForeground()
+    }
+    
+    
+    private func updateGardenDelegateInForeground() {
+        if let gardenDelegate = gardenDelegate {
+            DispatchQueue.main.async {
+                gardenDelegate.gardenDidChange()
+            }
+        }
     }
 }

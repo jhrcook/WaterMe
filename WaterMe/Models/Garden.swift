@@ -183,6 +183,13 @@ class Garden: ObservableObject {
     }
     
     
+    func water(plantId: String) {
+        if let plant = plants.first(where: { $0.id == plantId}) {
+            water(plant)
+        }
+    }
+    
+    
     /// Load the saved `ordering` value from UserDefaults.
     /// - Returns: The saved `PlantOrder` value. If `nil`, defaults to `alphabetically`.
     private static func readOrderingMethodFromUserDefaults() -> PlantOrder {

@@ -39,11 +39,12 @@ enum WCMessageResponse: String {
 
 
 enum PlantWatchComponent: String {
-    case id, name, imageName, dateLastWatered, dateOfNextNotification
+    case id, name, imageName, dateLastWatered, dateOfNextNotification, randomImageIndex
 }
 
 
 struct WCDataManager {
+    
     func convert(date: Date?) -> String {
         if let date = date {
             return String(date.timeIntervalSince1970)
@@ -63,13 +64,23 @@ struct WCDataManager {
 
 #if os(iOS)
 extension WCDataManager {
+    
+    func packageMessageInfo(datatype: PhoneToWatchDataType, data: Any) -> [String : Any] {
+        let info: [String : Any] = [
+            DataDictionaryKey.datatype.rawValue : datatype.rawValue,
+            DataDictionaryKey.data.rawValue : data
+        ]
+        return info
+    }
+    
     func convert(plantForWatch plant: Plant) -> [String : Any] {
         let plantInfo: [String : Any] = [
             PlantWatchComponent.id.rawValue: plant.id,
             PlantWatchComponent.name.rawValue: plant.name,
             PlantWatchComponent.imageName.rawValue: plant.imageName ?? "",
             PlantWatchComponent.dateLastWatered.rawValue: convert(date: plant.dateLastWatered),
-            PlantWatchComponent.dateOfNextNotification.rawValue: convert(date: plant.wateringNotification?.dateOfNextNotification)
+            PlantWatchComponent.dateOfNextNotification.rawValue: convert(date: plant.wateringNotification?.dateOfNextNotification),
+            PlantWatchComponent.randomImageIndex.rawValue: plant.randomImageIndex
         ]
         return plantInfo
     }
@@ -84,6 +95,15 @@ extension WCDataManager {
 
 #if os(watchOS)
 extension WCDataManager {
+    
+    func packageMessageInfo(datatype: WatchToPhoneDataType, info: Any) -> [String : Any] {
+        let info: [String : Any] = [
+            DataDictionaryKey.datatype.rawValue : datatype,
+            DataDictionaryKey.data.rawValue : info
+        ]
+        return info
+    }
+    
     func convert(plantInfo: [String : Any]) -> PlantWatch {
         
         let id = plantInfo[PlantWatchComponent.id.rawValue] as? String ?? UUID().uuidString
@@ -105,11 +125,14 @@ extension WCDataManager {
         
         let dateOfNextNotification = unwrapDateFromString(key: PlantWatchComponent.dateOfNextNotification.rawValue)
         
+        let randomImageIndex: Int = plantInfo[PlantWatchComponent.randomImageIndex.rawValue] as? Int ?? 1
+        
         return PlantWatch(id: id,
                           name: name,
                           imageName: imageName,
                           dateLastWatered: dateLastWatered,
-                          dateOfNextNotification: dateOfNextNotification)
+                          dateOfNextNotification: dateOfNextNotification,
+                          randomImageIndex: randomImageIndex)
     }
     
     func convert(plantsInfo: [[String : Any]]) -> [PlantWatch] {
@@ -122,6 +145,7 @@ extension WCDataManager {
 enum WatchConnectivityDataError: Error, LocalizedError {
     case inappropriateDataType(String)
     case unknownDataType(String)
+    case noDataTypeIndicated
     
     var errorDescription: String? {
         switch self {
@@ -129,6 +153,8 @@ enum WatchConnectivityDataError: Error, LocalizedError {
             return NSLocalizedString("The data type '\(datatype)' is not handled by this data transfer method.", comment: "")
         case .unknownDataType(let datatype):
             return NSLocalizedString("The data type '\(datatype)' is unknown.", comment: "")
+        case .noDataTypeIndicated:
+            return NSLocalizedString("No data type key specified in data.", comment: "")
         }
     }
 }
