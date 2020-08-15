@@ -29,7 +29,7 @@ struct RowOfPlantCellViews: View {
     
     @Binding var forceAnimationToResetView: Bool
     
-    var watchCommunicator: PhoneToWatchCommunicator?
+    var watchCommunicator: PhoneToWatchCommunicator
     
     var body: some View {
         GeometryReader { geo in
@@ -58,6 +58,7 @@ struct RowOfPlantCellViews: View {
                                     if UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering) {
                                         self.garden.water(plant)
                                         self.forceAnimationToResetView.toggle()
+                                        self.watchCommunicator.updateOnWatch(plant)
                                     }
                                 }
                         }
@@ -106,12 +107,12 @@ struct RowOfPlantCellViews_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(false), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false))
+            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(false), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false), watchCommunicator: PhoneToWatchCommunicator())
                 .frame(width: 400, height: 125)
                 .padding()
                 .previewLayout(.sizeThatFits)
             
-            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(true), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false))
+            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(true), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false), watchCommunicator: PhoneToWatchCommunicator())
                 .frame(width: 400, height: 125)
                 .padding()
                 .previewLayout(.sizeThatFits)

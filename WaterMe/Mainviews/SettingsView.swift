@@ -105,6 +105,16 @@ struct SettingsView: View {
                 }
                 
                 
+                Section(header: HStack {
+                    Image(systemName: "clock")
+                    Text("Apple Watch")
+                }, footer: Text("There are many factors that control data transfer between an Apple Watch and iPhone. Please report bugs so they can be addressed in updates to the application.")) {
+                    Button("Push all data to watch") {
+                        self.watchCommunicator?.sendAllDataToWatch(self.garden)
+                    }
+                }
+                
+                
                 
                 Section(header: HStack {
                     Image(systemName: "info.circle")

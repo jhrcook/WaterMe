@@ -35,7 +35,7 @@ struct PlantDetailView: View {
     @ObservedObject var garden: Garden
     @State var plant: Plant
     
-    var watchCommunicator: PhoneToWatchCommunicator?
+    var watchCommunicator: PhoneToWatchCommunicator
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
@@ -71,7 +71,7 @@ struct PlantDetailView: View {
     @State private var showNotificationEditingView = false
     
     
-    init(garden: Garden, plant: Plant, watchCommunicator: PhoneToWatchCommunicator?, forceAnimationToResetView: Binding<Bool>) {
+    init(garden: Garden, plant: Plant, watchCommunicator: PhoneToWatchCommunicator, forceAnimationToResetView: Binding<Bool>) {
         self.garden = garden
         _plant = State(initialValue: plant)
         _image = State(initialValue: plant.loadPlantImage())
@@ -162,7 +162,7 @@ struct PlantDetailView: View {
                         .background(BackgroundView())
                         .padding(.top, self.offsetToShowShadowOnImage)
                         .sheet(isPresented: self.$showNotificationEditingView) {
-                            EditNotificationView(plant: self.$plant, garden: self.garden)
+                            EditNotificationView(plant: self.$plant, garden: self.garden, watchCommunicator: self.watchCommunicator)
                         }
                         
                         VStack {
@@ -243,9 +243,10 @@ struct PlantDetailView: View {
     
     func updatePlant(andWater waterPlant: Bool = false) {
         if waterPlant {
-            self.plant.water()
+            plant.water()
         }
-        garden.update(self.plant)
+        watchCommunicator.updateOnWatch(plant)
+        garden.update(plant)
         selectableDataDates = SelectableData(dates: plant.datesWatered)
     }
     
@@ -253,6 +254,7 @@ struct PlantDetailView: View {
     func deletePlantFromGarden() {
         plant.deletePlantImageFile()
         garden.plants.removeAll(where: { $0.id == plant.id })
+        watchCommunicator.deleteFromWatch(plant)
         presentationMode.wrappedValue.dismiss()
     }
     
@@ -261,6 +263,7 @@ struct PlantDetailView: View {
         if let uiImage = userSelectedImage {
             image = Image(uiImage: uiImage)
             plant.savePlantImage(uiImage: uiImage)
+            watchCommunicator.transferImageToWatch(plant)  // Currently, does not do anything.
         }
         updatePlant()
     }
@@ -281,13 +284,13 @@ struct PlantDetailView: View {
 struct PlantDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: nil, forceAnimationToResetView: .constant(false))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: PhoneToWatchCommunicator(), forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
             //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
             //                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: nil, forceAnimationToResetView: .constant(false))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: PhoneToWatchCommunicator(), forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
             
 //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))

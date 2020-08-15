@@ -97,4 +97,9 @@ struct PlantWatch: Identifiable, Codable {
         }
         return Image(PlantWatch.defaultImageNames[self.randomImageIndex])
     }
+    
+    mutating func water() {
+        self.dateLastWatered = Date()
+        dateOfNextNotification = nil
+    }
 }

@@ -98,7 +98,7 @@ extension WCDataManager {
     
     func packageMessageInfo(datatype: WatchToPhoneDataType, info: Any) -> [String : Any] {
         let info: [String : Any] = [
-            DataDictionaryKey.datatype.rawValue : datatype,
+            DataDictionaryKey.datatype.rawValue : datatype.rawValue,
             DataDictionaryKey.data.rawValue : info
         ]
         return info

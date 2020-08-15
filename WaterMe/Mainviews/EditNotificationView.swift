@@ -12,6 +12,7 @@ struct EditNotificationView: View {
     
     @Binding var plant: Plant
     @ObservedObject var garden: Garden
+    var watchCommunicator: PhoneToWatchCommunicator
     
     @State var plantHasNotificationsSet: Bool
     @State private var selectedNotificationType: WaterNotificationType
@@ -20,9 +21,10 @@ struct EditNotificationView: View {
     @State private var weekdayFrequency: Int
     @State private var numberOfDaysPerNotification: Int
     
-    init(plant: Binding<Plant>, garden: Garden) {
+    init(plant: Binding<Plant>, garden: Garden, watchCommunicator: PhoneToWatchCommunicator) {
         _plant = plant
         self.garden = garden
+        self.watchCommunicator = watchCommunicator
         
         _plantHasNotificationsSet = State(initialValue: plant.wrappedValue.wateringNotification != nil)
         _selectedNotificationType = State(initialValue: plant.wrappedValue.wateringNotification?.type ?? WaterNotificationType.weekday)
@@ -93,6 +95,7 @@ struct EditNotificationView: View {
                 if !self.plantHasNotificationsSet {
                     self.plant.wateringNotification = nil
                     self.garden.update(self.plant)
+                    self.watchCommunicator.updateOnWatch(self.plant)
                     return
                 }
                 
@@ -109,6 +112,7 @@ struct EditNotificationView: View {
                 // Schedule the notification and update garden.
                 self.plant.scheduleNotification()
                 self.garden.update(self.plant)
+                self.watchCommunicator.updateOnWatch(self.plant)
             }
         }
     }
@@ -117,8 +121,7 @@ struct EditNotificationView: View {
 struct EditNotificationView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            EditNotificationView(plant: .constant(Plant(name: "Test plant")), garden: Garden())
+            EditNotificationView(plant: .constant(Plant(name: "Test plant")), garden: Garden(), watchCommunicator: PhoneToWatchCommunicator())
         }
-        
     }
 }

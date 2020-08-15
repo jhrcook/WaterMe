@@ -80,16 +80,18 @@ struct MakeNewPlantView: View {
     func savePlant() {
         var datesWatered = [Date]()
         if setDateLastWatered {
-            datesWatered.append(self.dateLastWatered)
+            datesWatered.append(dateLastWatered)
         }
         
-        var newPlant = Plant(name: self.plantName, datesWatered: datesWatered)
+        var newPlant = Plant(name: plantName, datesWatered: datesWatered)
         if let uiImage = userSelectedImage {
             newPlant.savePlantImage(uiImage: uiImage)
+            watchCommunicator?.transferImageToWatch(newPlant)  // Currently, doesn't do anything.
         }
         
-        self.garden.plants.append(newPlant)
-        self.presentationMode.wrappedValue.dismiss()
+        garden.plants.append(newPlant)
+        watchCommunicator?.addToWatch(newPlant)
+        presentationMode.wrappedValue.dismiss()
     }
     
 }

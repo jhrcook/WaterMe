@@ -107,7 +107,7 @@ extension PhoneToWatchCommunicator {
                 case .requestAllData:
                     sendAllDataToWatch(Garden())
                 case .waterPlant:
-                    waterPlants(ids: info[DataDictionaryKey.data.rawValue] as? [String] ?? [String]())
+                    waterPlant(id: info[DataDictionaryKey.data.rawValue] as? String ?? "")
                 }
             } else {
                 throw WatchConnectivityDataError.unknownDataType(dataTypeString)
@@ -117,13 +117,11 @@ extension PhoneToWatchCommunicator {
         }
     }
     
-    func waterPlants(ids: [String]) {
+    func waterPlant(id: String) {
         let garden = Garden()
-        for id in ids {
-            garden.water(plantId: id)
-        }
-        if ids.count > 0 {
-            updateGardenDelegateInForeground()
+        garden.water(plantId: id)
+        if id != "" {
+             updateGardenDelegateInForeground()
         }
     }
     

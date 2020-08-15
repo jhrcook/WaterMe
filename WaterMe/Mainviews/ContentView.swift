@@ -151,6 +151,7 @@
                                         if selectedPlant.id == plant.id {
                                             plant.addNewDateLastWatered(to: Date())
                                             self.garden.plants[i] = plant
+                                            self.watchCommunicator.updateOnWatch(plant)
                                         }
                                     }
                                 }

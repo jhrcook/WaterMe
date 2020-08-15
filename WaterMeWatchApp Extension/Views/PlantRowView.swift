@@ -34,6 +34,7 @@ struct PlantRowView: View {
     
     @ObservedObject var garden: GardenWatch
     var plant: PlantWatch
+    var phoneCommunicator: WatchToPhoneCommunicator
     var outerGeo: GeometryProxy
     
     @State private var showWaterMeButton = false
@@ -54,13 +55,12 @@ struct PlantRowView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                
                 HStack {
-                    
                     Spacer()
                     
                     BackOfPlantRowButton(imageSystemName: "cloud.rain", backgroundColor: .blue, geo: geo) {
-                        print("tap button 1")
+                        self.garden.water(self.plant)
+                        self.phoneCommunicator.sendWateringUpdate(self.plant)
                         withAnimation(self.rotationAnimation) {
                             self.showWaterMeButton.toggle()
                         }
@@ -69,18 +69,15 @@ struct PlantRowView: View {
                     Spacer()
                     
                     BackOfPlantRowButton(imageSystemName: "plus", backgroundColor: .red, geo: geo, rotateImage: 45) {
-                        print("tap button 2")
                         withAnimation(self.rotationAnimation) {
                             self.showWaterMeButton.toggle()
                         }
                     }
                     
                     Spacer()
-                    
                 }
                 .opacity(!self.showWaterMeButton ? 0 : Double(self.calculateScaleSizeBasedOnFrameLocation(geo: geo)))
                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                
                 
                 
                 HStack(spacing: 0) {
@@ -114,7 +111,6 @@ struct PlantRowView: View {
                     .frame(width: geo.size.width * 8/12)
                 }
                 .onTapGesture {
-                    print("tap front")
                     withAnimation(self.rotationAnimation) {
                         self.showWaterMeButton.toggle()
                     }
@@ -127,6 +123,7 @@ struct PlantRowView: View {
             .rotation3DEffect(self.showWaterMeButton ? .degrees(180) : .degrees(0), axis: (x: 0, y: 1, z: 0))
         }
     }
+    
     
     func calculateScaleSizeBasedOnFrameLocation(geo: GeometryProxy) -> CGFloat {
         let topY: CGFloat = outerGeo.frame(in: .global).minY
@@ -158,7 +155,10 @@ struct PlantRowView: View {
 struct PlantRowView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { geo in
-            PlantRowView(garden: GardenWatch(), plant: PlantWatch(name: "Test plant"), outerGeo: geo)
+            PlantRowView(garden: GardenWatch(),
+                         plant: PlantWatch(name: "Test plant"),
+                         phoneCommunicator: WatchToPhoneCommunicator(),
+                         outerGeo: geo)
                 .previewLayout(.fixed(width: 400, height: 80))
         }
     }

@@ -8,20 +8,28 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ContentView: View, GardenDelegate {
+    func gardenDidChange() {
+        garden.reloadPlants()
+    }
+    
     
     @ObservedObject var garden = GardenWatch()
+    var phoneCommunicator = WatchToPhoneCommunicator()
     
     var body: some View {
-        GardenListView(garden: garden)
+        GardenListView(garden: garden, phoneCommunicator: phoneCommunicator)
             .onAppear {
-                self.garden.plants = []
-                self.garden.plants.append(PlantWatch(name: "Plant one"))
-                self.garden.plants.append(PlantWatch(name: "Plant two"))
-                self.garden.plants.append(PlantWatch(name: "Plant three"))
-                self.garden.plants.append(PlantWatch(name: "Plant four"))
-                self.garden.plants.append(PlantWatch(name: "Plant five"))
+                self.phoneCommunicator.gardenDelegate = self
+                self.checkFirstTimeDataRequest()
             }
+    }
+    
+    func checkFirstTimeDataRequest() {
+        let watchHasRequestedInitalData: Bool = UserDefaults.standard.bool(forKey: UserDefaultKeys.watchHasRequestedInitalData)
+        if !watchHasRequestedInitalData {
+            phoneCommunicator.requestAllApplicationData()
+        }
     }
 }
 

@@ -38,12 +38,15 @@ class WatchToPhoneCommunicator: NSObject, WCSessionDelegate {
 
 extension WatchToPhoneCommunicator {
     func sendWateringUpdate(_ plant: PlantWatch) {
+        print("Sending watering update for plant: \(plant.name)")
         let dm = WCDataManager()
-        let info = dm.packageMessageInfo(datatype: .waterPlant, info: [plant.id])
+        let info = dm.packageMessageInfo(datatype: .waterPlant, info: plant.id)
+        print(info)
         session.sendMessageOrTransfer(info: info)
     }
 
     func requestAllApplicationData() {
+        print("Requesting all application data.")
         let dm = WCDataManager()
         let info = dm.packageMessageInfo(datatype: .requestAllData, info: "")
         session.sendMessageOrTransfer(info: info)
@@ -57,6 +60,7 @@ extension WatchToPhoneCommunicator {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         do {
+            print("Message recieved and attempting to parse.")
             try parseIncomingMessageOrTransfer(info: message)
             replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
         } catch {
@@ -130,6 +134,7 @@ extension WatchToPhoneCommunicator {
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         do {
+            print("Recieved application context and trying to parse.")
             try parseApplicationContext(info: applicationContext)
         } catch {
             print("Error in parsing application context: \(error.localizedDescription)")
@@ -144,6 +149,7 @@ extension WatchToPhoneCommunicator {
                 case .allData:
                     print("All plant data recieved!")
                     setGardenPlants(fromInfo: info[DataDictionaryKey.data.rawValue] as? [[String : Any]] ?? [[String : Any]]())
+                    setRequestedInitialDataToTrue()
                 default:
                     throw WatchConnectivityDataError.inappropriateDataType(dataType.rawValue)
                 }
@@ -164,6 +170,10 @@ extension WatchToPhoneCommunicator {
         garden.plants = plants
         garden.sortPlants()
         updateGardenDelegateInForeground()
+    }
+    
+    private func setRequestedInitialDataToTrue() {
+        UserDefaults.standard.set(true, forKey: UserDefaultKeys.watchHasRequestedInitalData)
     }
     
     

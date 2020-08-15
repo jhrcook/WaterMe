@@ -24,6 +24,10 @@ class GardenWatch: ObservableObject {
     
     
     init() {
+        loadPlants()
+    }
+    
+    private func loadPlants() {
         if let encodedPlants = UserDefaults.standard.data(forKey: UserDefaultKeys.plantsArrayKey) {
             let decoder = JSONDecoder()
             if let decodedPlants = try? decoder.decode([PlantWatch].self, from: encodedPlants) {
@@ -33,7 +37,6 @@ class GardenWatch: ObservableObject {
             }
         }
         print("Unable to read in plants - setting empty array.")
-        self.plants = [PlantWatch]()
     }
     
     
@@ -43,6 +46,10 @@ class GardenWatch: ObservableObject {
         if let encodedData  = try? encoder.encode(plants) {
             UserDefaults.standard.set(encodedData, forKey: UserDefaultKeys.plantsArrayKey)
         }
+    }
+    
+    func reloadPlants() {
+        loadPlants()
     }
     
     
@@ -90,6 +97,13 @@ class GardenWatch: ObservableObject {
         if updatePlantOrder {
             sortPlants()
         }
+    }
+    
+    
+    func water(_ plant: PlantWatch) {
+        var newPlant = plant
+        newPlant.water()
+        update(newPlant)
     }
     
     
