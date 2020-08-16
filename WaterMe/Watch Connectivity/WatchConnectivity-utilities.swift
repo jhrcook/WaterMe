@@ -29,7 +29,7 @@ extension WCSession {
     #endif
     
     
-    func sendMessageOrTransfer(info: [String: Any]) {
+    func sendMessageOrTransfer(info: [String : Any]) {
         #if os(iOS)
         if !checkConnectivityWithWatch(self) {
             print("No device paired with phone - returning early")
@@ -39,6 +39,7 @@ extension WCSession {
         
         if self.activationState == .activated {
             print("Attempting to send message.")
+            
             self.sendMessage(info, replyHandler: { replyMessage in
                 if let response = messageReplyType(replyMessage) {
                     switch response {
@@ -51,7 +52,7 @@ extension WCSession {
                 }
             }, errorHandler: { errorHandler in
                 print("Error on sending message: \(errorHandler.localizedDescription)")
-                print("\tAttempting transfer.")
+                print("Attempting transfer.")
                 self.transferUserInfo(info)
             })
         }

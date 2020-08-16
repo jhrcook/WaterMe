@@ -39,16 +39,19 @@ class WatchToPhoneCommunicator: NSObject, WCSessionDelegate {
 extension WatchToPhoneCommunicator {
     func sendWateringUpdate(_ plant: PlantWatch) {
         print("Sending watering update for plant: \(plant.name)")
-        let dm = WCDataManager()
-        let info = dm.packageMessageInfo(datatype: .waterPlant, info: plant.id)
+        let info = WCDataManager().packageMessageInfo(datatype: .waterPlant, info: plant.id)
         print(info)
-        session.sendMessageOrTransfer(info: info)
+//        session.sendMessageOrTransfer(info: info)
+        session.sendMessage(info, replyHandler: { replyMessage in
+            print("reply message \(replyMessage)")
+        }, errorHandler: { errorHandler in
+            print("error: \(errorHandler.localizedDescription)")
+        })
     }
 
     func requestAllApplicationData() {
         print("Requesting all application data.")
-        let dm = WCDataManager()
-        let info = dm.packageMessageInfo(datatype: .requestAllData, info: "")
+        let info = WCDataManager().packageMessageInfo(datatype: .requestAllData, info: "")
         session.sendMessageOrTransfer(info: info)
     }
 }

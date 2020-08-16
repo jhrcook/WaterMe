@@ -51,7 +51,7 @@ struct PlantDetailView: View {
     @State private var userSelectedImage: UIImage?
     
     @State private var editLoggedWateringDates = false
-            
+    
     let offsetToShowShadowOnImage: CGFloat = -21
     
     @State var selectableDataDates: SelectableData
@@ -141,7 +141,7 @@ struct PlantDetailView: View {
                                 .lineLimit(nil)
                                 .multilineTextAlignment(.center)
                                 .padding()
-                                                        
+                            
                             Spacer()
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
@@ -189,11 +189,11 @@ struct PlantDetailView: View {
                                         self.editLoggedWateringDates.toggle()
                                     }
                                 })
-                                .padding(EdgeInsets(top: 18, leading: 25, bottom: 18, trailing: 25))
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .foregroundColor(Color(.tertiarySystemBackground))
-                                        .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
+                                    .padding(EdgeInsets(top: 18, leading: 25, bottom: 18, trailing: 25))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .foregroundColor(Color(.tertiarySystemBackground))
+                                            .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
                                 )
                             } else {
                                 VerticalTimeLine(dates: self.plant.datesWatered)
@@ -293,8 +293,8 @@ struct PlantDetailView_Previews: PreviewProvider {
             PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: PhoneToWatchCommunicator(), forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
             
-//            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro Max"))
+            //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
+            //            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro Max"))
             
             //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
             //                .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
