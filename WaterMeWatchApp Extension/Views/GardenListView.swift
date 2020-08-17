@@ -14,21 +14,41 @@ struct GardenListView: View {
     @ObservedObject var garden: GardenWatch
     var phoneCommunicator: WatchToPhoneCommunicator
     
+    @State private var forceAnimation: Bool = false
+    
     var body: some View {
         GeometryReader { geo in
-            List {
-                ForEach(self.garden.plants) { plant in
-                    PlantRowView(garden: self.garden, plant: plant, phoneCommunicator: self.phoneCommunicator, outerGeo: geo)
-                        .frame(height: 80)
-                        .buttonStyle(PlainButtonStyle())
+            ZStack {
+                
+                Text("").opacity(0).rotationEffect(.degrees(self.forceAnimation ? 0 : 180))
+                
+                List {
+                    ForEach(self.garden.plants, id: \.idForForEach) { plant in
+                        PlantRowView(garden: self.garden, plant: plant, phoneCommunicator: self.phoneCommunicator, outerGeo: geo)
+                            .frame(height: 80)
+                            .buttonStyle(PlainButtonStyle())
+                    }
+                    .listRowBackground(Color.clear)
                 }
-                .listRowBackground(Color.clear)
+                .edgesIgnoringSafeArea(.bottom)
             }
-            .edgesIgnoringSafeArea(.bottom)
         }
         .edgesIgnoringSafeArea(.bottom)
+        .onAppear() {
+            self.phoneCommunicator.gardenDelegate = self
+        }
     }
 }
+
+extension GardenListView: GardenDelegate {
+    func gardenDidChange() {
+        print("Garden did change (watch: GardenListView).")
+        garden.reloadPlants()
+        forceAnimation.toggle()
+    }
+}
+
+
 
 struct GardenListView_Previews: PreviewProvider {
     static var previews: some View {

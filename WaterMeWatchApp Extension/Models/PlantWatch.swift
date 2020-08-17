@@ -51,6 +51,8 @@ struct PlantWatch: Identifiable, Codable {
         return a
     }()
     
+    var idForForEach = UUID().uuidString
+    
     init() {
         self.name = ""
         self.id = UUID().uuidString

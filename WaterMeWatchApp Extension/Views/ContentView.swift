@@ -9,18 +9,13 @@
 import SwiftUI
 
 struct ContentView: View, GardenDelegate {
-    func gardenDidChange() {
-        garden.reloadPlants()
-    }
-    
-    
     @ObservedObject var garden = GardenWatch()
     var phoneCommunicator = WatchToPhoneCommunicator()
     
     var body: some View {
         GardenListView(garden: garden, phoneCommunicator: phoneCommunicator)
             .onAppear {
-                self.phoneCommunicator.gardenDelegate = self
+//                self.phoneCommunicator.gardenDelegate = self
                 self.checkFirstTimeDataRequest()
             }
     }
@@ -30,6 +25,10 @@ struct ContentView: View, GardenDelegate {
         if !watchHasRequestedInitalData {
             phoneCommunicator.requestAllApplicationData()
         }
+    }
+    
+    func gardenDidChange() {
+        garden.reloadPlants()
     }
 }
 

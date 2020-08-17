@@ -22,20 +22,19 @@ fileprivate func messageReplyType(_ replyMessage: [String : Any]) -> WCMessageRe
 
 extension WCSession {
     
-    #if os(iOS)
     func checkConnectivityWithWatch(_ session: WCSession) -> Bool {
+        #if os(iOS)
         return WCSession.isSupported() && session.isPaired && session.isWatchAppInstalled
+        #endif
+        return WCSession.isSupported()
     }
-    #endif
     
     
     func sendMessageOrTransfer(info: [String : Any]) {
-        #if os(iOS)
         if !checkConnectivityWithWatch(self) {
             print("No device paired with phone - returning early")
             return
         }
-        #endif
         
         if self.activationState == .activated {
             print("Attempting to send message.")

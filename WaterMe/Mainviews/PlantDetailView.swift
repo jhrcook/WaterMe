@@ -238,6 +238,9 @@ struct PlantDetailView: View {
                 ImagePicker(image: self.$userSelectedImage)
             }
         }
+        .onAppear() {
+            self.watchCommunicator.gardenDelegate = self
+        }
     }
     
     
@@ -280,6 +283,23 @@ struct PlantDetailView: View {
         updatePlant()
     }
 }
+
+
+extension PlantDetailView: GardenDelegate {
+    func gardenDidChange() {
+        print("Garden did change (detail view).")
+        garden.reloadPlants()
+        
+        for updatedPlant in garden.plants {
+            if updatedPlant.id == plant.id {
+                plant = updatedPlant
+            }
+        }
+        
+        forceAnimationToResetView.toggle()
+    }
+}
+
 
 struct PlantDetailView_Previews: PreviewProvider {
     static var previews: some View {

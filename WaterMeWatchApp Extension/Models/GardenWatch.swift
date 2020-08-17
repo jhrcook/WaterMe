@@ -103,7 +103,7 @@ class GardenWatch: ObservableObject {
     func water(_ plant: PlantWatch) {
         var newPlant = plant
         newPlant.water()
-        update(newPlant)
+        update(newPlant, addIfNew: false, updatePlantOrder: true)
     }
     
     

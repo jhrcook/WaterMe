@@ -46,25 +46,32 @@ class Garden: ObservableObject {
     
     
     init() {
-        
         if (Garden.inTesting) {
             print("Making mock plants for testing.")
             self.plants = mockPlants()
             sortPlants()
             return
         }
-        
+        loadPlants()
+    }
+    
+    
+    private func loadPlants() {
         if let encodedPlants = UserDefaults.standard.data(forKey: UserDefaultKeys.plantsArrayKey) {
             let decoder = JSONDecoder()
             if let decodedPlants = try? decoder.decode([Plant].self, from: encodedPlants) {
-                self.plants = decodedPlants
+                plants = decodedPlants
                 sortPlants()
+                print("Loaded \(plants.count) plants.")
                 return
             }
         }
-        
         print("Unable to read in plants - setting empty array.")
-        self.plants = [Plant]()
+    }
+    
+    
+    func reloadPlants() {
+        loadPlants()
     }
     
     

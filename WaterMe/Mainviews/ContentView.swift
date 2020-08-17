@@ -13,7 +13,7 @@
  
  
  struct ContentView: View {
-    
+
     @ObservedObject var garden = Garden()
     
     @Environment(\.colorScheme) var colorScheme
@@ -78,22 +78,22 @@
                         }
                         .buttonStyle(PlainButtonStyle())
                         
-//                        Button(action: {
-//                            print("All notifications:")
-//                            let nc = GardenNotificationCenter()
-//                            for notification in nc.scheduledNotifications {
-//                                print("\(notification.id): \(notification.description)")
-//                            }
-//                        }) {
-//                            HStack(spacing: 5) {
-//                                Spacer()
-//                                Image(systemName: "bell.circle")
-//                                Text("Print Notifs")
-//                                Spacer()
-//                            }
-//                            .foregroundColor(self.colorScheme == .light ? .black : .white)
-//                        }
-//                        .buttonStyle(PlainButtonStyle())
+                        Button(action: {
+                            print("All notifications:")
+                            let nc = GardenNotificationCenter()
+                            for notification in nc.scheduledNotifications {
+                                print("\(notification.id): \(notification.description)")
+                            }
+                        }) {
+                            HStack(spacing: 5) {
+                                Spacer()
+                                Image(systemName: "bell.circle")
+                                Text("Print Notifs")
+                                Spacer()
+                            }
+                            .foregroundColor(self.colorScheme == .light ? .black : .white)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                         
                     }
                     .frame(maxHeight: .infinity)
@@ -185,6 +185,7 @@
         .onAppear {
             print("There are \(self.garden.plants.count) plants in `garden`.")
             UITableView.appearance().separatorStyle = .none
+            self.watchCommunicator.gardenDelegate = self
         }
     }
     
@@ -193,6 +194,16 @@
         var x: CGFloat = totalHeight / CGFloat(self.numberOfPlantsPerRow)
         x -= (CGFloat(self.numberOfPlantsPerRow - 1) * cellSpacing)
         return x
+    }
+ }
+ 
+ 
+ 
+ extension ContentView: GardenDelegate {
+    func gardenDidChange() {
+        print("Garden did change.")
+        garden.reloadPlants()
+        forceAnimationToResetView.toggle()
     }
  }
  

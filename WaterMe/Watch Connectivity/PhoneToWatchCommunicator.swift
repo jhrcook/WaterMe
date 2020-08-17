@@ -85,10 +85,10 @@ extension PhoneToWatchCommunicator {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         do {
             try parseIncomingMessageOrTransfer(info: message)
-            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success.rawValue])
         } catch {
             print("Error in parsing recieved message: \(error.localizedDescription)")
-            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.failure.rawValue])
         }
     }
     

@@ -30,10 +30,34 @@ struct BackOfPlantRowButton: View {
 }
 
 
+struct NotificationBell: View {
+    @Binding var plant: PlantWatch
+    
+    
+    enum NotificationState {
+        case triggered, set, none
+    }
+    var notificationState: NotificationState {
+        if plant.notificationWasTriggered {
+            return .triggered
+        } else if plant.dateOfNextNotification != nil {
+            return .set
+        }
+        return .none
+    }
+    
+    var body: some View {
+        Image(systemName: "bell.fill")
+            .foregroundColor(notificationState == .triggered ? .blue : .white)
+            .opacity(notificationState == .triggered || notificationState == .set ? 1 : 0)
+    }
+}
+
+
 struct PlantRowView: View {
     
     @ObservedObject var garden: GardenWatch
-    var plant: PlantWatch
+    @State var plant: PlantWatch
     var phoneCommunicator: WatchToPhoneCommunicator
     var outerGeo: GeometryProxy
     
@@ -59,7 +83,8 @@ struct PlantRowView: View {
                     Spacer()
                     
                     BackOfPlantRowButton(imageSystemName: "cloud.rain", backgroundColor: .blue, geo: geo) {
-                        self.garden.water(self.plant)
+                        self.plant.water()
+                        self.garden.update(self.plant, addIfNew: false, updatePlantOrder: true)
                         self.phoneCommunicator.sendWateringUpdate(self.plant)
                         withAnimation(self.rotationAnimation) {
                             self.showWaterMeButton.toggle()
@@ -90,10 +115,8 @@ struct PlantRowView: View {
                         VStack {
                             Spacer()
                             HStack {
-                                Image(systemName: "bell.fill")
+                                NotificationBell(plant: self.$plant)
                                     .padding(EdgeInsets(top: 0, leading: 1, bottom: 8, trailing: 10))
-                                    .foregroundColor(.blue)
-                                    .opacity(self.plant.notificationWasTriggered ? 1 : 0)
                                 Spacer()
                             }
                         }

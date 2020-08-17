@@ -56,9 +56,11 @@ struct RowOfPlantCellViews: View {
                                 }
                                 .onLongPressGesture {
                                     if UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering) {
-                                        self.garden.water(plant)
+                                        var copiedPlant = plant
+                                        copiedPlant.water()
+                                        self.garden.update(copiedPlant, addIfNew: false, updatePlantOrder: true)
                                         self.forceAnimationToResetView.toggle()
-                                        self.watchCommunicator.updateOnWatch(plant)
+                                        self.watchCommunicator.updateOnWatch(copiedPlant)
                                     }
                                 }
                         }

@@ -41,12 +41,7 @@ extension WatchToPhoneCommunicator {
         print("Sending watering update for plant: \(plant.name)")
         let info = WCDataManager().packageMessageInfo(datatype: .waterPlant, info: plant.id)
         print(info)
-//        session.sendMessageOrTransfer(info: info)
-        session.sendMessage(info, replyHandler: { replyMessage in
-            print("reply message \(replyMessage)")
-        }, errorHandler: { errorHandler in
-            print("error: \(errorHandler.localizedDescription)")
-        })
+        session.sendMessageOrTransfer(info: info)
     }
 
     func requestAllApplicationData() {
@@ -65,10 +60,10 @@ extension WatchToPhoneCommunicator {
         do {
             print("Message recieved and attempting to parse.")
             try parseIncomingMessageOrTransfer(info: message)
-            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success.rawValue])
         } catch {
             print("Error in parsing recieved message: \(error.localizedDescription)")
-            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success])
+            replyHandler([WCMessageResponse.response.rawValue : WCMessageResponse.WCResponseType.success.rawValue])
         }
     }
     
