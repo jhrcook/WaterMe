@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum DataDictionaryKey: String {
     case datatype, data
@@ -158,3 +158,40 @@ enum WatchConnectivityDataError: Error, LocalizedError {
         }
     }
 }
+
+
+#if os(iOS)
+
+enum ImageFileAdjustmentError: Error, LocalizedError {
+    case unableToCompressToJPEG
+    case unableToLoadUIImageFromData
+    
+    var errorDescription: String? {
+        switch self {
+        case .unableToCompressToJPEG:
+            return NSLocalizedString("The compression of the image data failed.", comment: "")
+        case .unableToLoadUIImageFromData:
+            return NSLocalizedString("The reading of the file data as a JPEG failed.", comment: "")
+        }
+    }
+}
+
+func copyResizeCompressJPEG(url: URL) throws -> URL {
+    let newName = "\(UUID().uuidString).jpeg"
+    let newUrl = getDocumentsDirectory().appendingPathComponent(newName)
+    
+    let imageData = try Data(contentsOf: url)
+    if let image = UIImage(data: imageData) {
+        let newImage = image.resized(toWidth: 50)
+        if let newData = newImage?.jpegData(compressionQuality: 0.7) {
+            try newData.write(to: newUrl)
+        } else {
+            throw ImageFileAdjustmentError.unableToCompressToJPEG
+        }
+    } else {
+        throw ImageFileAdjustmentError.unableToLoadUIImageFromData
+    }
+    
+    return newUrl
+}
+#endif

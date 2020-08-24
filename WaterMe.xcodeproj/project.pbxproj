@@ -24,6 +24,7 @@
 		843EBEE424B7C6370021323A /* BigGreenFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */; };
 		843EBEE624B7C85C0021323A /* MakeNewPlantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */; };
 		8450E5DC24B8A14400795CA3 /* PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450E5DB24B8A14400795CA3 /* PlantDetailView.swift */; };
+		845AB9E424F3D690000A6D2F /* UIImage-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AB9E324F3D68F000A6D2F /* UIImage-extension.swift */; };
 		845F53F824CF40C3007EFAF5 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F53F724CF40C3007EFAF5 /* UserDefaultKeys.swift */; };
 		845F53FA24CF43D3007EFAF5 /* EditNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F53F924CF43D3007EFAF5 /* EditNotificationView.swift */; };
 		8469514C24CDC8F700512AE8 /* WaterNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469514B24CDC8F700512AE8 /* WaterNotification.swift */; };
@@ -135,6 +136,7 @@
 		843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigGreenFloatingButton.swift; sourceTree = "<group>"; };
 		843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeNewPlantView.swift; sourceTree = "<group>"; };
 		8450E5DB24B8A14400795CA3 /* PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailView.swift; sourceTree = "<group>"; };
+		845AB9E324F3D68F000A6D2F /* UIImage-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage-extension.swift"; sourceTree = "<group>"; };
 		845F53F724CF40C3007EFAF5 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		845F53F924CF43D3007EFAF5 /* EditNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditNotificationView.swift; path = WaterMe/Mainviews/EditNotificationView.swift; sourceTree = SOURCE_ROOT; };
 		8469514B24CDC8F700512AE8 /* WaterNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterNotification.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				8478646524BF3AFB00674EA9 /* Color-extension.swift */,
 				84153CB924D04BDF006535F0 /* Date-extensions.swift */,
 				84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */,
+				845AB9E324F3D68F000A6D2F /* UIImage-extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				841DB9E924B5F0EF0048A5B7 /* AppDelegate.swift in Sources */,
 				84153CBA24D04BDF006535F0 /* Date-extensions.swift in Sources */,
 				84B2336924D59BCA00101DCD /* KeyboardDismiss-extension.swift in Sources */,
+				845AB9E424F3D690000A6D2F /* UIImage-extension.swift in Sources */,
 				843EBEE224B7BA7E0021323A /* Plant.swift in Sources */,
 				8469514E24CDCECF00512AE8 /* SettingsView.swift in Sources */,
 				849843C324E15DA400DB49A4 /* PlantWatch.swift in Sources */,

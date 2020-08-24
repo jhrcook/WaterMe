@@ -22,6 +22,10 @@ See the [Projects](https://github.com/jhrcook/WaterMe/projects/1) tab to view th
 
 <img width="400px" src="demos/waterme-setupnotifications.gif">
 
-### Companion Watch app (UI only at the moment)
+### Companion Watch app
 
 <img width="300px" src="demos/waterme-watch-ui.gif">
+
+### Can water a plant from the watch
+
+<img width="400px" src="demos/waterme-watch-connectivity.gif">
