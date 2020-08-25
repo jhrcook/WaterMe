@@ -109,9 +109,9 @@ struct PlantRowView: View {
                     ZStack {
                         self.plant.loadPlantImage()
                             .resizable()
-                            .scaledToFit()
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
                             .clipShape(Circle())
-                            .frame(width: 65)
                         VStack {
                             Spacer()
                             HStack {

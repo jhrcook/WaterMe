@@ -241,6 +241,9 @@ struct PlantDetailView: View {
         .onAppear() {
             self.watchCommunicator.gardenDelegate = self
         }
+        .onDisappear() {
+            self.watchCommunicator.transferImageToWatch(self.plant)
+        }
     }
     
     
@@ -266,7 +269,6 @@ struct PlantDetailView: View {
         if let uiImage = userSelectedImage {
             image = Image(uiImage: uiImage)
             plant.savePlantImage(uiImage: uiImage)
-            watchCommunicator.transferImageToWatch(plant)  // Currently, does not do anything.
         }
         updatePlant()
     }

@@ -89,7 +89,15 @@ class GardenWatch: ObservableObject {
     
     func update(_ plant: PlantWatch, addIfNew: Bool = true, updatePlantOrder: Bool = true) {
         if let idx = plants.firstIndex(where: { $0.id == plant.id }) {
+            
+            // Check if the new plant has a different image file.
+            let oldPlant = plants[idx]
+            if oldPlant.imageName != plant.imageName {
+                oldPlant.deletePlantImageFile()
+            }
+            
             plants[idx] = plant
+            
         } else if addIfNew {
             plants.append(plant)
         }

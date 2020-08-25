@@ -46,6 +46,7 @@ extension PhoneToWatchCommunicator {
         session.sendMessageOrTransfer(info: info)
     }
     
+    
     func deleteFromWatch(_ plant: Plant) {
         let dm = WCDataManager()
         let info = dm.packageMessageInfo(datatype: .deletePlant,
@@ -53,18 +54,38 @@ extension PhoneToWatchCommunicator {
         session.sendMessageOrTransfer(info: info)
     }
     
+    
     func updateOnWatch(_ plant: Plant) {
         let dm = WCDataManager()
         let info = dm.packageMessageInfo(datatype: .updatePlant, data: dm.convert(plantForWatch: plant))
         session.sendMessageOrTransfer(info: info)
     }
     
-    func transferImageToWatch(_ plant: Plant) {
-        // TODO
-        // transfer file and call `updateOnWatch(plant)` to send new image name
-        updateOnWatch(plant)
-        #warning("TO-DO: Image name is updated on watch, but not file is sent.")
+    
+    func transferImageToWatch(_ plant: Plant, andSendUpdatedPlant sendUpdatedPlant: Bool = true) {
+        print("Transfering image from plant '\(plant.name)'.")
+        guard let originalImageName = plant.imageName else { return }
+        
+        let originalImageURL = getDocumentsDirectory().appendingPathComponent(originalImageName)
+        do {
+            print("Copying and resizing image to send to watch.")
+            let newImageURL = try copyResizeCompressJPEG(url: originalImageURL)
+            session.transferFile(newImageURL, metadata: [PhoneToWatchDataType.imageFilename.rawValue : originalImageName])
+            if sendUpdatedPlant { updateOnWatch(plant) }
+        } catch {
+            print("error in resizing image: \(error.localizedDescription)")
+        }
     }
+    
+    
+    func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
+        if let error = error {
+            print("File transfer did finish with error: \(error.localizedDescription)")
+        } else {
+            print("File transfer did finish without error.")
+        }
+    }
+    
     
     func sendAllDataToWatch(_ garden: Garden) {
         let dm = WCDataManager()

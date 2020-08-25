@@ -85,7 +85,7 @@ extension WatchToPhoneCommunicator {
                     deletePlants(plantIds: info[DataDictionaryKey.data.rawValue] as? [String] ?? [String]())
                 case .updatePlant:
                     updatePlant(plantInfo: info[DataDictionaryKey.data.rawValue] as? [String : Any] ?? [String : Any]())
-                case .imageFile, .allData:
+                case .imageFilename, .allData:
                     throw WatchConnectivityDataError.inappropriateDataType(dataType.rawValue)
                 }
             } else {
@@ -94,7 +94,6 @@ extension WatchToPhoneCommunicator {
         } else {
             throw WatchConnectivityDataError.noDataTypeIndicated
         }
-        
     }
 
     
@@ -126,7 +125,23 @@ extension WatchToPhoneCommunicator {
     
     
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
-        #warning("TO-DO: File recieved but not parsed.")
+        print("Recieved file transfer.")
+        if let metadata = file.metadata {
+            if let plantImageName = metadata[PhoneToWatchDataType.imageFilename.rawValue] as? String {
+                print("Updating plant and transfering file.")
+                let newURL = getDocumentsDirectory().appendingPathComponent(plantImageName)
+                do {
+                    try FileManager().copyItem(at: file.fileURL, to: newURL)
+                } catch {
+                    print("Unable to copy transfered file: \(error.localizedDescription)")
+                }
+                updateGardenDelegateInForeground()
+            } else {
+                print("Unable to access file name in meta data.")
+            }
+        } else {
+            print("No file meta data with transfered file.")
+        }
     }
     
     

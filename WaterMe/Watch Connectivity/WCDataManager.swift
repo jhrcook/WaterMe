@@ -17,7 +17,7 @@ enum PhoneToWatchDataType: String {
     case addPlant
     case deletePlant
     case updatePlant
-    case imageFile
+    case imageFilename
     case allData
 }
 
@@ -182,7 +182,7 @@ func copyResizeCompressJPEG(url: URL) throws -> URL {
     
     let imageData = try Data(contentsOf: url)
     if let image = UIImage(data: imageData) {
-        let newImage = image.resized(toWidth: 50)
+        let newImage = image.resized(toWidth: 150)
         if let newData = newImage?.jpegData(compressionQuality: 0.7) {
             try newData.write(to: newUrl)
         } else {

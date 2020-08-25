@@ -24,7 +24,8 @@ See the [Projects](https://github.com/jhrcook/WaterMe/projects/1) tab to view th
 
 ### Companion Watch app
 
-<img width="300px" src="demos/waterme-watch-ui.gif">
+<img height="220px" src="demos/waterme-watch-ui.gif">
+<img height="220px" src="demos/waterme-watch-image.png">
 
 ### Can water a plant from the watch
 

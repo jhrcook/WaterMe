@@ -22,7 +22,7 @@ struct MakeNewPlantView: View {
     
     @State private var userSelectedImage: UIImage?
     
-    var watchCommunicator: PhoneToWatchCommunicator?
+    var watchCommunicator: PhoneToWatchCommunicator
     
     var body: some View {
         NavigationView {
@@ -86,11 +86,11 @@ struct MakeNewPlantView: View {
         var newPlant = Plant(name: plantName, datesWatered: datesWatered)
         if let uiImage = userSelectedImage {
             newPlant.savePlantImage(uiImage: uiImage)
-            watchCommunicator?.transferImageToWatch(newPlant)  // Currently, doesn't do anything.
         }
         
         garden.plants.append(newPlant)
-        watchCommunicator?.addToWatch(newPlant)
+        watchCommunicator.addToWatch(newPlant)
+        watchCommunicator.transferImageToWatch(newPlant, andSendUpdatedPlant: false)
         presentationMode.wrappedValue.dismiss()
     }
     
@@ -98,6 +98,6 @@ struct MakeNewPlantView: View {
 
 struct MakeNewPlantView_Previews: PreviewProvider {
     static var previews: some View {
-        MakeNewPlantView(garden: Garden())
+        MakeNewPlantView(garden: Garden(), watchCommunicator: PhoneToWatchCommunicator())
     }
 }
