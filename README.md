@@ -8,8 +8,6 @@ An iOS application written in SwiftUI to help keep track of watering plants.
 ![Swift](https://img.shields.io/badge/Swift-Swift_Project-FA7343.svg?style=flat&logo=swift)
 ![iOS](https://img.shields.io/badge/iOS-iOS_Project-999999.svg?style=flat&logo=apple)
 
-See the [Projects](https://github.com/jhrcook/WaterMe/projects/1) tab to view the To-Do list.
-
 ### Edit logged watering dates
 
 <img width="400px" src="demos/waterme-editloggedwaters.gif">
