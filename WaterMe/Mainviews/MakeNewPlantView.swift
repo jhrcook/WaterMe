@@ -22,6 +22,8 @@ struct MakeNewPlantView: View {
     
     @State private var userSelectedImage: UIImage?
     
+    var watchCommunicator: PhoneToWatchCommunicator
+    
     var body: some View {
         NavigationView {
             Form {
@@ -78,22 +80,24 @@ struct MakeNewPlantView: View {
     func savePlant() {
         var datesWatered = [Date]()
         if setDateLastWatered {
-            datesWatered.append(self.dateLastWatered)
+            datesWatered.append(dateLastWatered)
         }
         
-        var newPlant = Plant(name: self.plantName, datesWatered: datesWatered)
+        var newPlant = Plant(name: plantName, datesWatered: datesWatered)
         if let uiImage = userSelectedImage {
             newPlant.savePlantImage(uiImage: uiImage)
         }
         
-        self.garden.plants.append(newPlant)
-        self.presentationMode.wrappedValue.dismiss()
+        garden.plants.append(newPlant)
+        watchCommunicator.addToWatch(newPlant)
+        watchCommunicator.transferImageToWatch(newPlant, andSendUpdatedPlant: false)
+        presentationMode.wrappedValue.dismiss()
     }
     
 }
 
 struct MakeNewPlantView_Previews: PreviewProvider {
     static var previews: some View {
-        MakeNewPlantView(garden: Garden())
+        MakeNewPlantView(garden: Garden(), watchCommunicator: PhoneToWatchCommunicator())
     }
 }

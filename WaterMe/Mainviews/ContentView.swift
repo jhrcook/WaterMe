@@ -13,7 +13,7 @@
  
  
  struct ContentView: View {
-    
+
     @ObservedObject var garden = Garden()
     
     @Environment(\.colorScheme) var colorScheme
@@ -37,6 +37,8 @@
     
     @State private var forceAnimationToResetView = false
     
+    var watchCommunicator = PhoneToWatchCommunicator()
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -58,7 +60,8 @@
                                                     multiselectMode: self.$isInMultiselectMode,
                                                     multiselectedPlants: self.$multiselectedPlants,
                                                     cellSpacing: cellSpacing,
-                                                    forceAnimationToResetView: self.$forceAnimationToResetView)
+                                                    forceAnimationToResetView: self.$forceAnimationToResetView,
+                                                    watchCommunicator: self.watchCommunicator)
                                     .frame(width: geo.size.width, height: self.calculateHeightForCell(from: geo.size.width, withCellSpacing: cellSpacing))
                             }
                         }
@@ -94,7 +97,9 @@
                         
                     }
                     .frame(maxHeight: .infinity)
-                    .sheet(isPresented: self.$showSettings, content: { SettingsView(garden: self.garden) })
+                    .sheet(isPresented: self.$showSettings) {
+                        SettingsView(garden: self.garden, watchCommunicator: self.watchCommunicator)
+                    }
                 }
                 
                 VStack {
@@ -146,6 +151,7 @@
                                         if selectedPlant.id == plant.id {
                                             plant.addNewDateLastWatered(to: Date())
                                             self.garden.plants[i] = plant
+                                            self.watchCommunicator.updateOnWatch(plant)
                                         }
                                     }
                                 }
@@ -173,11 +179,13 @@
             .navigationBarHidden(true)
         }
         .sheet(isPresented: $showNewPlantView) {
-            MakeNewPlantView(garden: self.garden)
+            MakeNewPlantView(garden: self.garden,
+                             watchCommunicator: self.watchCommunicator)
         }
         .onAppear {
             print("There are \(self.garden.plants.count) plants in `garden`.")
             UITableView.appearance().separatorStyle = .none
+            self.watchCommunicator.gardenDelegate = self
         }
     }
     
@@ -186,6 +194,16 @@
         var x: CGFloat = totalHeight / CGFloat(self.numberOfPlantsPerRow)
         x -= (CGFloat(self.numberOfPlantsPerRow - 1) * cellSpacing)
         return x
+    }
+ }
+ 
+ 
+ 
+ extension ContentView: GardenDelegate {
+    func gardenDidChange() {
+        print("Garden did change.")
+        garden.reloadPlants()
+        forceAnimationToResetView.toggle()
     }
  }
  

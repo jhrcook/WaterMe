@@ -35,6 +35,8 @@ struct PlantDetailView: View {
     @ObservedObject var garden: Garden
     @State var plant: Plant
     
+    var watchCommunicator: PhoneToWatchCommunicator
+    
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
     
@@ -49,7 +51,7 @@ struct PlantDetailView: View {
     @State private var userSelectedImage: UIImage?
     
     @State private var editLoggedWateringDates = false
-            
+    
     let offsetToShowShadowOnImage: CGFloat = -21
     
     @State var selectableDataDates: SelectableData
@@ -69,11 +71,13 @@ struct PlantDetailView: View {
     @State private var showNotificationEditingView = false
     
     
-    init(garden: Garden, plant: Plant, forceAnimationToResetView: Binding<Bool>) {
+    init(garden: Garden, plant: Plant, watchCommunicator: PhoneToWatchCommunicator, forceAnimationToResetView: Binding<Bool>) {
         self.garden = garden
         _plant = State(initialValue: plant)
         _image = State(initialValue: plant.loadPlantImage())
         _forceAnimationToResetView = forceAnimationToResetView
+        
+        self.watchCommunicator = watchCommunicator
         
         _selectableDataDates = State(initialValue: SelectableData(dates: plant.datesWatered))
     }
@@ -137,7 +141,7 @@ struct PlantDetailView: View {
                                 .lineLimit(nil)
                                 .multilineTextAlignment(.center)
                                 .padding()
-                                                        
+                            
                             Spacer()
                             
                             WaterMeButton(hasBeenWatered: self.plant.wasWateredToday) {
@@ -158,7 +162,7 @@ struct PlantDetailView: View {
                         .background(BackgroundView())
                         .padding(.top, self.offsetToShowShadowOnImage)
                         .sheet(isPresented: self.$showNotificationEditingView) {
-                            EditNotificationView(plant: self.$plant, garden: self.garden)
+                            EditNotificationView(plant: self.$plant, garden: self.garden, watchCommunicator: self.watchCommunicator)
                         }
                         
                         VStack {
@@ -185,11 +189,11 @@ struct PlantDetailView: View {
                                         self.editLoggedWateringDates.toggle()
                                     }
                                 })
-                                .padding(EdgeInsets(top: 18, leading: 25, bottom: 18, trailing: 25))
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .foregroundColor(Color(.tertiarySystemBackground))
-                                        .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
+                                    .padding(EdgeInsets(top: 18, leading: 25, bottom: 18, trailing: 25))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .foregroundColor(Color(.tertiarySystemBackground))
+                                            .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
                                 )
                             } else {
                                 VerticalTimeLine(dates: self.plant.datesWatered)
@@ -234,14 +238,21 @@ struct PlantDetailView: View {
                 ImagePicker(image: self.$userSelectedImage)
             }
         }
+        .onAppear() {
+            self.watchCommunicator.gardenDelegate = self
+        }
+        .onDisappear() {
+            self.watchCommunicator.transferImageToWatch(self.plant)
+        }
     }
     
     
     func updatePlant(andWater waterPlant: Bool = false) {
         if waterPlant {
-            self.plant.water()
+            plant.water()
         }
-        garden.update(self.plant)
+        watchCommunicator.updateOnWatch(plant)
+        garden.update(plant)
         selectableDataDates = SelectableData(dates: plant.datesWatered)
     }
     
@@ -249,6 +260,7 @@ struct PlantDetailView: View {
     func deletePlantFromGarden() {
         plant.deletePlantImageFile()
         garden.plants.removeAll(where: { $0.id == plant.id })
+        watchCommunicator.deleteFromWatch(plant)
         presentationMode.wrappedValue.dismiss()
     }
     
@@ -274,20 +286,37 @@ struct PlantDetailView: View {
     }
 }
 
+
+extension PlantDetailView: GardenDelegate {
+    func gardenDidChange() {
+        print("Garden did change (detail view).")
+        garden.reloadPlants()
+        
+        for updatedPlant in garden.plants {
+            if updatedPlant.id == plant.id {
+                plant = updatedPlant
+            }
+        }
+        
+        forceAnimationToResetView.toggle()
+    }
+}
+
+
 struct PlantDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), forceAnimationToResetView: .constant(false))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: PhoneToWatchCommunicator(), forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
             //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
             //                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
             
-            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), forceAnimationToResetView: .constant(false))
+            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]), watchCommunicator: PhoneToWatchCommunicator(), forceAnimationToResetView: .constant(false))
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
             
-//            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro Max"))
+            //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant", datesWatered: [Date()]))
+            //            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro Max"))
             
             //            PlantDetailView(garden: Garden(), plant: Plant(name: "Test plant with a reallly long name", imageName: Plant.defaultImageNames[1], datesWatered: [Date()]))
             //                .previewDevice(PreviewDevice(rawValue: "iPhone 11"))

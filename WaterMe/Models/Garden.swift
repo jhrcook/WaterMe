@@ -46,25 +46,32 @@ class Garden: ObservableObject {
     
     
     init() {
-        
         if (Garden.inTesting) {
             print("Making mock plants for testing.")
             self.plants = mockPlants()
             sortPlants()
             return
         }
-        
+        loadPlants()
+    }
+    
+    
+    private func loadPlants() {
         if let encodedPlants = UserDefaults.standard.data(forKey: UserDefaultKeys.plantsArrayKey) {
             let decoder = JSONDecoder()
             if let decodedPlants = try? decoder.decode([Plant].self, from: encodedPlants) {
-                self.plants = decodedPlants
+                plants = decodedPlants
                 sortPlants()
+                print("Loaded \(plants.count) plants.")
                 return
             }
         }
-        
         print("Unable to read in plants - setting empty array.")
-        self.plants = [Plant]()
+    }
+    
+    
+    func reloadPlants() {
+        loadPlants()
     }
     
     
@@ -158,10 +165,18 @@ class Garden: ObservableObject {
     
     /// Update a plant in the array of plants.
     /// - Parameter plant: The plant to update.
-    func update(_ plant: Plant) {
-        let idx = plants.firstIndex(where: { $0.id == plant.id })!
-        plants[idx] = plant
-        sortPlants()
+    /// - Parameter addIfNew: If the plant is not already in the array, should it be added?
+    /// - Parameter updatePlantOrder: Should the array be sorted?
+    func update(_ plant: Plant, addIfNew: Bool = true, updatePlantOrder: Bool = true) {
+        if let idx = plants.firstIndex(where: { $0.id == plant.id }) {
+            plants[idx] = plant
+        } else if addIfNew {
+            plants.append(plant)
+        }
+        
+        if updatePlantOrder {
+            sortPlants()
+        }
     }
     
     /// Water a plant.
@@ -172,6 +187,13 @@ class Garden: ObservableObject {
         var newPlant = plant
         newPlant.water()
         update(newPlant)
+    }
+    
+    
+    func water(plantId: String) {
+        if let plant = plants.first(where: { $0.id == plantId}) {
+            water(plant)
+        }
     }
     
     

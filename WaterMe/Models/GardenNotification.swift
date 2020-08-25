@@ -15,7 +15,7 @@ struct GardenNotification: Codable, Identifiable {
     let id: UUID
     let date: Date
     
-    var plantIds: [UUID] = [] {
+    var plantIds: [String] = [] {
         didSet {
             if plantIds.count == 0 {
                 cancelNotification()

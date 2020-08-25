@@ -24,6 +24,7 @@
 		843EBEE424B7C6370021323A /* BigGreenFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */; };
 		843EBEE624B7C85C0021323A /* MakeNewPlantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */; };
 		8450E5DC24B8A14400795CA3 /* PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450E5DB24B8A14400795CA3 /* PlantDetailView.swift */; };
+		845AB9E424F3D690000A6D2F /* UIImage-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AB9E324F3D68F000A6D2F /* UIImage-extension.swift */; };
 		845F53F824CF40C3007EFAF5 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F53F724CF40C3007EFAF5 /* UserDefaultKeys.swift */; };
 		845F53FA24CF43D3007EFAF5 /* EditNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F53F924CF43D3007EFAF5 /* EditNotificationView.swift */; };
 		8469514C24CDC8F700512AE8 /* WaterNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469514B24CDC8F700512AE8 /* WaterNotification.swift */; };
@@ -36,10 +37,84 @@
 		847C37A824BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847C37A724BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift */; };
 		84825EA424BCC5EA008A8F14 /* ParallaxHeaderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */; };
 		84833F8324BC6EA6003CE209 /* VerticalTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */; };
+		849843BB24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BA24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift */; };
+		849843BE24E15B7600DB49A4 /* WCDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BD24E15B7600DB49A4 /* WCDataManager.swift */; };
+		849843BF24E15B7600DB49A4 /* WCDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843BD24E15B7600DB49A4 /* WCDataManager.swift */; };
+		849843C324E15DA400DB49A4 /* PlantWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C224E15DA400DB49A4 /* PlantWatch.swift */; };
+		849843C424E15DA400DB49A4 /* PlantWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C224E15DA400DB49A4 /* PlantWatch.swift */; };
+		849843C624E15F1E00DB49A4 /* GardenWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C524E15F1E00DB49A4 /* GardenWatch.swift */; };
+		849843C724E15F1E00DB49A4 /* GardenWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C524E15F1E00DB49A4 /* GardenWatch.swift */; };
+		849843C924E166CC00DB49A4 /* WatchToPhoneCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843C824E166CC00DB49A4 /* WatchToPhoneCommunicator.swift */; };
+		849843CB24E1688E00DB49A4 /* WatchConnectivity-utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */; };
+		849843CC24E169D000DB49A4 /* WatchConnectivity-utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */; };
 		84A2E6BB24D1832E000C1DF2 /* GardenNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */; };
+		84A80C4D24E5560A00778F9D /* GardenDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A80C4C24E5560A00778F9D /* GardenDelegate.swift */; };
+		84A80C4E24E5560A00778F9D /* GardenDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A80C4C24E5560A00778F9D /* GardenDelegate.swift */; };
+		84B2336424D59A9200101DCD /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F53F724CF40C3007EFAF5 /* UserDefaultKeys.swift */; };
+		84B2336524D59AF700101DCD /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8144924BA000C006B9C2E /* utilities.swift */; };
+		84B2336624D59B0000101DCD /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478646524BF3AFB00674EA9 /* Color-extension.swift */; };
+		84B2336724D59B0000101DCD /* Date-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84153CB924D04BDF006535F0 /* Date-extensions.swift */; };
+		84B2336924D59BCA00101DCD /* KeyboardDismiss-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */; };
+		84B2336B24D59EEC00101DCD /* GardenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2336A24D59EEC00101DCD /* GardenListView.swift */; };
+		84B2336C24D5A16300101DCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841DB9EE24B5F0F10048A5B7 /* Assets.xcassets */; };
+		84B37A0224D6F1C600CD4887 /* PlantRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B37A0124D6F1C600CD4887 /* PlantRowView.swift */; };
+		84BE3E1324D43C4400D7CC74 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E1124D43C4400D7CC74 /* Interface.storyboard */; };
+		84BE3E1524D43C4800D7CC74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E1424D43C4800D7CC74 /* Assets.xcassets */; };
+		84BE3E1C24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 84BE3E1B24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		84BE3E2124D43C4900D7CC74 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE3E2024D43C4900D7CC74 /* ContentView.swift */; };
+		84BE3E2324D43C4900D7CC74 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE3E2224D43C4900D7CC74 /* HostingController.swift */; };
+		84BE3E2524D43C4900D7CC74 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE3E2424D43C4900D7CC74 /* ExtensionDelegate.swift */; };
+		84BE3E2724D43C4900D7CC74 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE3E2624D43C4900D7CC74 /* NotificationController.swift */; };
+		84BE3E2924D43C4900D7CC74 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE3E2824D43C4900D7CC74 /* NotificationView.swift */; };
+		84BE3E2B24D43C4900D7CC74 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE3E2A24D43C4900D7CC74 /* ComplicationController.swift */; };
+		84BE3E2D24D43C4A00D7CC74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E2C24D43C4A00D7CC74 /* Assets.xcassets */; };
+		84BE3E3024D43C4A00D7CC74 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84BE3E2F24D43C4A00D7CC74 /* Preview Assets.xcassets */; };
+		84BE3E3524D43C4A00D7CC74 /* WaterMeWatchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 84BE3E0F24D43C4400D7CC74 /* WaterMeWatchApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		84E8144824B9FB79006B9C2E /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8144724B9FB79006B9C2E /* ImagePicker.swift */; };
 		84E8144A24BA000C006B9C2E /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8144924BA000C006B9C2E /* utilities.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84BE3E1D24D43C4900D7CC74 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 841DB9DD24B5F0EF0048A5B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84BE3E1A24D43C4900D7CC74;
+			remoteInfo = "WaterMeWatchApp Extension";
+		};
+		84BE3E3324D43C4A00D7CC74 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 841DB9DD24B5F0EF0048A5B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84BE3E0E24D43C4300D7CC74;
+			remoteInfo = WaterMeWatchApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		84BE3E3624D43C4A00D7CC74 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				84BE3E3524D43C4A00D7CC74 /* WaterMeWatchApp.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84BE3E3924D43C4A00D7CC74 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				84BE3E1C24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		840AA44224B904790017886D /* WaterMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterMeButton.swift; sourceTree = "<group>"; };
@@ -61,6 +136,7 @@
 		843EBEE324B7C6370021323A /* BigGreenFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigGreenFloatingButton.swift; sourceTree = "<group>"; };
 		843EBEE524B7C85C0021323A /* MakeNewPlantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeNewPlantView.swift; sourceTree = "<group>"; };
 		8450E5DB24B8A14400795CA3 /* PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailView.swift; sourceTree = "<group>"; };
+		845AB9E324F3D68F000A6D2F /* UIImage-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage-extension.swift"; sourceTree = "<group>"; };
 		845F53F724CF40C3007EFAF5 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		845F53F924CF43D3007EFAF5 /* EditNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditNotificationView.swift; path = WaterMe/Mainviews/EditNotificationView.swift; sourceTree = SOURCE_ROOT; };
 		8469514B24CDC8F700512AE8 /* WaterNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterNotification.swift; sourceTree = "<group>"; };
@@ -73,13 +149,45 @@
 		847C37A724BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallFloatingTextButtonStyle.swift; sourceTree = "<group>"; };
 		84825EA324BCC5EA008A8F14 /* ParallaxHeaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeaderImage.swift; sourceTree = "<group>"; };
 		84833F8224BC6EA6003CE209 /* VerticalTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTimeLine.swift; sourceTree = "<group>"; };
+		849843BA24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneToWatchCommunicator.swift; sourceTree = "<group>"; };
+		849843BD24E15B7600DB49A4 /* WCDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCDataManager.swift; sourceTree = "<group>"; };
+		849843C224E15DA400DB49A4 /* PlantWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantWatch.swift; sourceTree = "<group>"; };
+		849843C524E15F1E00DB49A4 /* GardenWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenWatch.swift; sourceTree = "<group>"; };
+		849843C824E166CC00DB49A4 /* WatchToPhoneCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchToPhoneCommunicator.swift; sourceTree = "<group>"; };
+		849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchConnectivity-utilities.swift"; sourceTree = "<group>"; };
 		84A2E6BA24D1832E000C1DF2 /* GardenNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenNotification.swift; sourceTree = "<group>"; };
+		84A80C4C24E5560A00778F9D /* GardenDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenDelegate.swift; sourceTree = "<group>"; };
+		84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardDismiss-extension.swift"; sourceTree = "<group>"; };
+		84B2336A24D59EEC00101DCD /* GardenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenListView.swift; sourceTree = "<group>"; };
+		84B37A0124D6F1C600CD4887 /* PlantRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantRowView.swift; sourceTree = "<group>"; };
+		84BE3E0F24D43C4400D7CC74 /* WaterMeWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterMeWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84BE3E1224D43C4400D7CC74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		84BE3E1424D43C4800D7CC74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		84BE3E1624D43C4800D7CC74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84BE3E1B24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "WaterMeWatchApp Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84BE3E2024D43C4900D7CC74 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		84BE3E2224D43C4900D7CC74 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		84BE3E2424D43C4900D7CC74 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		84BE3E2624D43C4900D7CC74 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		84BE3E2824D43C4900D7CC74 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		84BE3E2A24D43C4900D7CC74 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		84BE3E2C24D43C4A00D7CC74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		84BE3E2F24D43C4A00D7CC74 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		84BE3E3124D43C4A00D7CC74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84BE3E3224D43C4A00D7CC74 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		84E8144724B9FB79006B9C2E /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		84E8144924BA000C006B9C2E /* utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		841DB9E224B5F0EF0048A5B7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84BE3E1824D43C4900D7CC74 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -93,6 +201,8 @@
 			isa = PBXGroup;
 			children = (
 				841DB9E724B5F0EF0048A5B7 /* WaterMe */,
+				84BE3E1024D43C4400D7CC74 /* WaterMeWatchApp */,
+				84BE3E1F24D43C4900D7CC74 /* WaterMeWatchApp Extension */,
 				841DB9E624B5F0EF0048A5B7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +211,8 @@
 			isa = PBXGroup;
 			children = (
 				841DB9E524B5F0EF0048A5B7 /* WaterMe.app */,
+				84BE3E0F24D43C4400D7CC74 /* WaterMeWatchApp.app */,
+				84BE3E1B24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +225,7 @@
 				8478646B24BF3E0000674EA9 /* Extensions */,
 				8478646724BF3DA100674EA9 /* Buttons */,
 				8478646824BF3DBC00674EA9 /* Models */,
+				849843B924E155CF00DB49A4 /* Watch Connectivity */,
 				8478646C24BF3E1300674EA9 /* Utilities */,
 				841DB9E824B5F0EF0048A5B7 /* AppDelegate.swift */,
 				841DB9EA24B5F0EF0048A5B7 /* SceneDelegate.swift */,
@@ -188,6 +301,8 @@
 			children = (
 				8478646524BF3AFB00674EA9 /* Color-extension.swift */,
 				84153CB924D04BDF006535F0 /* Date-extensions.swift */,
+				84B2336824D59BCA00101DCD /* KeyboardDismiss-extension.swift */,
+				845AB9E324F3D68F000A6D2F /* UIImage-extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -201,6 +316,73 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		849843B924E155CF00DB49A4 /* Watch Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				849843BD24E15B7600DB49A4 /* WCDataManager.swift */,
+				84A80C4C24E5560A00778F9D /* GardenDelegate.swift */,
+				849843BA24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift */,
+				849843C824E166CC00DB49A4 /* WatchToPhoneCommunicator.swift */,
+				849843CA24E1688E00DB49A4 /* WatchConnectivity-utilities.swift */,
+			);
+			path = "Watch Connectivity";
+			sourceTree = "<group>";
+		};
+		849843C024E15D8100DB49A4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84BE3E2024D43C4900D7CC74 /* ContentView.swift */,
+				84B2336A24D59EEC00101DCD /* GardenListView.swift */,
+				84B37A0124D6F1C600CD4887 /* PlantRowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		849843C124E15D8E00DB49A4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				849843C224E15DA400DB49A4 /* PlantWatch.swift */,
+				849843C524E15F1E00DB49A4 /* GardenWatch.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		84BE3E1024D43C4400D7CC74 /* WaterMeWatchApp */ = {
+			isa = PBXGroup;
+			children = (
+				84BE3E1124D43C4400D7CC74 /* Interface.storyboard */,
+				84BE3E1424D43C4800D7CC74 /* Assets.xcassets */,
+				84BE3E1624D43C4800D7CC74 /* Info.plist */,
+			);
+			path = WaterMeWatchApp;
+			sourceTree = "<group>";
+		};
+		84BE3E1F24D43C4900D7CC74 /* WaterMeWatchApp Extension */ = {
+			isa = PBXGroup;
+			children = (
+				849843C124E15D8E00DB49A4 /* Models */,
+				849843C024E15D8100DB49A4 /* Views */,
+				84BE3E2224D43C4900D7CC74 /* HostingController.swift */,
+				84BE3E2424D43C4900D7CC74 /* ExtensionDelegate.swift */,
+				84BE3E2624D43C4900D7CC74 /* NotificationController.swift */,
+				84BE3E2824D43C4900D7CC74 /* NotificationView.swift */,
+				84BE3E2A24D43C4900D7CC74 /* ComplicationController.swift */,
+				84BE3E2C24D43C4A00D7CC74 /* Assets.xcassets */,
+				84BE3E3124D43C4A00D7CC74 /* Info.plist */,
+				84BE3E3224D43C4A00D7CC74 /* PushNotificationPayload.apns */,
+				84BE3E2E24D43C4A00D7CC74 /* Preview Content */,
+			);
+			path = "WaterMeWatchApp Extension";
+			sourceTree = "<group>";
+		};
+		84BE3E2E24D43C4A00D7CC74 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				84BE3E2F24D43C4A00D7CC74 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -211,15 +393,51 @@
 				841DB9E124B5F0EF0048A5B7 /* Sources */,
 				841DB9E224B5F0EF0048A5B7 /* Frameworks */,
 				841DB9E324B5F0EF0048A5B7 /* Resources */,
+				84BE3E3624D43C4A00D7CC74 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				84BE3E3424D43C4A00D7CC74 /* PBXTargetDependency */,
 			);
 			name = WaterMe;
 			productName = WaterMe;
 			productReference = 841DB9E524B5F0EF0048A5B7 /* WaterMe.app */;
 			productType = "com.apple.product-type.application";
+		};
+		84BE3E0E24D43C4300D7CC74 /* WaterMeWatchApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84BE3E3D24D43C4A00D7CC74 /* Build configuration list for PBXNativeTarget "WaterMeWatchApp" */;
+			buildPhases = (
+				84BE3E0D24D43C4300D7CC74 /* Resources */,
+				84BE3E3924D43C4A00D7CC74 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84BE3E1E24D43C4900D7CC74 /* PBXTargetDependency */,
+			);
+			name = WaterMeWatchApp;
+			productName = WaterMeWatchApp;
+			productReference = 84BE3E0F24D43C4400D7CC74 /* WaterMeWatchApp.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		84BE3E1A24D43C4900D7CC74 /* WaterMeWatchApp Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84BE3E3C24D43C4A00D7CC74 /* Build configuration list for PBXNativeTarget "WaterMeWatchApp Extension" */;
+			buildPhases = (
+				84BE3E1724D43C4900D7CC74 /* Sources */,
+				84BE3E1824D43C4900D7CC74 /* Frameworks */,
+				84BE3E1924D43C4900D7CC74 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WaterMeWatchApp Extension";
+			productName = "WaterMeWatchApp Extension";
+			productReference = 84BE3E1B24D43C4900D7CC74 /* WaterMeWatchApp Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -227,12 +445,18 @@
 		841DB9DD24B5F0EF0048A5B7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "Joshua Cook";
 				TargetAttributes = {
 					841DB9E424B5F0EF0048A5B7 = {
 						CreatedOnToolsVersion = 11.5;
+					};
+					84BE3E0E24D43C4300D7CC74 = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					84BE3E1A24D43C4900D7CC74 = {
+						CreatedOnToolsVersion = 11.6;
 					};
 				};
 			};
@@ -250,6 +474,8 @@
 			projectRoot = "";
 			targets = (
 				841DB9E424B5F0EF0048A5B7 /* WaterMe */,
+				84BE3E0E24D43C4300D7CC74 /* WaterMeWatchApp */,
+				84BE3E1A24D43C4900D7CC74 /* WaterMeWatchApp Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -262,6 +488,25 @@
 				841DB9F524B5F0F10048A5B7 /* LaunchScreen.storyboard in Resources */,
 				841DB9F224B5F0F10048A5B7 /* Preview Assets.xcassets in Resources */,
 				841DB9EF24B5F0F10048A5B7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84BE3E0D24D43C4300D7CC74 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84BE3E1524D43C4800D7CC74 /* Assets.xcassets in Resources */,
+				84BE3E1324D43C4400D7CC74 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84BE3E1924D43C4900D7CC74 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84BE3E3024D43C4A00D7CC74 /* Preview Assets.xcassets in Resources */,
+				84B2336C24D5A16300101DCD /* Assets.xcassets in Resources */,
+				84BE3E2D24D43C4A00D7CC74 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,8 +526,11 @@
 				8470644124C1D1B600BC53FC /* MakeItRainButton.swift in Sources */,
 				841DB9E924B5F0EF0048A5B7 /* AppDelegate.swift in Sources */,
 				84153CBA24D04BDF006535F0 /* Date-extensions.swift in Sources */,
+				84B2336924D59BCA00101DCD /* KeyboardDismiss-extension.swift in Sources */,
+				845AB9E424F3D690000A6D2F /* UIImage-extension.swift in Sources */,
 				843EBEE224B7BA7E0021323A /* Plant.swift in Sources */,
 				8469514E24CDCECF00512AE8 /* SettingsView.swift in Sources */,
+				849843C324E15DA400DB49A4 /* PlantWatch.swift in Sources */,
 				84A2E6BB24D1832E000C1DF2 /* GardenNotification.swift in Sources */,
 				847C37A824BDD3B800BE7390 /* SmallFloatingTextButtonStyle.swift in Sources */,
 				8478892C24BF4008001ABE3C /* PlantCellView.swift in Sources */,
@@ -295,16 +543,59 @@
 				843BA7C024C3477900D85EDC /* PlantOrderingOptionButton.swift in Sources */,
 				84E8144824B9FB79006B9C2E /* ImagePicker.swift in Sources */,
 				845F53F824CF40C3007EFAF5 /* UserDefaultKeys.swift in Sources */,
+				84A80C4D24E5560A00778F9D /* GardenDelegate.swift in Sources */,
+				849843CB24E1688E00DB49A4 /* WatchConnectivity-utilities.swift in Sources */,
 				841DB9ED24B5F0EF0048A5B7 /* ContentView.swift in Sources */,
+				849843C624E15F1E00DB49A4 /* GardenWatch.swift in Sources */,
 				8470643F24C1CDD300BC53FC /* BigGreenSwitchingToRedFloatingButton.swift in Sources */,
 				843BA7BE24C32BB700D85EDC /* ChangePlantOrderButton.swift in Sources */,
 				840AA44324B904790017886D /* WaterMeButton.swift in Sources */,
+				849843BB24E1563A00DB49A4 /* PhoneToWatchCommunicator.swift in Sources */,
+				849843BE24E15B7600DB49A4 /* WCDataManager.swift in Sources */,
 				84153CBC24D0542C006535F0 /* GardenNotificationCenter.swift in Sources */,
 				845F53FA24CF43D3007EFAF5 /* EditNotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84BE3E1724D43C4900D7CC74 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84BE3E2324D43C4900D7CC74 /* HostingController.swift in Sources */,
+				84B2336B24D59EEC00101DCD /* GardenListView.swift in Sources */,
+				84B2336724D59B0000101DCD /* Date-extensions.swift in Sources */,
+				849843C724E15F1E00DB49A4 /* GardenWatch.swift in Sources */,
+				84B2336524D59AF700101DCD /* utilities.swift in Sources */,
+				849843BF24E15B7600DB49A4 /* WCDataManager.swift in Sources */,
+				849843C924E166CC00DB49A4 /* WatchToPhoneCommunicator.swift in Sources */,
+				84BE3E2124D43C4900D7CC74 /* ContentView.swift in Sources */,
+				849843CC24E169D000DB49A4 /* WatchConnectivity-utilities.swift in Sources */,
+				84BE3E2724D43C4900D7CC74 /* NotificationController.swift in Sources */,
+				84BE3E2524D43C4900D7CC74 /* ExtensionDelegate.swift in Sources */,
+				84B2336624D59B0000101DCD /* Color-extension.swift in Sources */,
+				84BE3E2924D43C4900D7CC74 /* NotificationView.swift in Sources */,
+				84B2336424D59A9200101DCD /* UserDefaultKeys.swift in Sources */,
+				84BE3E2B24D43C4900D7CC74 /* ComplicationController.swift in Sources */,
+				84A80C4E24E5560A00778F9D /* GardenDelegate.swift in Sources */,
+				849843C424E15DA400DB49A4 /* PlantWatch.swift in Sources */,
+				84B37A0224D6F1C600CD4887 /* PlantRowView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84BE3E1E24D43C4900D7CC74 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84BE3E1A24D43C4900D7CC74 /* WaterMeWatchApp Extension */;
+			targetProxy = 84BE3E1D24D43C4900D7CC74 /* PBXContainerItemProxy */;
+		};
+		84BE3E3424D43C4A00D7CC74 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84BE3E0E24D43C4300D7CC74 /* WaterMeWatchApp */;
+			targetProxy = 84BE3E3324D43C4A00D7CC74 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		841DB9F324B5F0F10048A5B7 /* LaunchScreen.storyboard */ = {
@@ -313,6 +604,14 @@
 				841DB9F424B5F0F10048A5B7 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		84BE3E1124D43C4400D7CC74 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84BE3E1224D43C4400D7CC74 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -472,6 +771,92 @@
 			};
 			name = Release;
 		};
+		84BE3E3724D43C4A00D7CC74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CRMHYJ9F9F;
+				IBSC_MODULE = WaterMeWatchApp_Extension;
+				INFOPLIST_FILE = WaterMeWatchApp/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joshuacook.WaterMe.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		84BE3E3824D43C4A00D7CC74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CRMHYJ9F9F;
+				IBSC_MODULE = WaterMeWatchApp_Extension;
+				INFOPLIST_FILE = WaterMeWatchApp/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joshuacook.WaterMe.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Release;
+		};
+		84BE3E3A24D43C4A00D7CC74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"WaterMeWatchApp Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = CRMHYJ9F9F;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "WaterMeWatchApp Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joshuacook.WaterMe.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		84BE3E3B24D43C4A00D7CC74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"WaterMeWatchApp Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = CRMHYJ9F9F;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "WaterMeWatchApp Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joshuacook.WaterMe.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -489,6 +874,24 @@
 			buildConfigurations = (
 				841DB9FA24B5F0F10048A5B7 /* Debug */,
 				841DB9FB24B5F0F10048A5B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84BE3E3C24D43C4A00D7CC74 /* Build configuration list for PBXNativeTarget "WaterMeWatchApp Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84BE3E3A24D43C4A00D7CC74 /* Debug */,
+				84BE3E3B24D43C4A00D7CC74 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84BE3E3D24D43C4A00D7CC74 /* Build configuration list for PBXNativeTarget "WaterMeWatchApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84BE3E3724D43C4A00D7CC74 /* Debug */,
+				84BE3E3824D43C4A00D7CC74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

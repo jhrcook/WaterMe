@@ -19,3 +19,9 @@ struct UserDefaultKeys {
     
     static let allowLongPressWatering =  "allowLongPressWatering"
 }
+
+#if os(watchOS)
+extension UserDefaultKeys {
+    static let watchHasRequestedInitalData = "watchHasRequestedInitalData"
+}
+#endif

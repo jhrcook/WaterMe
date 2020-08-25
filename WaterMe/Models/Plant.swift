@@ -16,7 +16,7 @@ enum PlantVersion: Int, Codable {
 struct Plant: Identifiable, Codable {
     
     let version: PlantVersion = .one
-    let id: UUID
+    let id: String
 
     static let defaultImageNames: [String] = {
         var a = [String]()
@@ -26,10 +26,10 @@ struct Plant: Identifiable, Codable {
         return a
     }()
     
-    private let randomImageIndex: Int = (0..<Plant.defaultImageNames.count).randomElement()!
+    let randomImageIndex: Int = (0..<Plant.defaultImageNames.count).randomElement()!
     
     var name = ""
-    private var imageName: String? = nil
+    private(set) var imageName: String? = nil
     
     var datesWatered = [Date]() {
         didSet {
@@ -65,7 +65,6 @@ struct Plant: Identifiable, Codable {
         } else if let days = daysSinceLastWatering {
             return "\(days) days"
         }
-        
         return "Never"
     }
     
@@ -84,17 +83,17 @@ struct Plant: Identifiable, Codable {
     
     
     init() {
-        id = UUID()
+        id = UUID().uuidString
     }
     
     init(name: String, datesWatered: [Date]) {
-        id = UUID()
+        id = UUID().uuidString
         self.name = name
         self.datesWatered = datesWatered
     }
     
     init(name: String) {
-        id = UUID()
+        id = UUID().uuidString
         self.name = name
     }
     
@@ -133,7 +132,7 @@ struct Plant: Identifiable, Codable {
             }
             
             if let oldImageName = oldImageName {
-                deleteFile(at: getDocumentsDirectory().appendingPathComponent(oldImageName))
+                deleteFileInBackground(at: getDocumentsDirectory().appendingPathComponent(oldImageName))
             }
         }
     }
@@ -141,18 +140,7 @@ struct Plant: Identifiable, Codable {
     
     func deletePlantImageFile() {
         if let imageName = imageName {
-            deleteFile(at: getDocumentsDirectory().appendingPathComponent(imageName))
-        }
-    }
-    
-    
-    private func deleteFile(at URL: URL) {
-        DispatchQueue.global(qos: .background).async {
-            do {
-                try FileManager.default.removeItem(at: URL)
-            } catch {
-                print("Unable to delete old image file: \(URL.absoluteString).")
-            }
+            deleteFileInBackground(at: getDocumentsDirectory().appendingPathComponent(imageName))
         }
     }
     

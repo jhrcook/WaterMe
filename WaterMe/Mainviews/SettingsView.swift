@@ -12,6 +12,8 @@ struct SettingsView: View {
     
     @ObservedObject var garden: Garden
     
+    var watchCommunicator: PhoneToWatchCommunicator?
+    
     @State var allowLongPressWatering: Bool = UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering)
     
     @State private var snoozeDuration: String = String(UserDefaults.standard.integer(forKey: UserDefaultKeys.snoozeDuration))
@@ -99,6 +101,16 @@ struct SettingsView: View {
                                     return newPlant
                                 }
                             })
+                    }
+                }
+                
+                
+                Section(header: HStack {
+                    Image(systemName: "clock")
+                    Text("Apple Watch")
+                }, footer: Text("There are many factors that control data transfer between an Apple Watch and iPhone. Please report bugs so they can be addressed in updates to the application.")) {
+                    Button("Push all data to watch") {
+                        self.watchCommunicator?.sendAllDataToWatch(self.garden)
                     }
                 }
                 

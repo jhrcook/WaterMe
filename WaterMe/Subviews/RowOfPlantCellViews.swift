@@ -27,13 +27,13 @@ struct RowOfPlantCellViews: View {
     
     var cellSpacing: CGFloat = 0
     
-//    @State private var angleOfHiddenImage: Double = 90
     @Binding var forceAnimationToResetView: Bool
+    
+    var watchCommunicator: PhoneToWatchCommunicator
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
-//                Image(systemName: "trash").opacity(0).rotationEffect(.degrees(self.angleOfHiddenImage))
                 HStack(spacing: self.cellSpacing) {
                     Spacer(minLength: 0.0)
                     ForEach(self.plants) { plant in
@@ -56,9 +56,11 @@ struct RowOfPlantCellViews: View {
                                 }
                                 .onLongPressGesture {
                                     if UserDefaults.standard.bool(forKey: UserDefaultKeys.allowLongPressWatering) {
-                                        self.garden.water(plant)
-//                                        self.pointlessAnimationToUpdateView()
+                                        var copiedPlant = plant
+                                        copiedPlant.water()
+                                        self.garden.update(copiedPlant, addIfNew: false, updatePlantOrder: true)
                                         self.forceAnimationToResetView.toggle()
+                                        self.watchCommunicator.updateOnWatch(copiedPlant)
                                     }
                                 }
                         }
@@ -69,13 +71,12 @@ struct RowOfPlantCellViews: View {
             }
         }
         .sheet(isPresented: $showPlantInformation) {
-            PlantDetailView(garden: self.garden, plant: self.selectedPlant, forceAnimationToResetView: self.$forceAnimationToResetView)
+            PlantDetailView(garden: self.garden,
+                            plant: self.selectedPlant,
+                            watchCommunicator: self.watchCommunicator,
+                            forceAnimationToResetView: self.$forceAnimationToResetView)
         }
     }
-    
-//    func pointlessAnimationToUpdateView() {
-//        self.angleOfHiddenImage += 90
-//    }
     
     
     func calculateCellWidth(from totalWidth: CGFloat, withCellSpacing cellSpacing: CGFloat) -> CGFloat {
@@ -108,12 +109,12 @@ struct RowOfPlantCellViews_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(false), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false))
+            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(false), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false), watchCommunicator: PhoneToWatchCommunicator())
                 .frame(width: 400, height: 125)
                 .padding()
                 .previewLayout(.sizeThatFits)
             
-            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(true), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false))
+            RowOfPlantCellViews(garden: Garden(), rowIndex: 0, numberOfPlantsPerRow: 3, multiselectMode: .constant(true), multiselectedPlants: .constant([Plant]()), cellSpacing: 5, forceAnimationToResetView: .constant(false), watchCommunicator: PhoneToWatchCommunicator())
                 .frame(width: 400, height: 125)
                 .padding()
                 .previewLayout(.sizeThatFits)
